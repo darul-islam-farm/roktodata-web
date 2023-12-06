@@ -1,3 +1,5 @@
+import { create } from '@/actions/demo'
+
 import { Button } from '@/components/ui/button'
 
 export default function Home() {
@@ -9,7 +11,7 @@ export default function Home() {
             Welcome to New App
           </h1>
           <div className='text-center mt-8'>
-            <Button>Click me</Button>
+            <Button>Done</Button>
           </div>
         </div>
       </div>
