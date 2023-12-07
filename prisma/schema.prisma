@@ -7,6 +7,91 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id               String           @id @default(auto()) @map("_id") @db.ObjectId
+  name             String // basics
+  email            String           @unique
+  password         String
+  identity         String           @unique
+  gender           String
+  phone            String           @unique
+  phone2           String           @unique @map("another_phone")
+  bloodType        String           @map("blood_type")
+  jilla            String // locations 
+  subJilla         String           @map("sub_jilla ")
+  thana            String
+  area             String
+  currentAddress   String           @map("current_address")
+  permanentAddress String           @map("permanent_address")
+  status           ProfileStatus    @default(PENDING) // profiles
+  donorProfile     DonorProfile?
+  receiverProfile  ReceiverProfile?
+  posts            Forum[]
+  createdAt        DateTime         @default(now()) // timestamps
+  updatedAt        DateTime         @updatedAt
+
+  @@map("users")
+}
+
+model DonorProfile {
+  id              String        @id @default(auto()) @map("_id") @db.ObjectId
+  bloodType       String        @map("blood_type")
+  user            User          @relation(fields: [userId], references: [id])
+  userId          String        @unique @db.ObjectId
+  donationHistory Donation[]
+  Appointment     Appointment[]
+
+  @@map("donor_profiles")
+}
+
+model ReceiverProfile {
+  id             String        @id @default(auto()) @map("_id") @db.ObjectId
+  bloodType      String        @map("blood_type")
+  user           User          @relation(fields: [userId], references: [id])
+  userId         String        @unique @db.ObjectId
+  receiveHistory Donation[]
+  Appointment    Appointment[]
+
+  @@map("receiver_profiles")
+}
+
+model Donation {
+  id         String          @id @default(auto()) @map("_id") @db.ObjectId
+  donor      DonorProfile    @relation(fields: [donorId], references: [id])
+  donorId    String          @db.ObjectId
+  receiver   ReceiverProfile @relation(fields: [receiverId], references: [id])
+  receiverId String          @db.ObjectId
+  donateAt   DateTime        @default(now())
+
+  @@map("donations")
+}
+
+model Appointment {
+  id          String            @id @default(auto()) @map("_id") @db.ObjectId
+  donor       DonorProfile      @relation(fields: [donorId], references: [id])
+  donorId     String            @db.ObjectId
+  receiver    ReceiverProfile   @relation(fields: [receiverId], references: [id])
+  receiverId  String            @db.ObjectId
+  scheduledAt DateTime
+  status      AppointmentStatus @default(PENDING)
+
+  @@map("appointments")
+}
+
+model Forum {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  title     String   @unique
+  slug      String   @unique
+  body      String
+  image     String
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  String   @db.ObjectId
+  createdAt DateTime @default(now()) // timestamps
+  updatedAt DateTime @updatedAt
+
+  @@map("forum_posts")
+}
+
 model Message {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   name      String
@@ -16,4 +101,23 @@ model Message {
   createdAt DateTime @default(now())
 
   @@map("messages")
+}
+
+// model Comment {
+//   id String @id @default(auto()) @map("_id") @db.ObjectId
+
+//   @@map("comments")
+// }
+
+enum ProfileStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
+enum AppointmentStatus {
+  PENDING
+  ACCEPTED
+  COMPLETED
+  CANCELED
 }
