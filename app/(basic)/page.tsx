@@ -1,6 +1,11 @@
-import { create } from '@/actions/demo'
+import { Metadata } from 'next'
 
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+
+export const metadata: Metadata = {
+  title: 'হোম',
+}
 
 export default function Home() {
   return (
@@ -11,8 +16,9 @@ export default function Home() {
             Welcome to New App
           </h1>
           <div className='text-center mt-8'>
-            <Button>Done</Button>
+            <Button>App</Button>
           </div>
+          <Input placeholder='this is input' />
         </div>
       </div>
     </main>

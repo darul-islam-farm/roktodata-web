@@ -17,10 +17,10 @@ model User {
   phone            String           @unique
   phone2           String           @unique @map("another_phone")
   bloodType        String           @map("blood_type")
+  userType         UserType         @map("user_type")
   jilla            String // locations 
   subJilla         String           @map("sub_jilla ")
   thana            String
-  area             String
   currentAddress   String           @map("current_address")
   permanentAddress String           @map("permanent_address")
   status           ProfileStatus    @default(PENDING) // profiles
@@ -108,6 +108,11 @@ model Message {
 
 //   @@map("comments")
 // }
+
+enum UserType {
+  DONOR
+  RECEIVER
+}
 
 enum ProfileStatus {
   PENDING

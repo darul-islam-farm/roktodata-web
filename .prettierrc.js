@@ -5,7 +5,7 @@ module.exports = {
   singleQuote: true,
   jsxSingleQuote: true,
   tabWidth: 2,
-  trailingComma: 'es5',
+  trailingComma: 'none',
   importOrder: [
     '^(react/(.*)$)|^(react$)',
     '^(next/(.*)$)|^(next$)',

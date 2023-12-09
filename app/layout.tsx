@@ -12,7 +12,7 @@ const inter = Nunito({ subsets: ['latin'] })
 export const metadata: Metadata = {
   title: {
     default: siteInfo.name,
-    template: `%s - ${siteInfo.name}`,
+    template: `%s | ${siteInfo.name}`,
   },
   description: siteInfo.description,
   authors: siteInfo.authors,
