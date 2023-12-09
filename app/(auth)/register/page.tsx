@@ -60,10 +60,9 @@ export default function Register() {
   return (
     <div className='grid gap-y-4 bg-neutral-100 p-4 sm:p-6 rounded-lg my-8 lg:my-16'>
       <div className='text-center'>
-        <h1 className='text-3xl font-bold'>Register an account</h1>
-        <p className=''>dfdf</p>
+        <h1 className='text-3xl font-bold text-primary'>Register an account</h1>
       </div>
-      <Form {...form}>
+      {/* <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
           <FormField
             control={form.control}
@@ -83,7 +82,7 @@ export default function Register() {
           />
           <Button type='submit'>Submit</Button>
         </form>
-      </Form>
+      </Form> */}
       <div>
         <Label htmlFor='name'>আপনার নাম</Label>
         <Input name='name' id='name' />
