@@ -34,7 +34,7 @@ export default function SideNav({ isHome, path }: TProps) {
         </SheetHeader>
         <div className='grid gap-y-4 py-4'>
           {siteInfo.navItems.map(({ name, href }: TNavItem, idx: number) => (
-            <SheetClose asChild>
+            <SheetClose asChild key={idx}>
               <Link
                 className={cn(
                   'text-dark px-4 py-2 rounded-md block hover:bg-primary/10',
@@ -46,7 +46,6 @@ export default function SideNav({ isHome, path }: TProps) {
                     href === '/' &&
                     'bg-primary/10 border-l-4 border-primary text-primary font-medium'
                 )}
-                key={idx}
                 href={href}
               >
                 {name}
