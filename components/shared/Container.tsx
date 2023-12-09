@@ -1,5 +1,6 @@
 import React from 'react'
-import { twMerge } from 'tailwind-merge'
+
+import { cn } from '@/lib/utils'
 
 interface IProps {
   className?: string
@@ -23,9 +24,9 @@ const getSizeClass = (breakpoint: string) => {
 export default function Container({
   className,
   children,
-  size = 'lg',
+  size = 'lg'
 }: IProps) {
-  const classNames = twMerge(
+  const classNames = cn(
     'px-4 md:px-8 mx-auto w-full',
     getSizeClass(size),
     className

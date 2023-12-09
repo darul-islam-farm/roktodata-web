@@ -9,8 +9,6 @@ import 'swiper/swiper-bundle.css'
 import 'swiper/css'
 import 'swiper/css/effect-fade'
 
-import Image from 'next/image'
-
 import HomeSlide from '../home/HomeSlide'
 
 export default function HomeSlider() {
@@ -32,7 +30,7 @@ export default function HomeSlider() {
       }}
     >
       {donationimages.map((item: string, idx: number) => (
-        <SwiperSlide key={idx} className=''>
+        <SwiperSlide key={idx}>
           <HomeSlide image={item} />
         </SwiperSlide>
       ))}

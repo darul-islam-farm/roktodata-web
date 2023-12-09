@@ -7,12 +7,12 @@ const config: Config = {
     './pages/**/*.{ts,tsx}',
     './components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
+    './src/**/*.{ts,tsx}'
   ],
   theme: {
     colors: {
-      primary: colors.red[500],
-      secondary: colors.indigo[500],
+      primary: colors.red[700],
+      secondary: colors.indigo[700],
       success: colors.emerald[400],
       dark: colors.slate[700],
       slate: colors.slate,
@@ -32,26 +32,26 @@ const config: Config = {
       red: colors.red,
       black: colors.black,
       white: colors.white,
-      transparent: colors.transparent,
+      transparent: colors.transparent
     },
     extend: {
       keyframes: {
         'accordion-down': {
           from: { height: '0' },
-          to: { height: 'var(--radix-accordion-content-height)' },
+          to: { height: 'var(--radix-accordion-content-height)' }
         },
         'accordion-up': {
           from: { height: 'var(--radix-accordion-content-height)' },
-          to: { height: '0' },
-        },
+          to: { height: '0' }
+        }
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
-        'accordion-up': 'accordion-up 0.2s ease-out',
-      },
-    },
+        'accordion-up': 'accordion-up 0.2s ease-out'
+      }
+    }
   },
-  plugins: [require('tailwindcss-animate')],
+  plugins: [require('tailwindcss-animate')]
 }
 
 export default config

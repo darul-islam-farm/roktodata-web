@@ -1,13 +1,14 @@
 import type { Metadata } from 'next'
-import { Nunito } from 'next/font/google'
+import { Anek_Bangla } from 'next/font/google'
 
 import './globals.css'
 
 import Provider from '@/configs/Provider'
 import { siteInfo } from '@/configs/site'
-import { twMerge } from 'tailwind-merge'
 
-const inter = Nunito({ subsets: ['latin'] })
+import { cn } from '@/lib/utils'
+
+const inter = Anek_Bangla({ subsets: ['bengali'] })
 
 export const metadata: Metadata = {
   title: {
@@ -28,7 +29,7 @@ export default function RootLayout({ children }: IChildren) {
   return (
     <html lang='en'>
       <body
-        className={twMerge(
+        className={cn(
           inter.className,
           'bg-light dark:bg-dark text-dark dark:text-light'
         )}
