@@ -2,19 +2,11 @@
 
 import { jilla, TJilla } from '@/constants/static'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { User2 } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 
 import { Button } from '@/components/ui/button'
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage
-} from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import {
@@ -26,6 +18,8 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select'
+
+// import CInput from '@/components/customs/CInput'
 
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -62,30 +56,14 @@ export default function Register() {
       <div className='text-center'>
         <h1 className='text-3xl font-bold text-primary'>Register an account</h1>
       </div>
-      {/* <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
-          <FormField
-            control={form.control}
-            name='username'
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Username</FormLabel>
-                <FormControl>
-                  <Input placeholder='shadcn' {...field} />
-                </FormControl>
-                <FormDescription>
-                  This is your public display name.
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <Button type='submit'>Submit</Button>
-        </form>
-      </Form> */}
+
       <div>
-        <Label htmlFor='name'>আপনার নাম</Label>
-        <Input name='name' id='name' />
+        {/* <CInput
+          label='আপনার নাম'
+          type='text'
+          icon={User2}
+          message='পূর্ণ নাম আবশ্যক'
+        /> */}
       </div>
       <div>
         <Label htmlFor='email'>ইমেইল অ্যাড্রেস</Label>
