@@ -1,25 +1,24 @@
 'use client'
 
-import { jilla, TJilla } from '@/constants/static'
+import { jilla } from '@/constants/static'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { User2 } from 'lucide-react'
+import {
+  CreditCard,
+  HeartPulse,
+  Landmark,
+  MailCheck,
+  MapPin,
+  MapPinned,
+  PersonStanding,
+  Phone,
+  ShieldCheck,
+  User2
+} from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue
-} from '@/components/ui/select'
-
-// import CInput from '@/components/customs/CInput'
+import { CInput, CSelect } from '@/components/customs/CInput'
 
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -42,113 +41,176 @@ const formSchema = z.object({
 })
 
 export default function Register() {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      username: ''
-    }
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema)
   })
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values)
+    console.log('clicked')
+    console.log('values', values)
   }
   return (
-    <div className='grid gap-y-4 bg-neutral-100 p-4 sm:p-6 rounded-lg my-8 lg:my-16'>
-      <div className='text-center'>
+    <div className='grid gap-y-4 border-lighttext/60 shadow-xl border-2 p-4 sm:p-6 rounded-xl my-8 lg:my-16'>
+      <div className='text-center mb-6'>
         <h1 className='text-3xl font-bold text-primary'>Register an account</h1>
       </div>
 
-      <div>
-        {/* <CInput
-          label='আপনার নাম'
-          type='text'
-          icon={User2}
-          message='পূর্ণ নাম আবশ্যক'
-        /> */}
-      </div>
-      <div>
-        <Label htmlFor='email'>ইমেইল অ্যাড্রেস</Label>
-        <Input type='email' id='email' placeholder='user@working-email.com' />
-      </div>
-      <div>
-        <Label htmlFor='password'>পাসওয়ার্ড</Label>
-        <Input type='password' id='password' placeholder='x x x x x x' />
-      </div>
-      <div>
-        <Label htmlFor='identity'>আইডেন্টিটি</Label>
-        <Input id='identity' />
-      </div>
-      <div>
-        <Label htmlFor='gender'>লিঙ্গ</Label>
-        <Select>
-          <SelectTrigger className='text-neutral-500'>
-            <SelectValue placeholder='নির্বাচন করুন' />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value='MALE'>পুরুষ</SelectItem>
-            <SelectItem value='FEMALE'>নারী</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-      <div>
-        <Label htmlFor='email'>ফোন নাম্বার</Label>
-        <Input type='email' id='email' placeholder='Email' />
-      </div>
-      <div>
-        <Label htmlFor='email'>বিকল্প ফোন নাম্বার</Label>
-        <Input type='email' id='email' placeholder='Email' />
-      </div>
-      <div>
-        <Label htmlFor='email'>রেজিস্ট্রেশনের ধরণ</Label>
-        <Select>
-          <SelectTrigger className='text-neutral-500'>
-            <SelectValue placeholder='একটি ধরণ নির্বাচন করুন' />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value='DONOR'>রক্তদাতা</SelectItem>
-            <SelectItem value='RECEIVER'>রক্ত গ্রহীতা</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-      <div>
-        <Label htmlFor='email'>জেলা</Label>
-        <Select>
-          <SelectTrigger className='text-neutral-500'>
-            <SelectValue placeholder='একটি জেলা নির্বাচন করুন' />
-          </SelectTrigger>
-          <SelectContent>
-            {jilla.map((item: TJilla) => (
-              <SelectGroup key={item.name}>
-                <SelectLabel>{item.name}</SelectLabel>
-                {item.data.map((name) => (
-                  <SelectItem key={name} value={name}>
-                    {name}
-                  </SelectItem>
-                ))}
-              </SelectGroup>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div>
+          <CInput
+            label='আপনার নাম'
+            placeholder='মুহাম্মাদ রবিউস সানী'
+            icon={{ icon: User2 }}
+            register={register}
+            name='name'
+            message={errors.name?.message}
+          />
+        </div>
 
-      <div>
-        <Label htmlFor='email'>উপজেলা</Label>
-        <Input type='email' id='email' placeholder='Email' />
-      </div>
-      <div>
-        <Label htmlFor='email'>থানা</Label>
-        <Input type='email' id='email' placeholder='Email' />
-      </div>
-      <div>
-        <Label htmlFor='email'>বর্তমান ঠিকানা</Label>
-        <Input type='email' id='email' placeholder='Email' />
-      </div>
-      <div>
-        <Label htmlFor='email'>স্থায়ী ঠিকানা</Label>
-        <Input type='email' id='email' placeholder='Email' />
-      </div>
-      <div>
-        <Button className='w-full mt-4'>Submit</Button>
-      </div>
+        <div>
+          <CInput
+            label='আইডেন্টিটি'
+            placeholder='xxx xxx xxxx'
+            icon={{ icon: CreditCard }}
+            register={register}
+            name='identity'
+            message={errors.identity?.message}
+          />
+        </div>
+        <div>
+          <CSelect
+            label='লিঙ্গ'
+            message={errors.gender?.message}
+            icon={{ icon: PersonStanding }}
+            data={[
+              { name: 'পুরুষ', value: 'MALE' },
+              { name: 'নারী', value: 'FEMALE' }
+            ]}
+            name='gender'
+            register={register}
+          />
+        </div>
+        <div>
+          <CInput
+            label='ফোন নম্বর'
+            placeholder='01XXXXXXXXX'
+            icon={{ icon: Phone }}
+            register={register}
+            name='phone'
+            message={errors.phone?.message}
+          />
+        </div>
+        <div>
+          <CInput
+            label='বিকল্প ফোন নম্বর'
+            placeholder='01XXXXXXXXX'
+            icon={{ icon: Phone }}
+            register={register}
+            name='phone2'
+            message={errors.phone2?.message}
+          />
+        </div>
+        <CSelect
+          label='রেজিস্ট্রেশনের ধরণ'
+          message={errors.userType?.message}
+          icon={{ icon: HeartPulse }}
+          data={[
+            { name: 'রক্তদাতা', value: 'DONOR' },
+            { name: 'রক্ত গ্রহীতা', value: 'RECEIVER' }
+          ]}
+          name='userType'
+          register={register}
+        />
+        <CSelect
+          label='জেলা'
+          message={errors.jilla?.message}
+          icon={{ icon: MapPin }}
+          data={jilla}
+          name='jilla'
+          register={register}
+          hasGroup
+        />
+        <div>
+          <CInput
+            label='উপজেলা'
+            placeholder='রংপুর সদর'
+            icon={{ icon: MapPin }}
+            register={register}
+            name='subJilla'
+            message={errors.subJilla?.message}
+          />
+        </div>
+        <div>
+          <CInput
+            label='থানা'
+            placeholder='কোতোয়ালী থানা'
+            icon={{ icon: Landmark }}
+            register={register}
+            name='thana'
+            message={errors.thana?.message}
+          />
+        </div>
+        <div>
+          <CInput
+            label='বর্তমান ঠিকানা'
+            placeholder='কলেজরোড, রংপুর সদর।'
+            icon={{ icon: MapPinned }}
+            register={register}
+            name='currentAddress'
+            message={errors.currentAddress?.message}
+          />
+        </div>
+        <div>
+          <CInput
+            label='স্থায়ী ঠিকানা'
+            placeholder='কলেজরোড, রংপুর সদর।'
+            icon={{ icon: MapPinned }}
+            register={register}
+            name='permanentAddress'
+            message={errors.permanentAddress?.message}
+          />
+        </div>
+        <div>
+          <CInput
+            label='ইউজারনেম'
+            placeholder='rabius-sunny'
+            icon={{ icon: User2 }}
+            register={register}
+            name='username'
+            message={errors.username?.message}
+          />
+        </div>
+        <div>
+          <CInput
+            label='ইমেইল অ্যাড্রেস'
+            type='email'
+            placeholder='user@active-email.com'
+            icon={{ icon: MailCheck }}
+            register={register}
+            name='email'
+            message={errors.email?.message}
+          />
+        </div>
+        <div>
+          <CInput
+            label='পাসওয়ার্ড'
+            icon={{ icon: ShieldCheck }}
+            register={register}
+            name='password'
+            placeholder='******'
+            type='password'
+            message={errors.password?.message}
+          />
+        </div>
+        <div>
+          <Button type='submit' className='w-full mt-4'>
+            Submit
+          </Button>
+        </div>
+      </form>
     </div>
   )
 }

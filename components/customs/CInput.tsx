@@ -1,0 +1,131 @@
+import { TJilla } from '@/constants/static'
+import { LucideIcon } from 'lucide-react'
+import { UseFormRegister } from 'react-hook-form'
+
+import { cn } from '@/lib/utils'
+
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue
+} from '../ui/select'
+
+type TInputProps = {
+  label: string
+  type?: string
+  placeholder?: string
+  icon: { icon: LucideIcon }
+  message?: string
+  register: any
+  name: string
+}
+type TSelectProps = {
+  label: string
+  placeholder?: string
+  icon: { icon: LucideIcon }
+  message?: string
+  register: any
+  name: string
+  data?: any
+  hasGroup?: boolean
+}
+
+export function CInput({
+  label,
+  placeholder,
+  icon,
+  message,
+  type = 'text',
+  register,
+  name,
+  ...rest
+}: TInputProps) {
+  return (
+    <div className='flex items-center gap-4 border-b-2 border-lightslate pb-2 mb-3'>
+      <div>
+        <icon.icon
+          strokeWidth={2.2}
+          className={cn(message ? 'text-danger' : 'text-slate-400')}
+        />
+      </div>
+      <div className='w-[2px] h-10 bg-lightslate mr-1' />
+      <div className='flex-1'>
+        <p className='text-slate-400 font-medium text-sm'>{label}</p>
+        <div>
+          <input
+            className='w-full placeholder:text-lighttext/60 py-1.5 focus:border-0 focus:outline-0 focus:ring-0'
+            type={type}
+            placeholder={placeholder}
+            {...register(name)}
+            {...rest}
+          />
+        </div>
+        <p className='text-danger text-xs md:text-sm font-medium mt-1'>
+          {message}
+        </p>
+      </div>
+    </div>
+  )
+}
+
+export function CSelect({
+  label,
+  placeholder = 'নির্বাচন করুন',
+  icon,
+  message,
+  data,
+  register,
+  name,
+  hasGroup,
+  ...rest
+}: TSelectProps) {
+  return (
+    <div className='flex items-center gap-4 border-b-2 border-lightslate pb-2 mb-3'>
+      <div>
+        <icon.icon
+          strokeWidth={2.2}
+          className={cn(message ? 'text-danger' : 'text-slate-400')}
+        />
+      </div>
+      <div className='w-[2px] h-10 bg-lightslate mr-1' />
+      <div className='flex-1'>
+        <p className='text-slate-400 font-medium text-sm'>{label}</p>
+        <Select {...register(name)} {...rest}>
+          <SelectTrigger>
+            <SelectValue placeholder={placeholder} />
+          </SelectTrigger>
+          <SelectContent>
+            {hasGroup
+              ? data?.map((item: any) => (
+                  <SelectGroup key={item.name}>
+                    <SelectLabel>{item.name}</SelectLabel>
+                    {item.data.map((name: string) => (
+                      <SelectItem key={name} value={name}>
+                        {name}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                ))
+              : data?.map(
+                  (
+                    { name, value }: { name: string; value: string },
+                    idx: number
+                  ) => (
+                    <SelectItem key={idx} value={value}>
+                      {name}
+                    </SelectItem>
+                  )
+                )}
+          </SelectContent>
+        </Select>
+        <p className='text-danger text-xs md:text-sm font-medium mt-1'>
+          {message}
+        </p>
+      </div>
+    </div>
+  )
+}
