@@ -1,216 +1,108 @@
 'use client'
 
-import { jilla } from '@/constants/static'
-import { zodResolver } from '@hookform/resolvers/zod'
+import { useState } from 'react'
+import Link from 'next/link'
 import {
-  CreditCard,
-  HeartPulse,
-  Landmark,
-  MailCheck,
-  MapPin,
-  MapPinned,
-  PersonStanding,
-  Phone,
-  ShieldCheck,
-  User2
-} from 'lucide-react'
-import { useForm } from 'react-hook-form'
-import * as z from 'zod'
+  TBasicdata,
+  TCreddata,
+  TLocationdata
+} from '@/constants/schema/register'
+import { bloodGroups } from '@/constants/static'
+import { ArrowLeft } from 'lucide-react'
 
+import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
-import { CInput, CSelect } from '@/components/customs/CInput'
-
-const formSchema = z.object({
-  username: z.string().min(2, {
-    message: 'Username must be at least 2 characters.'
-  }),
-  name: z.string().min(4, 'আসল নাম আবশ্যক।'),
-  email: z.string().email('সঠিক ইমেইল অ্যাড্রেস আবশ্যক।'),
-  password: z.string().min(6, 'পাসওয়ার্ড অন্তত ৬ সংখ্যার হতে হবে।'),
-  identity: z.string().min(10, 'সঠিক পরিচয়পত্র নম্বর দিন।'),
-  gender: z.string().min(4, 'লিঙ্গ নির্বাচন আবশ্যক।'),
-  phone: z.string().min(11, 'সঠিক ফোন নাম্বার দিন।'),
-  phone2: z.string().min(11, 'সঠিক ফোন নাম্বার দিন।'),
-  bloodType: z.string().min(4, 'রক্তের গ্রুপ আবশ্যক'),
-  userType: z.string(),
-  jilla: z.string(),
-  subJilla: z.string(),
-  thana: z.string(),
-  currentAddress: z.string(),
-  permanentAddress: z.string()
-})
+import RegisterBasic from '@/components/auth/Register.Basic'
+import RegisterCred from '@/components/auth/Register.Cred'
+import RegisterLocation from '@/components/auth/Register.Location'
 
 export default function Register() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors }
-  } = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema)
-  })
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log('clicked')
-    console.log('values', values)
+  const [step, setStep] = useState(4)
+  const [data, setData] = useState({})
+  const [group, setGroup] = useState<string | null>(null)
+  const [warn, setWarn] = useState(false)
+  const onSubmit = (values: TBasicdata | TLocationdata | TCreddata) => {
+    setStep((prev) => prev + 1)
+    setData((prev) => ({ ...prev, ...values }))
   }
+
+  const handleSubmit = () => {
+    if (!group) {
+      return setWarn(true)
+    }
+    console.log('data', { ...data, group })
+  }
+
   return (
-    <div className='grid gap-y-4 border-lighttext/60 shadow-xl border-2 p-4 sm:p-6 rounded-xl my-8 lg:my-16'>
+    <div className='grid gap-y-4 border-lighttext/20 shadow-xl border-2 p-4 sm:p-6 rounded-xl my-8 lg:my-16'>
       <div className='text-center mb-6'>
-        <h1 className='text-3xl font-bold text-primary'>Register an account</h1>
+        <h1 className='text-3xl font-bold text-primary mb-4'>
+          একটি একাউন্ট তৈরি করুন
+        </h1>
+        <p>
+          একাউন্ট আছে?{' '}
+          <Link href='/login' className='text-primary hover:underline'>
+            লগইন করুন
+          </Link>
+        </p>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
+      {step === 1 && <RegisterBasic data={data} onSubmit={onSubmit} />}
+      {step === 2 && (
+        <RegisterLocation data={data} onSubmit={onSubmit} setStep={setStep} />
+      )}
+      {step === 3 && (
+        <RegisterCred data={data} onSubmit={onSubmit} setStep={setStep} />
+      )}
+      {step === 4 && (
         <div>
-          <CInput
-            label='আপনার নাম'
-            placeholder='মুহাম্মাদ রবিউস সানী'
-            icon={{ icon: User2 }}
-            register={register}
-            name='name'
-            message={errors.name?.message}
-          />
-        </div>
+          <p className='font-semibold text-lg text-center text-secondary py-1'>
+            আপনার রক্তের গ্রুপ নির্বাচন করুন
+          </p>
 
-        <div>
-          <CInput
-            label='আইডেন্টিটি'
-            placeholder='xxx xxx xxxx'
-            icon={{ icon: CreditCard }}
-            register={register}
-            name='identity'
-            message={errors.identity?.message}
-          />
+          <div className='grid grid-cols-2 gap-2 sm:gap-4 mt-8 mb-4'>
+            {bloodGroups.map((item: string, idx: number) => (
+              <button
+                key={idx}
+                onClick={() => {
+                  setGroup(item)
+                  setWarn(false)
+                }}
+                className={cn(
+                  'col-auto text-5xl text-primary/60 font-bold bg-primary/20 flex items-center justify-center h-28 sm:h-40 rounded-lg hover:shadow-lg hover:border-[1px] hover:border-primary/20 focus:text-white focus:bg-primary transform-transition duration-500',
+                  item === group && 'bg-primary text-white'
+                )}
+              >
+                {item}
+              </button>
+            ))}
+          </div>
+          {warn && (
+            <p className='text-xs bg-danger py-1 px-4 text-white'>
+              একটি রক্তের গ্রুপ সিলেক্ট করুন
+            </p>
+          )}
+          <div>
+            <Button
+              onClick={handleSubmit}
+              variant='secondary'
+              className='w-full mt-4'
+            >
+              আবেদন সম্পূর্ণ করুন
+            </Button>
+          </div>
+          <div>
+            <Button
+              onClick={() => setStep((prev) => prev - 1)}
+              className='w-full mt-4 text-primarys'
+              variant='outline'
+            >
+              <ArrowLeft className='ml-2 h-4' />
+              পূর্ববর্তী
+            </Button>
+          </div>
         </div>
-        <div>
-          <CSelect
-            label='লিঙ্গ'
-            message={errors.gender?.message}
-            icon={{ icon: PersonStanding }}
-            data={[
-              { name: 'পুরুষ', value: 'MALE' },
-              { name: 'নারী', value: 'FEMALE' }
-            ]}
-            name='gender'
-            register={register}
-          />
-        </div>
-        <div>
-          <CInput
-            label='ফোন নম্বর'
-            placeholder='01XXXXXXXXX'
-            icon={{ icon: Phone }}
-            register={register}
-            name='phone'
-            message={errors.phone?.message}
-          />
-        </div>
-        <div>
-          <CInput
-            label='বিকল্প ফোন নম্বর'
-            placeholder='01XXXXXXXXX'
-            icon={{ icon: Phone }}
-            register={register}
-            name='phone2'
-            message={errors.phone2?.message}
-          />
-        </div>
-        <CSelect
-          label='রেজিস্ট্রেশনের ধরণ'
-          message={errors.userType?.message}
-          icon={{ icon: HeartPulse }}
-          data={[
-            { name: 'রক্তদাতা', value: 'DONOR' },
-            { name: 'রক্ত গ্রহীতা', value: 'RECEIVER' }
-          ]}
-          name='userType'
-          register={register}
-        />
-        <CSelect
-          label='জেলা'
-          message={errors.jilla?.message}
-          icon={{ icon: MapPin }}
-          data={jilla}
-          name='jilla'
-          register={register}
-          hasGroup
-        />
-        <div>
-          <CInput
-            label='উপজেলা'
-            placeholder='রংপুর সদর'
-            icon={{ icon: MapPin }}
-            register={register}
-            name='subJilla'
-            message={errors.subJilla?.message}
-          />
-        </div>
-        <div>
-          <CInput
-            label='থানা'
-            placeholder='কোতোয়ালী থানা'
-            icon={{ icon: Landmark }}
-            register={register}
-            name='thana'
-            message={errors.thana?.message}
-          />
-        </div>
-        <div>
-          <CInput
-            label='বর্তমান ঠিকানা'
-            placeholder='কলেজরোড, রংপুর সদর।'
-            icon={{ icon: MapPinned }}
-            register={register}
-            name='currentAddress'
-            message={errors.currentAddress?.message}
-          />
-        </div>
-        <div>
-          <CInput
-            label='স্থায়ী ঠিকানা'
-            placeholder='কলেজরোড, রংপুর সদর।'
-            icon={{ icon: MapPinned }}
-            register={register}
-            name='permanentAddress'
-            message={errors.permanentAddress?.message}
-          />
-        </div>
-        <div>
-          <CInput
-            label='ইউজারনেম'
-            placeholder='rabius-sunny'
-            icon={{ icon: User2 }}
-            register={register}
-            name='username'
-            message={errors.username?.message}
-          />
-        </div>
-        <div>
-          <CInput
-            label='ইমেইল অ্যাড্রেস'
-            type='email'
-            placeholder='user@active-email.com'
-            icon={{ icon: MailCheck }}
-            register={register}
-            name='email'
-            message={errors.email?.message}
-          />
-        </div>
-        <div>
-          <CInput
-            label='পাসওয়ার্ড'
-            icon={{ icon: ShieldCheck }}
-            register={register}
-            name='password'
-            placeholder='******'
-            type='password'
-            message={errors.password?.message}
-          />
-        </div>
-        <div>
-          <Button type='submit' className='w-full mt-4'>
-            Submit
-          </Button>
-        </div>
-      </form>
+      )}
     </div>
   )
 }

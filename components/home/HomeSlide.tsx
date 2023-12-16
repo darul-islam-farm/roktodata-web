@@ -1,3 +1,5 @@
+'use client'
+
 import Appbar from '../shared/ui/Appbar'
 import { Button } from '../ui/button'
 

@@ -1,18 +1,6 @@
-import { TJilla } from '@/constants/static'
 import { LucideIcon } from 'lucide-react'
-import { UseFormRegister } from 'react-hook-form'
 
 import { cn } from '@/lib/utils'
-
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue
-} from '../ui/select'
 
 type TInputProps = {
   label: string
@@ -94,34 +82,23 @@ export function CSelect({
       <div className='w-[2px] h-10 bg-lightslate mr-1' />
       <div className='flex-1'>
         <p className='text-slate-400 font-medium text-sm'>{label}</p>
-        <Select {...register(name)} {...rest}>
-          <SelectTrigger>
-            <SelectValue placeholder={placeholder} />
-          </SelectTrigger>
-          <SelectContent>
-            {hasGroup
-              ? data?.map((item: any) => (
-                  <SelectGroup key={item.name}>
-                    <SelectLabel>{item.name}</SelectLabel>
-                    {item.data.map((name: string) => (
-                      <SelectItem key={name} value={name}>
-                        {name}
-                      </SelectItem>
-                    ))}
-                  </SelectGroup>
-                ))
-              : data?.map(
-                  (
-                    { name, value }: { name: string; value: string },
-                    idx: number
-                  ) => (
-                    <SelectItem key={idx} value={value}>
-                      {name}
-                    </SelectItem>
-                  )
-                )}
-          </SelectContent>
-        </Select>
+        <select
+          defaultValue=''
+          className='w-full text-lighttext/60 py-1.5 focus:border-0 focus:outline-0 focus:ring-0'
+          {...register(name)}
+          {...rest}
+        >
+          <option value='' disabled>
+            {placeholder}
+          </option>
+          {data.map(
+            ({ name, value }: { name: string; value: string }, idx: number) => (
+              <option value={value} key={idx}>
+                {name}
+              </option>
+            )
+          )}
+        </select>
         <p className='text-danger text-xs md:text-sm font-medium mt-1'>
           {message}
         </p>
