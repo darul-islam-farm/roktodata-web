@@ -17,7 +17,7 @@ const config: Config = {
       dark: colors.slate[700],
       lightslate: colors.slate[200],
       lighttext: colors.slate[400],
-      danger: colors.red[600],
+      danger: colors.rose[600],
       slate: colors.slate,
       gray: colors.gray,
       neutral: colors.neutral,
@@ -35,6 +35,7 @@ const config: Config = {
       red: colors.red,
       black: colors.black,
       white: colors.white,
+      rose: colors.rose,
       transparent: colors.transparent
     },
     extend: {

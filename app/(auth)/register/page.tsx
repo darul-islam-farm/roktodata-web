@@ -34,12 +34,12 @@ export default function Register() {
   }
 
   return (
-    <div className='grid gap-y-4 border-lighttext/20 shadow-xl border-2 p-4 sm:p-6 rounded-xl my-8 lg:my-16'>
+    <div className='grid gap-y-4 auth__bg px-4 py-8 sm:py-12 rounded-xl'>
       <div className='text-center mb-6'>
         <h1 className='text-3xl font-bold text-primary mb-4'>
           একটি একাউন্ট তৈরি করুন
         </h1>
-        <p>
+        <p className='text-sm'>
           একাউন্ট আছে?{' '}
           <Link href='/login' className='text-primary hover:underline'>
             লগইন করুন
@@ -60,7 +60,7 @@ export default function Register() {
             আপনার রক্তের গ্রুপ নির্বাচন করুন
           </p>
 
-          <div className='grid grid-cols-2 gap-2 sm:gap-4 mt-8 mb-4'>
+          <div className='grid grid-cols-2 md:grid-cols-3 gap-2 sm:gap-4 mt-8 mb-4'>
             {bloodGroups.map((item: string, idx: number) => (
               <button
                 key={idx}
@@ -69,7 +69,7 @@ export default function Register() {
                   setWarn(false)
                 }}
                 className={cn(
-                  'col-auto text-5xl text-primary/60 font-bold bg-primary/20 flex items-center justify-center h-28 sm:h-40 rounded-lg hover:shadow-lg hover:border-[1px] hover:border-primary/20 focus:text-white focus:bg-primary transform-transition duration-500',
+                  'col-auto text-5xl text-primary font-bold bg-primary/20 h-28 sm:h-32 rounded-lg hover:shadow-lg hover:border-[1px] hover:border-lightslate transform-transition duration-300',
                   item === group && 'bg-primary text-white'
                 )}
               >

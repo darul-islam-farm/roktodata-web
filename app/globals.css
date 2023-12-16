@@ -8,3 +8,12 @@
 .swiper-pagination-bullet-active {
   background-color: white !important;
 }
+
+.auth__bg {
+  border-radius: 37px;
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow:
+    -26.267px 26.267px 26.267px 0px rgba(255, 255, 255, 0) inset,
+    26.267px -26.267px 26.267px 0px rgba(175, 155, 155, 0.7) inset;
+  backdrop-filter: blur(3.677333354949951px);
+}

@@ -37,15 +37,15 @@ export function CInput({
       <div>
         <icon.icon
           strokeWidth={2.2}
-          className={cn(message ? 'text-danger' : 'text-slate-400')}
+          className={cn(message ? 'text-danger' : 'text-lightslate')}
         />
       </div>
       <div className='w-[2px] h-10 bg-lightslate mr-1' />
       <div className='flex-1'>
-        <p className='text-slate-400 font-medium text-sm'>{label}</p>
+        <p className='text-lightslate font-medium text-sm'>{label}</p>
         <div>
           <input
-            className='w-full placeholder:text-lighttext/60 py-1.5 focus:border-0 focus:outline-0 focus:ring-0'
+            className='w-full text-lightslate bg-transparent placeholder:text-white/50 py-1.5 focus:border-0 focus:outline-0 focus:ring-0'
             type={type}
             placeholder={placeholder}
             {...register(name)}
@@ -76,15 +76,15 @@ export function CSelect({
       <div>
         <icon.icon
           strokeWidth={2.2}
-          className={cn(message ? 'text-danger' : 'text-slate-400')}
+          className={cn(message ? 'text-danger' : 'text-lightslate')}
         />
       </div>
       <div className='w-[2px] h-10 bg-lightslate mr-1' />
       <div className='flex-1'>
-        <p className='text-slate-400 font-medium text-sm'>{label}</p>
+        <p className='text-lightslate font-medium text-sm'>{label}</p>
         <select
           defaultValue=''
-          className='w-full text-lighttext/60 py-1.5 focus:border-0 focus:outline-0 focus:ring-0'
+          className='w-full bg-transparent text-white/50 py-0.5 focus:border-0 focus:outline-0 focus:ring-0'
           {...register(name)}
           {...rest}
         >
