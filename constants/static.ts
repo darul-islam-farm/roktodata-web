@@ -1,3 +1,5 @@
+import { HeartPulse, LucideIcon } from 'lucide-react'
+
 export type TJilla = (typeof jilla)[0]
 export const jilla = [
   'নরসিংদী',
@@ -65,6 +67,11 @@ export const jilla = [
   'রংপুর',
   'কুড়িগ্রাম'
 ]
+export type TWhydonate = {
+  icon: LucideIcon
+  title: string
+  description: string
+}
 
 export const donationimages: string[] = [
   '/images/donations/donate1.jpg',
@@ -81,4 +88,43 @@ export const bloodGroups: string[] = [
   'O-',
   'AB+',
   'AB-'
+]
+
+export const whyDonate: TWhydonate[] = [
+  {
+    icon: HeartPulse,
+    title: 'অন্যের জীবন বাঁচান',
+    description:
+      'আপনার দিনের একটি সাধারণ রক্তদান অন্য কারো জীবন বাঁচাতে সহায় করতে পারে। আপনার দিনের একটি সাধারণ রক্তদান অন্য কারো জীবন বাঁচাতে সহায় করতে পারে।'
+  },
+  {
+    icon: HeartPulse,
+    title: 'অন্যের জীবন বাঁচান',
+    description:
+      'আপনার দিনের একটি সাধারণ রক্তদান অন্য কারো জীবন বাঁচাতে সহায় করতে পারে। আপনার দিনের একটি সাধারণ রক্তদান অন্য কারো জীবন বাঁচাতে সহায় করতে পারে।'
+  },
+  {
+    icon: HeartPulse,
+    title: 'অন্যের জীবন বাঁচান',
+    description:
+      'আপনার দিনের একটি সাধারণ রক্তদান অন্য কারো জীবন বাঁচাতে সহায় করতে পারে। আপনার দিনের একটি সাধারণ রক্তদান অন্য কারো জীবন বাঁচাতে সহায় করতে পারে।'
+  },
+  {
+    icon: HeartPulse,
+    title: 'অন্যের জীবন বাঁচান',
+    description:
+      'আপনার দিনের একটি সাধারণ রক্তদান অন্য কারো জীবন বাঁচাতে সহায় করতে পারে। আপনার দিনের একটি সাধারণ রক্তদান অন্য কারো জীবন বাঁচাতে সহায় করতে পারে।'
+  },
+  {
+    icon: HeartPulse,
+    title: 'অন্যের জীবন বাঁচান',
+    description:
+      'আপনার দিনের একটি সাধারণ রক্তদান অন্য কারো জীবন বাঁচাতে সহায় করতে পারে। আপনার দিনের একটি সাধারণ রক্তদান অন্য কারো জীবন বাঁচাতে সহায় করতে পারে।'
+  },
+  {
+    icon: HeartPulse,
+    title: 'অন্যের জীবন বাঁচান',
+    description:
+      'আপনার দিনের একটি সাধারণ রক্তদান অন্য কারো জীবন বাঁচাতে সহায় করতে পারে। আপনার দিনের একটি সাধারণ রক্তদান অন্য কারো জীবন বাঁচাতে সহায় করতে পারে।'
+  }
 ]

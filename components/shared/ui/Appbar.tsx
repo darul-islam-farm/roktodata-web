@@ -22,7 +22,7 @@ export default function Appbar({ isHome = false }) {
         <div className='w-52'>
           <Link href='/'>
             <Image
-              src='/logo.svg'
+              src='/logowhite.svg'
               alt='logo'
               width={200}
               height={50}

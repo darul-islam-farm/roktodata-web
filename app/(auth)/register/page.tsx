@@ -17,7 +17,7 @@ import RegisterCred from '@/components/auth/Register.Cred'
 import RegisterLocation from '@/components/auth/Register.Location'
 
 export default function Register() {
-  const [step, setStep] = useState(4)
+  const [step, setStep] = useState(1)
   const [data, setData] = useState({})
   const [group, setGroup] = useState<string | null>(null)
   const [warn, setWarn] = useState(false)
