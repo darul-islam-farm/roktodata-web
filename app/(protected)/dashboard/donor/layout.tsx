@@ -12,7 +12,7 @@ export default function BasicLayout({ children }: IChildren) {
           <Sidebar />
         </div>
         <div className='lg:col-span-4 max-w-6xl p-4 bg-light rounded-lg'>
-          <div className='lg:hidden flex items-center justify-between h-8 mb-4'>
+          <div className='lg:hidden flex items-center justify-between h-8 mb-4 sticky z-[9] top-0 bg-light/70'>
             <Link
               href='/'
               className='flex items-center gap-2 font-medium text-xs pr-4 uppercase h-full'
