@@ -28,7 +28,7 @@ export default function Home() {
                 />
                 <h2 className='font-medium text-xl text-dark'>{item.title}</h2>
               </div>
-              <p className='text-lighttext text-sm'>{item.description}</p>
+              <p className='text-litetext text-sm'>{item.description}</p>
             </div>
           ))}
         </div>
@@ -179,7 +179,7 @@ export default function Home() {
               <h1 className='text-3xl lg:text-5xl font-medium'>
                 Lorem Ipsum dolor text
               </h1>
-              <p className='mt-2 text-lighttext md:text-sm lg:text-md'>
+              <p className='mt-2 text-litetext md:text-sm lg:text-md'>
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia
                 perspiciatis, commodi dicta omnis tenetur similique facere sit
                 enim corrupti sapiente quidem nam culpa numquam distinctio quo
@@ -193,21 +193,19 @@ export default function Home() {
                 <h1 className='text-primary font-bold text-5xl sm:text-6xl lg:text-7xl'>
                   120
                 </h1>
-                <p className='font-semibold text-lg text-lighttext'>donors</p>
+                <p className='font-semibold text-lg text-litetext'>donors</p>
               </div>
               <div className='text-center'>
                 <h1 className='text-primary font-bold text-5xl sm:text-6xl lg:text-7xl'>
                   2k+
                 </h1>
-                <p className='font-semibold text-lg text-lighttext'>
-                  donations
-                </p>
+                <p className='font-semibold text-lg text-litetext'>donations</p>
               </div>
               <div className='text-center'>
                 <h1 className='text-primary font-bold text-5xl sm:text-6xl lg:text-7xl'>
                   64
                 </h1>
-                <p className='font-semibold text-lg text-lighttext'>venues</p>
+                <p className='font-semibold text-lg text-litetext'>venues</p>
               </div>
             </div>
           </div>
@@ -218,7 +216,7 @@ export default function Home() {
               <h1 className='text-3xl lg:text-5xl font-medium'>
                 Lorem Ipsum dolor text
               </h1>
-              <p className='mt-2 text-lighttext md:text-sm lg:text-md'>
+              <p className='mt-2 text-litetext md:text-sm lg:text-md'>
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia
                 perspiciatis, commodi dicta omnis tenetur similique facere sit
                 enim corrupti sapiente quidem nam culpa numquam distinctio quo
@@ -252,7 +250,7 @@ export default function Home() {
               <h1 className='text-4xl font-semibold text-white mb-2'>
                 তো আর কীসের জন্য অপেক্ষা করছেন?
               </h1>
-              <p className='text-lg text-lightslate'>
+              <p className='text-lg text-extralight'>
                 আজই দান করুন মহামূল্যবান ও শ্রেষ্ঠ উপহার, একজন মুমূর্ষু প্রাণকে,
                 যে আপনার অনুগ্রহের অপেক্ষায়।
               </p>
@@ -278,7 +276,7 @@ export default function Home() {
               <h1 className='text-4xl font-semibold text-white mb-2'>
                 আপনি কি রক্ত খুঁজছেন?
               </h1>
-              <p className='text-lg text-lightslate'>
+              <p className='text-lg text-extralight'>
                 আমাদের ডেডিকেটেড ভলান্টিয়ার দ্বারা রক্ত পেতে আজই রেজিস্ট্রেশন
                 করুন।
               </p>

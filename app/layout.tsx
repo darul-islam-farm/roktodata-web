@@ -31,7 +31,7 @@ export default function RootLayout({ children }: IChildren) {
       <body
         className={cn(
           inter.className,
-          'bg-light dark:bg-dark text-dark dark:text-light'
+          'bg-light dark:bg-darkbg text-dark dark:text-litetext'
         )}
       >
         <Provider>{children}</Provider>

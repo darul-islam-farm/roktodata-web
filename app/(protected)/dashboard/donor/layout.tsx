@@ -1,0 +1,39 @@
+import Link from 'next/link'
+import { AlignCenter, ArrowLeft } from 'lucide-react'
+
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
+import Sidebar from '@/components/auth/Sidebar'
+
+export default function BasicLayout({ children }: IChildren) {
+  return (
+    <div className='min-h-screen bg-light lg:p-4'>
+      <div className='lg:grid lg:grid-cols-5 gap-x-4 rounded-2xl lg:p-4 bg-primary'>
+        <div className='hidden lg:block lg:col-span-1 h-[80vh] text-white lg:sticky top-0'>
+          <Sidebar />
+        </div>
+        <div className='lg:col-span-4 max-w-6xl p-4 bg-light rounded-lg'>
+          <div className='lg:hidden flex items-center justify-between h-8 mb-4'>
+            <Link
+              href='/'
+              className='flex items-center gap-2 font-medium text-xs pr-4 uppercase h-full'
+            >
+              <ArrowLeft /> go home
+            </Link>
+            <Sheet>
+              <SheetTrigger asChild>
+                <AlignCenter
+                  className='h-full px-1 bg-white/50 rounded text-primary h-8 w-9 cursor-pointer'
+                  strokeWidth={1}
+                />
+              </SheetTrigger>
+              <SheetContent className='p-0 max-w-[350px]' side='left'>
+                <Sidebar mobile />
+              </SheetContent>
+            </Sheet>
+          </div>
+          {children}
+        </div>
+      </div>
+    </div>
+  )
+}

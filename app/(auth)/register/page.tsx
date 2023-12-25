@@ -69,7 +69,7 @@ export default function Register() {
                   setWarn(false)
                 }}
                 className={cn(
-                  'col-auto text-5xl text-primary font-bold bg-primary/20 h-28 sm:h-32 rounded-lg hover:shadow-lg hover:border-[1px] hover:border-lightslate transform-transition duration-300',
+                  'col-auto text-5xl text-primary font-bold bg-primary/20 h-28 sm:h-32 rounded-lg hover:shadow-lg hover:border-[1px] hover:border-extralight transform-transition duration-300',
                   item === group && 'bg-primary text-white'
                 )}
               >

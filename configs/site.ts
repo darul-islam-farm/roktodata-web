@@ -1,5 +1,18 @@
+import {
+  HeartPulse,
+  LayoutDashboard,
+  LucideIcon,
+  Settings2Icon,
+  Star,
+  UserCog2
+} from 'lucide-react'
+
 export type TSiteInfo = typeof siteInfo
-export type TNavItem = (typeof siteInfo.navItems)[0]
+export type TNavItem = {
+  name: string
+  href: string
+  icon?: LucideIcon
+}
 export const siteInfo = {
   name: 'রক্তদাতা',
   description: 'ব্লাড ডোনেশন এপ্লিকেশন',
@@ -15,5 +28,13 @@ export const siteInfo = {
     { name: 'সাহায্য', href: '/help' },
     { name: 'ফোরাম', href: '/forum' },
     { name: 'যোগাযোগ', href: '/contact' }
-  ]
+  ],
+  donorDashboardItem: [
+    { name: 'Dashboard', link: '/dashboard/donor', icon: LayoutDashboard },
+    { name: 'My Donations', link: '/dashboard/donor', icon: HeartPulse },
+    { name: 'My Reviews', link: '/dashboard/donor', icon: Star },
+    { name: 'Profile', link: '/dashboard/donor', icon: UserCog2 },
+    { name: 'Settings', link: '/dashboard/donor', icon: Settings2Icon }
+  ],
+  userDashboardItem: [{ name: 'Dashboard', link: '/dashboard/receiver' }]
 }

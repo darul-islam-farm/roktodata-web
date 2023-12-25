@@ -48,7 +48,7 @@ export default function Appbar({ isHome = false }) {
           ))}
         </div>
         <div>
-          <Link href='/register'>
+          <Link href='/dashboard/donor'>
             <User2
               className={cn('bg-white h-10 w-10 rounded-full p-1 text-primary')}
             />

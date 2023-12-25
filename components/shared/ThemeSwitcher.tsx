@@ -14,7 +14,7 @@ export default function ThemeSwitcher() {
   return (
     <button type='button' onClick={onChange}>
       {theme === 'light' || isSSR ? (
-        <p className='text-light font-semibold text-sm'>dark</p>
+        <p className='text-litetext font-semibold text-sm'>dark</p>
       ) : (
         <p className='text-dark font-semibold text-sm'>light</p>
       )}
