@@ -2,6 +2,7 @@ import { Metadata } from 'next'
 import Image from 'next/image'
 import { whyDonate } from '@/constants/static'
 
+import { Button } from '@/components/ui/button'
 import HomeSlider from '@/components/customs/HomeSlider'
 import Container from '@/components/shared/Container'
 import SectionHeader from '@/components/shared/SectionHeader'
@@ -240,6 +241,51 @@ export default function Home() {
           </div>
         </div>
       </Container>
+
+      <div className='my-20'>
+        <div className='bg-primary'>
+          <Container
+            size='sm'
+            className='py-12 flex flex-col gap-y-10 lg:gap-0 lg:flex-row lg:items-center justify-between'
+          >
+            <div>
+              <h1 className='text-4xl font-semibold text-white mb-2'>
+                তো আর কীসের জন্য অপেক্ষা করছেন?
+              </h1>
+              <p className='text-lg text-lightslate'>
+                আজই দান করুন মহামূল্যবান ও শ্রেষ্ঠ উপহার, একজন মুমূর্ষু প্রাণকে,
+                যে আপনার অনুগ্রহের অপেক্ষায়।
+              </p>
+            </div>
+            <div className='sm:self-end lg:self-center'>
+              <Button className='bg-white button-shadow w-full sm:w-auto text-primary'>
+                ডোনেট করুন
+              </Button>
+            </div>
+          </Container>
+        </div>
+        <div className='bg-secondary'>
+          <Container
+            size='sm'
+            className='py-12 flex flex-col gap-y-10 lg:gap-0 lg:flex-row lg:items-center justify-between'
+          >
+            <div>
+              <Button className='bg-primary button-shadow w-full sm:w-auto text-white'>
+                রক্ত নিন
+              </Button>
+            </div>
+            <div className='order-first lg:order-last'>
+              <h1 className='text-4xl font-semibold text-white mb-2'>
+                আপনি কি রক্ত খুঁজছেন?
+              </h1>
+              <p className='text-lg text-lightslate'>
+                আমাদের ডেডিকেটেড ভলান্টিয়ার দ্বারা রক্ত পেতে আজই রেজিস্ট্রেশন
+                করুন।
+              </p>
+            </div>
+          </Container>
+        </div>
+      </div>
     </main>
   )
 }

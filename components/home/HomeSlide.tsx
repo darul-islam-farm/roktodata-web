@@ -23,10 +23,12 @@ export default function HomeSlide({ image }: { image: string }) {
               recusandae quo similique.
             </p>
             <div className='my-10 md:mb-0 flex gap-4 flex-col md:flex-row w-full'>
-              <Button onClick={() => alert('nin')}>রক্ত নিন</Button>
+              <Button className='button-shadow' onClick={() => alert('nin')}>
+                রক্ত নিন
+              </Button>
               <Button
                 onClick={() => alert('din')}
-                className='bg-white text-primary hover:bg-primary hover:text-white'
+                className='bg-white button-shadow text-primary hover:bg-primary hover:text-white'
               >
                 রক্ত দান করুন
               </Button>
