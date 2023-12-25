@@ -19,12 +19,12 @@ export default function Appbar({ isHome = false }) {
         <div className='lg:hidden'>
           <SideNav isHome={isHome} path={path} />
         </div>
-        <div className='w-52'>
+        <div className='w-32 sm:w-48'>
           <Link href='/'>
             <Image
               src='/logowhite.svg'
               alt='logo'
-              width={200}
+              width={150}
               height={50}
               className='w-full'
             />
@@ -48,7 +48,7 @@ export default function Appbar({ isHome = false }) {
           ))}
         </div>
         <div>
-          <Link href='/dashboard/donor'>
+          <Link href='/register'>
             <User2
               className={cn('bg-white h-10 w-10 rounded-full p-1 text-primary')}
             />

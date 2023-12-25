@@ -24,7 +24,7 @@ export default function Login() {
     <div className='auth__bg grid gap-y-4 px-4 py-8 sm:p-12 rounded-xl'>
       <div className='text-center mb-6'>
         <h1 className='text-3xl font-bold text-primary mb-4'>লগইন করুন</h1>
-        <p className='text-sm'>
+        <p className='text-sm text-light/70'>
           একাউন্ট নেই?{' '}
           <Link href='/register' className='text-primary hover:underline'>
             তৈরি করুন

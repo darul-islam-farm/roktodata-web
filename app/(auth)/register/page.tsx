@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import {
   TBasicdata,
   TCreddata,
@@ -17,6 +18,7 @@ import RegisterCred from '@/components/auth/Register.Cred'
 import RegisterLocation from '@/components/auth/Register.Location'
 
 export default function Register() {
+  const { push } = useRouter()
   const [step, setStep] = useState(1)
   const [data, setData] = useState({})
   const [group, setGroup] = useState<string | null>(null)
@@ -31,6 +33,7 @@ export default function Register() {
       return setWarn(true)
     }
     console.log('data', { ...data, group })
+    push('/dashboard/donor')
   }
 
   return (
@@ -39,7 +42,7 @@ export default function Register() {
         <h1 className='text-3xl font-bold text-primary mb-4'>
           একটি একাউন্ট তৈরি করুন
         </h1>
-        <p className='text-sm'>
+        <p className='text-sm text-light/70'>
           একাউন্ট আছে?{' '}
           <Link href='/login' className='text-primary hover:underline'>
             লগইন করুন
