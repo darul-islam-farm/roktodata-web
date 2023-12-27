@@ -40,8 +40,7 @@ export default function RegisterLocation({
       jilla: data?.jilla,
       subJilla: data?.subJilla,
       thana: data?.thana,
-      currentAddress: data?.currentAddress,
-      permanentAddress: data?.permanentAddress
+      address: data?.address
     }
   })
   return (
@@ -78,24 +77,15 @@ export default function RegisterLocation({
         </div>
         <div>
           <CInput
-            label='বর্তমান ঠিকানা'
-            placeholder='কলেজরোড, রংপুর সদর।'
+            label='বিস্তারিত ঠিকানা'
+            placeholder='হাবিবনগর, শাপলা চত্বর, কলেজরোড, রংপুর সদর।'
             icon={{ icon: MapPinned }}
             register={register}
-            name='currentAddress'
-            message={errors.currentAddress?.message}
+            name='address'
+            message={errors.address?.message}
           />
         </div>
-        <div>
-          <CInput
-            label='স্থায়ী ঠিকানা (optional)'
-            placeholder='কলেজরোড, রংপুর সদর।'
-            icon={{ icon: MapPinned }}
-            register={register}
-            name='permanentAddress'
-            message={errors.permanentAddress?.message}
-          />
-        </div>
+
         <div className='flex items-center gap-4'>
           <Button
             onClick={() => setStep((prev) => prev - 1)}

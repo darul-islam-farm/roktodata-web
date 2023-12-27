@@ -1,6 +1,8 @@
 import { Metadata } from 'next'
 import Image from 'next/image'
+import Link from 'next/link'
 import { whyDonate } from '@/constants/static'
+import { ArrowRight } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import HomeSlider from '@/components/customs/HomeSlider'
@@ -15,6 +17,7 @@ export default function Home() {
   return (
     <main>
       <HomeSlider />
+
       {/* Why donate blood section */}
       <Container>
         <SectionHeader title='কেন রক্তদান করবেন' />
@@ -33,6 +36,7 @@ export default function Home() {
           ))}
         </div>
       </Container>
+
       {/* Who donate blood section */}
       <div className='bg-primary pb-16 my-16'>
         <Container size='md'>
@@ -141,6 +145,7 @@ export default function Home() {
           </div>
         </Container>
       </div>
+
       {/* Donation chart section */}
       <Container>
         <SectionHeader title='রক্তদানের চার্ট' />
@@ -160,6 +165,7 @@ export default function Home() {
         </div>
       </Container>
 
+      {/* Our Impact section */}
       <Container className='mt-10'>
         <SectionHeader title='আমাদের ইমপ্যাক্ট' />
         <div className='grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2 mb-8 md:mb-16'>
@@ -240,6 +246,7 @@ export default function Home() {
         </div>
       </Container>
 
+      {/* CTA section */}
       <div className='my-20'>
         <div className='bg-primary'>
           <Container
@@ -284,6 +291,46 @@ export default function Home() {
           </Container>
         </div>
       </div>
+
+      {/* Blog section */}
+      <Container>
+        <SectionHeader title='ব্লগ থেকে পড়ুন' />
+        <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-4 gap-y-8'>
+          {[1, 2, 3, 4].map((idx) => (
+            <div className='col-auto group' key={idx}>
+              <Image
+                src='/images/donations/donate1.jpg'
+                alt='donations'
+                width={300}
+                height={250}
+                className='w-full'
+              />
+              <div className='mt-4 px-2 pb-4 group-hover:shadow-xl duration-300 rounded-lg'>
+                <p className='uppercase font-medium text-xs flex gap-2 items-center'>
+                  <span>{idx + 20} dec, 2023</span>
+                  <span className='h-1 w-1 rounded-full bg-litetext' />
+                  <span>admin-roktodataweb</span>
+                </p>
+                <p className='font-semibold text-xl text-dark'>
+                  ব্লগ টাইটেল - রক্তদাতা ব্লগ
+                </p>
+                <p className='font-light mt-2'>
+                  Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                  Atque facere quisquam voluptate sunt.
+                </p>
+                <div className='mt-4'>
+                  <Link
+                    href='/'
+                    className='flex items-center gap-1 font-medium text-xs'
+                  >
+                    বিস্তারিত পড়ুন <ArrowRight className='size-4' />
+                  </Link>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </Container>
     </main>
   )
 }

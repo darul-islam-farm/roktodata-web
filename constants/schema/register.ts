@@ -12,13 +12,9 @@ export const locationdata = z.object({
   jilla: z.string().min(2, 'জেলার নাম আবশ্যক।'),
   subJilla: z.string().min(2, 'উপজেলার নাম আবশ্যক।'),
   thana: z.string().min(2, 'থানার নাম আবশ্যক।'),
-  currentAddress: z.string().min(10, 'বর্তমান ঠিকানা আবশ্যক।'),
-  permanentAddress: z.string().optional()
+  address: z.string().min(10, 'বিস্তারিত ঠিকানা আবশ্যক।')
 })
 export const creddata = z.object({
-  username: z.string().min(4, {
-    message: 'অন্তত চার সংখ্যার ইউজারনেম দিন।'
-  }),
   email: z.string().email('সঠিক ইমেইল অ্যাড্রেস আবশ্যক।'),
   password: z.string().min(6, 'পাসওয়ার্ড অন্তত ৬ সংখ্যার হতে হবে।')
 })

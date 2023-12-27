@@ -8,27 +8,26 @@ datasource db {
 }
 
 model User {
-  id               String           @id @default(auto()) @map("_id") @db.ObjectId
-  name             String // basics
-  email            String           @unique
-  password         String
-  identity         String           @unique
-  gender           String
-  phone            String           @unique
-  phone2           String           @unique @map("another_phone")
-  bloodType        String           @map("blood_type")
-  userType         UserType         @map("user_type")
-  jilla            String // locations 
-  subJilla         String           @map("sub_jilla ")
-  thana            String
-  currentAddress   String           @map("current_address")
-  permanentAddress String           @map("permanent_address")
-  status           ProfileStatus    @default(PENDING) // profiles
-  donorProfile     DonorProfile?
-  receiverProfile  ReceiverProfile?
-  posts            Forum[]
-  createdAt        DateTime         @default(now()) // timestamps
-  updatedAt        DateTime         @updatedAt
+  id              String           @id @default(auto()) @map("_id") @db.ObjectId
+  name            String // basics
+  email           String           @unique
+  password        String
+  identity        String           @unique
+  gender          String
+  phone           String           @unique
+  phone2          String           @unique @map("another_phone")
+  bloodType       String           @map("blood_type")
+  userType        UserType         @map("user_type")
+  jilla           String // locations 
+  subJilla        String           @map("sub_jilla ")
+  thana           String
+  address         String
+  status          ProfileStatus    @default(PENDING) // profiles
+  donorProfile    DonorProfile?
+  receiverProfile ReceiverProfile?
+  posts           Forum[]
+  createdAt       DateTime         @default(now()) // timestamps
+  updatedAt       DateTime         @updatedAt
 
   @@map("users")
 }
@@ -38,8 +37,9 @@ model DonorProfile {
   bloodType       String        @map("blood_type")
   user            User          @relation(fields: [userId], references: [id])
   userId          String        @unique @db.ObjectId
+  status          Status        @default(INACTIVE)
   donationHistory Donation[]
-  Appointment     Appointment[]
+  appointments    Appointment[]
 
   @@map("donor_profiles")
 }
@@ -118,6 +118,11 @@ enum ProfileStatus {
   PENDING
   ACCEPTED
   REJECTED
+}
+
+enum Status {
+  ACTIVE
+  INACTIVE
 }
 
 enum AppointmentStatus {

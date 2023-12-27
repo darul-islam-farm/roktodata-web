@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { createUser } from '@/actions/user'
 import {
   TBasicdata,
   TCreddata,
@@ -32,8 +33,9 @@ export default function Register() {
     if (!group) {
       return setWarn(true)
     }
-    console.log('data', { ...data, group })
-    push('/dashboard/donor')
+    console.log('data', { ...data, bloodType: group })
+    createUser({ ...data, bloodType: group })
+    // push('/dashboard/donor')
   }
 
   return (
