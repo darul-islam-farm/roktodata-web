@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Anek_Bangla } from 'next/font/google'
 
 import './globals.css'
+import './component.css'
 
 import Provider from '@/configs/Provider'
 import { siteInfo } from '@/configs/site'
