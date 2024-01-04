@@ -13,7 +13,6 @@
     26.267px -26.267px 26.267px 0px rgba(175, 155, 155, 0.7) inset;
   backdrop-filter: blur(10px);
 }
-
 .button-shadow {
   box-shadow:
     4px 4px 20.6px 0px rgba(0, 0, 0, 0.25),
@@ -24,4 +23,7 @@
   border-radius: 0.5rem;
   background: #ffffff;
   box-shadow: 0px 18.553px 18.553px 0px rgba(204, 204, 204, 0.5);
+}
+.contact__bg {
+  background: linear-gradient(180deg, #b91c1c 27.85%, #5200ff 121.18%);
 }

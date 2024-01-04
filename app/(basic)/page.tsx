@@ -1,11 +1,14 @@
 import { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
-import { whyDonate } from '@/constants/static'
+import { contactInfo, whyDonate } from '@/constants/static'
 import { ArrowRight } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { GInput, GTextarea } from '@/components/customs/GInput'
 import HomeSlider from '@/components/customs/HomeSlider'
+import ContactFrom from '@/components/home/ContactFrom'
 import Container from '@/components/shared/Container'
 import SectionHeader from '@/components/shared/SectionHeader'
 
@@ -311,9 +314,7 @@ export default function Home() {
                   <span className='h-1 w-1 rounded-full bg-litetext' />
                   <span>admin-roktodataweb</span>
                 </p>
-                <p className='font-semibold text-xl text-dark'>
-                  ব্লগ টাইটেল - রক্তদাতা ব্লগ
-                </p>
+                <h2 className='text-dark'>ব্লগ টাইটেল - রক্তদাতা ব্লগ</h2>
                 <p className='font-light mt-2'>
                   Lorem ipsum dolor sit amet consectetur, adipisicing elit.
                   Atque facere quisquam voluptate sunt.
@@ -331,6 +332,9 @@ export default function Home() {
           ))}
         </div>
       </Container>
+
+      {/* Contact Section */}
+      <ContactFrom />
     </main>
   )
 }

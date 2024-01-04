@@ -1,6 +1,19 @@
-import { HeartPulse, LucideIcon } from 'lucide-react'
+import {
+  AtSign,
+  HeartPulse,
+  LucideIcon,
+  MapPinned,
+  Phone,
+  Sun
+} from 'lucide-react'
 
 export type TJilla = (typeof jilla)[0]
+export type TWhydonate = {
+  icon: LucideIcon
+  title: string
+  description: string
+}
+
 export const jilla = [
   'নরসিংদী',
   'গাজীপুর',
@@ -67,11 +80,6 @@ export const jilla = [
   'রংপুর',
   'কুড়িগ্রাম'
 ]
-export type TWhydonate = {
-  icon: LucideIcon
-  title: string
-  description: string
-}
 
 export const donationimages: string[] = [
   '/images/donations/donate1.jpg',
@@ -127,4 +135,11 @@ export const whyDonate: TWhydonate[] = [
     description:
       'আপনার দিনের একটি সাধারণ রক্তদান অন্য কারো জীবন বাঁচাতে সহায় করতে পারে। আপনার দিনের একটি সাধারণ রক্তদান অন্য কারো জীবন বাঁচাতে সহায় করতে পারে।'
   }
+]
+
+export const contactInfo: TWhydonate[] = [
+  { icon: AtSign, title: 'Email', description: 'hello@roktodata.com' },
+  { icon: Phone, title: 'Phone', description: '+880 1XXX XXXXXX' },
+  { icon: MapPinned, title: 'Address', description: 'College Road, Rangpur' },
+  { icon: Sun, title: 'Open hours', description: '24/7' }
 ]
