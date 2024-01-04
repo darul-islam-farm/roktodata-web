@@ -11,12 +11,14 @@ import {
 } from '@/constants/schema/register'
 import { bloodGroups } from '@/constants/static'
 import { ArrowLeft } from 'lucide-react'
+import Swal from 'sweetalert2'
 
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import RegisterBasic from '@/components/auth/Register.Basic'
 import RegisterCred from '@/components/auth/Register.Cred'
 import RegisterLocation from '@/components/auth/Register.Location'
+import errorAlert from '@/components/shared/alerts/errorAlert'
 
 export default function Register() {
   const { push } = useRouter()
@@ -29,13 +31,16 @@ export default function Register() {
     setData((prev) => ({ ...prev, ...values }))
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!group) {
       return setWarn(true)
     }
-    console.log('data', { ...data, bloodType: group })
-    createUser({ ...data, bloodType: group })
-    // push('/dashboard/donor')
+    try {
+      const succeed = await createUser({ ...data, bloodType: group })
+      succeed && push('/dashboard/donor')
+    } catch (error) {
+      errorAlert({ title: error, timer: 2500 })
+    }
   }
 
   return (

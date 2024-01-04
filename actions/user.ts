@@ -5,8 +5,8 @@ import prisma from '@/lib/prisma'
 export const createUser = async (data: any) => {
   try {
     const demo = await prisma.user.create({ data })
-    console.log('demo', demo)
+    return demo
   } catch (error) {
-    console.log('error happended', error)
+    throw new Error('Error happended')
   }
 }
