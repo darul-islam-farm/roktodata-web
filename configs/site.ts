@@ -30,11 +30,11 @@ export const siteInfo = {
     { name: 'যোগাযোগ', href: '/contact' }
   ],
   donorDashboardItem: [
-    { name: 'Dashboard', link: '/dashboard/donor', icon: LayoutDashboard },
-    { name: 'My Donations', link: '/dashboard/donor', icon: HeartPulse },
-    { name: 'My Reviews', link: '/dashboard/donor', icon: Star },
-    { name: 'Profile', link: '/dashboard/donor', icon: UserCog2 },
-    { name: 'Settings', link: '/dashboard/donor', icon: Settings2Icon }
+    { name: 'ড্যাশবোর্ড', link: '/dashboard/donor', icon: LayoutDashboard },
+    { name: 'আমার ডোনেশন', link: '/dashboard/donor', icon: HeartPulse },
+    { name: 'রিভিউ', link: '/dashboard/donor', icon: Star },
+    { name: 'প্রোফাইল', link: '/dashboard/donor', icon: UserCog2 },
+    { name: 'সেটিংস', link: '/dashboard/donor', icon: Settings2Icon }
   ],
   userDashboardItem: [{ name: 'Dashboard', link: '/dashboard/receiver' }]
 }

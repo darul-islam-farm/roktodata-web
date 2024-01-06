@@ -22,7 +22,7 @@ export default function Sidebar({ mobile, user }: TProps) {
           href='/'
           className='flex items-center gap-2 font-medium text-sm w-1/2 uppercase mb-4'
         >
-          <ArrowLeft /> go home
+          <ArrowLeft /> হোম এ যান
         </Link>
       )}
       <div className='pt-4'>
@@ -62,7 +62,7 @@ export default function Sidebar({ mobile, user }: TProps) {
               className='w-full flex itmes-center font-medium hover:bg-light/20 text-light px-4 py-2.5 lg:text-lg mb-4 gap-2 rounded-lg'
             >
               <LogOut />
-              Logout
+              লগআউট
             </button>
           )}
         </div>

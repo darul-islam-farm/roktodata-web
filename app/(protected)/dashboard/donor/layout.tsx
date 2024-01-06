@@ -27,7 +27,7 @@ export default async function BasicLayout({ children }: IChildren) {
                 href='/'
                 className='flex items-center gap-2 font-medium text-xs pr-4 uppercase h-full'
               >
-                <ArrowLeft /> go home
+                <ArrowLeft /> হোম এ যান
               </Link>
               <div className='flex items-center gap-2'>
                 <Sheet>
