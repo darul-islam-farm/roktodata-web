@@ -1,36 +1,38 @@
 import type { Metadata } from 'next'
-import { Nunito } from 'next/font/google'
+import { Anek_Bangla } from 'next/font/google'
 
 import './globals.css'
+import './component.css'
 
 import Provider from '@/configs/Provider'
 import { siteInfo } from '@/configs/site'
-import { twMerge } from 'tailwind-merge'
 
-const inter = Nunito({ subsets: ['latin'] })
+import { cn } from '@/lib/utils'
+
+const inter = Anek_Bangla({ subsets: ['bengali'] })
 
 export const metadata: Metadata = {
   title: {
     default: siteInfo.name,
-    template: `%s - ${siteInfo.name}`,
+    template: `%s | ${siteInfo.name}`
   },
   description: siteInfo.description,
   authors: siteInfo.authors,
   generator: siteInfo.generator,
   icons: {
-    icon: '/favicon.ico',
-    shortcut: '/favicon-16x16.png',
-    apple: '/apple-touch-icon.png',
-  },
+    icon: '/favicon.png',
+    shortcut: '/favicon.png',
+    apple: '/apple-touch-icon.png'
+  }
 }
 
 export default function RootLayout({ children }: IChildren) {
   return (
     <html lang='en'>
       <body
-        className={twMerge(
+        className={cn(
           inter.className,
-          'bg-light dark:bg-dark text-dark dark:text-light'
+          'bg-light dark:bg-darkbg text-dark dark:text-litetext'
         )}
       >
         <Provider>{children}</Provider>

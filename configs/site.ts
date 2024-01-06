@@ -1,17 +1,40 @@
+import {
+  HeartPulse,
+  LayoutDashboard,
+  LucideIcon,
+  Settings2Icon,
+  Star,
+  UserCog2
+} from 'lucide-react'
+
 export type TSiteInfo = typeof siteInfo
-export type TNavItem = typeof siteInfo.navItems
+export type TNavItem = {
+  name: string
+  href: string
+  icon?: LucideIcon
+}
 export const siteInfo = {
-  name: 'My App',
-  description: 'Description about My App',
+  name: 'রক্তদাতা',
+  description: 'ব্লাড ডোনেশন এপ্লিকেশন',
   authors: {
     url: 'https://fb.com/rabibinsalam',
-    name: 'Rabius Sunny',
+    name: 'Rabius Sunny'
   },
-  generator: 'Meta generator word for My App',
+  generator:
+    'রক্তদাতা রক্ত দাতা ব্লাড ডোনেশন রক্তদান রক্তগ্রহণ blood blood-donation donation donate blood blood-groups',
   navItems: [
-    { name: 'Home', href: '/' },
-    { name: 'About Us', href: '/about-us' },
-    { name: 'Contact', href: '/contact' },
-    { name: 'Others', href: '/others' },
+    { name: 'হোম', href: '/' },
+    { name: 'আমাদের সম্পর্কে', href: '/about-us' },
+    { name: 'সাহায্য', href: '/help' },
+    { name: 'ফোরাম', href: '/forum' },
+    { name: 'যোগাযোগ', href: '/contact' }
   ],
+  donorDashboardItem: [
+    { name: 'Dashboard', link: '/dashboard/donor', icon: LayoutDashboard },
+    { name: 'My Donations', link: '/dashboard/donor', icon: HeartPulse },
+    { name: 'My Reviews', link: '/dashboard/donor', icon: Star },
+    { name: 'Profile', link: '/dashboard/donor', icon: UserCog2 },
+    { name: 'Settings', link: '/dashboard/donor', icon: Settings2Icon }
+  ],
+  userDashboardItem: [{ name: 'Dashboard', link: '/dashboard/receiver' }]
 }

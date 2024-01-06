@@ -1,59 +1,68 @@
+import { getUser } from '@/actions/user'
 import NextAuth from 'next-auth'
-import type { NextAuthConfig, User } from 'next-auth'
 import Credentials from 'next-auth/providers/credentials'
+import { z } from 'zod'
 
-declare module 'next-auth' {
-  interface Session {
-    user: {
-      picture?: string
-      another?: string
-    } & Omit<User, 'id'>
-  }
-}
+import { authConfig } from './authconfig'
+
 declare module 'next-auth' {
   interface User {
-    picture?: string
-    another?: string
+    bloodType: string
+    userType: string
+    status: string
+  }
+  interface Session {
+    user: {
+      id: string
+      name: string
+      email: string
+      bloodType: string
+      userType: string
+      status: string
+    }
   }
 }
 
-export const authConfig = {
-  debug: process.env.NODE_ENV === 'development',
+export const { auth, signIn, signOut, handlers } = NextAuth({
+  ...authConfig,
   providers: [
     Credentials({
-      credentials: { password: { label: 'Password', type: 'password' } },
-      authorize(c) {
-        if (c.password !== '1') return null
-        return {
-          id: '1',
-          name: 'Rabius Sunny',
-          email: 'rabiussunnyc3x@gmail.com',
-          image: 'https://www.image.com',
-          picture: 'https://cdn-icons-png.flaticon.com/512/6596/6596121.png',
-          another: 'value',
+      async authorize(credentials) {
+        const parsedCredentials = z
+          .object({ email: z.string().email(), password: z.string().min(6) })
+          .safeParse(credentials)
+
+        if (parsedCredentials.success) {
+          const { email, password } = parsedCredentials.data
+          const user = await getUser(email, password)
+          return user ?? null
         }
-      },
-    }),
+
+        return null
+      }
+    })
   ],
   callbacks: {
-    authorized(params) {
-      return !!params.auth?.user
-    },
     async jwt({ token, user }) {
       if (user) {
-        token.picture = user.picture
-        token.another = user.another
+        token.id = user.id
+        token.name = user.name
+        token.email = user.email
+        token.bloodType = user.bloodType
+        token.userType = user.userType
+        token.status = user.status
       }
       return token
     },
     async session({ session, token }) {
-      if (token) {
-        session.user.picture = token.picture as string
-        session.user.another = token.another as string
-      }
-      return session
-    },
-  },
-} satisfies NextAuthConfig
+      session.user.id = token.id as string
+      session.user.name = token.name as string
+      session.user.email = token.email as string
+      session.user.bloodType = token.bloodType as string
+      session.user.userType = token.userType as string
+      session.user.status = token.status as string
 
-export const { handlers, auth, signIn, signOut } = NextAuth(authConfig)
+      return session
+    }
+  }
+})
