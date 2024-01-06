@@ -51,7 +51,7 @@ export default function Register() {
         </h1>
         <p className='text-sm text-light/70'>
           একাউন্ট আছে?{' '}
-          <Link href='/login' className='text-primary hover:underline'>
+          <Link href='/auth/login' className='text-primary hover:underline'>
             লগইন করুন
           </Link>
         </p>

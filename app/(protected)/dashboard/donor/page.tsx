@@ -1,17 +1,20 @@
-import { Metadata } from 'next'
+'use client'
+
+import Head from 'next/head'
 import Image from 'next/image'
 import { Facebook, Twitter, Youtube } from 'lucide-react'
+import { useSession } from 'next-auth/react'
 
 import { Button } from '@/components/ui/button'
 import { Switch } from '@/components/ui/switch'
 
-export const metadata: Metadata = {
-  title: 'ড্যাশবোর্ড'
-}
-
 export default function DonorDashboard() {
+  const { data: session } = useSession()
   return (
     <div>
+      <Head>
+        <title>ড্যাশবোর্ড</title>
+      </Head>
       <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
         <div className='col-auto card-shadow p-2 lg:p-4'>
           <h1 className='text-dark'>Profile Information</h1>
@@ -24,7 +27,7 @@ export default function DonorDashboard() {
             <div>
               <div className='flex items-center gap-2'>
                 <p className='font-medium text-dark'>Full Name: </p>
-                <p className='font-light text-litetext'>Razib Ahmed</p>
+                <p className='font-light text-litetext'>{session?.user.name}</p>
               </div>
             </div>
             <div>
@@ -37,7 +40,7 @@ export default function DonorDashboard() {
               <div className='flex items-center gap-2'>
                 <p className='font-medium text-dark'>Email:</p>
                 <p className='font-light text-litetext'>
-                  razibahmed@darulislam.com
+                  {session?.user.email}
                 </p>
               </div>
             </div>

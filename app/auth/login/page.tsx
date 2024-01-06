@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { authenticate } from '@/actions/user'
 import { logindata, TLogindata } from '@/constants/schema/register'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ShieldCheck, User2 } from 'lucide-react'
@@ -8,6 +9,7 @@ import { useForm } from 'react-hook-form'
 
 import { Button } from '@/components/ui/button'
 import { CInput } from '@/components/customs/CInput'
+import errorAlert from '@/components/shared/alerts/errorAlert'
 
 export default function Login() {
   const {
@@ -17,8 +19,12 @@ export default function Login() {
   } = useForm<TLogindata>({
     resolver: zodResolver(logindata)
   })
-  const onSubmit = (value: TLogindata) => {
-    console.log('data', value)
+  const onSubmit = async (value: TLogindata) => {
+    try {
+      await authenticate(value)
+    } catch (error) {
+      errorAlert({ title: error, timer: 2500 })
+    }
   }
   return (
     <div className='auth__bg grid gap-y-4 px-4 py-8 sm:p-12 rounded-xl'>
@@ -34,12 +40,13 @@ export default function Login() {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>
           <CInput
-            label='ইউজারনেম / ইমেইল'
-            placeholder='rabius-sunny'
+            label='ইমেইল'
+            placeholder='me@rabius-sunny.com'
             icon={{ icon: User2 }}
             register={register}
-            name='username'
-            message={errors.username?.message}
+            type='email'
+            name='email'
+            message={errors.email?.message}
           />
         </div>
         <div>

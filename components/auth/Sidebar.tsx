@@ -1,8 +1,16 @@
-import Link from 'next/link'
-import { siteInfo } from '@/configs/site'
-import { ArrowLeft, User2 } from 'lucide-react'
+'use client'
 
-export default function Sidebar({ mobile }: { mobile?: boolean }) {
+import Link from 'next/link'
+import { logOut } from '@/actions/user'
+import { siteInfo } from '@/configs/site'
+import { ArrowLeft, LogOut, User2 } from 'lucide-react'
+
+type TProps = {
+  mobile?: boolean
+  user: TUserSession
+}
+
+export default function Sidebar({ mobile, user }: TProps) {
   return (
     <div className='bg-primary h-full'>
       {!mobile && (
@@ -20,10 +28,8 @@ export default function Sidebar({ mobile }: { mobile?: boolean }) {
             strokeWidth={1}
           />
           <div className='mt-4'>
-            <h1 className='text-light'>Razib Ahmed</h1>
-            <p className='text-sm text-light opacity-80'>
-              razibahmed@darulislam.com
-            </p>
+            <h1 className='text-light'>{user?.name}</h1>
+            <p className='text-sm text-light opacity-80'>{user?.email}</p>
           </div>
         </div>
         <div className='mt-8'>
@@ -37,6 +43,12 @@ export default function Sidebar({ mobile }: { mobile?: boolean }) {
               {item.name}
             </Link>
           ))}
+          <form action={logOut}>
+            <button className='w-full flex itmes-center font-medium hover:bg-light/20 text-light px-4 py-2.5 lg:text-lg mb-4 gap-2 rounded-lg'>
+              <LogOut />
+              Logout
+            </button>
+          </form>
         </div>
       </div>
     </div>

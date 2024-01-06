@@ -19,9 +19,7 @@ export const creddata = z.object({
   password: z.string().min(6, 'পাসওয়ার্ড অন্তত ৬ সংখ্যার হতে হবে।')
 })
 export const logindata = z.object({
-  username: z.string().min(4, {
-    message: 'অন্তত চার সংখ্যার ইউজারনেম অথবা ইমেইল দিন।'
-  }),
+  email: z.string().email('সঠিক ইমেইল দিন।'),
   password: z.string().min(6, 'পাসওয়ার্ড অন্তত ৬ সংখ্যার হতে হবে।')
 })
 export type TBasicdata = z.infer<typeof basicdata>

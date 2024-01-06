@@ -10,6 +10,7 @@ type TInputProps = {
   message?: string
   register: any
   name: string
+  required?: boolean
 }
 type TSelectProps = {
   label: string
@@ -30,6 +31,7 @@ export function CInput({
   type = 'text',
   register,
   name,
+  required,
   ...rest
 }: TInputProps) {
   return (
@@ -48,6 +50,7 @@ export function CInput({
             className='w-full text-extralight bg-transparent placeholder:text-white/50 py-1.5 focus:border-0 focus:outline-0 focus:ring-0'
             type={type}
             placeholder={placeholder}
+            required={required}
             {...register(name)}
             {...rest}
           />
