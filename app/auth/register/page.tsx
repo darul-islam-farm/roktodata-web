@@ -10,15 +10,14 @@ import {
   TLocationdata
 } from '@/constants/schema/register'
 import { bloodGroups } from '@/constants/static'
+import { errorAlert } from '@/services/alerts/errorAlert'
 import { ArrowLeft } from 'lucide-react'
-import Swal from 'sweetalert2'
 
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import RegisterBasic from '@/components/auth/Register.Basic'
 import RegisterCred from '@/components/auth/Register.Cred'
 import RegisterLocation from '@/components/auth/Register.Location'
-import errorAlert from '@/components/shared/alerts/errorAlert'
 
 export default function Register() {
   const { push } = useRouter()

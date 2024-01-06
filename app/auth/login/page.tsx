@@ -3,13 +3,13 @@
 import Link from 'next/link'
 import { authenticate } from '@/actions/user'
 import { logindata, TLogindata } from '@/constants/schema/register'
+import { errorAlert } from '@/services/alerts/errorAlert'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ShieldCheck, User2 } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 
 import { Button } from '@/components/ui/button'
 import { CInput } from '@/components/customs/CInput'
-import errorAlert from '@/components/shared/alerts/errorAlert'
 
 export default function Login() {
   const {

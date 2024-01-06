@@ -13,7 +13,7 @@ export default function DonorDashboard() {
   return (
     <div>
       <Head>
-        <title>ড্যাশবোর্ড</title>
+        <title>Dashboard</title>
       </Head>
       <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
         <div className='col-auto card-shadow p-2 lg:p-4'>

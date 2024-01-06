@@ -3,11 +3,15 @@
 import Link from 'next/link'
 import { logOut } from '@/actions/user'
 import { siteInfo } from '@/configs/site'
+import { confirmAlert } from '@/services/alerts/errorAlert'
 import { ArrowLeft, LogOut, User2 } from 'lucide-react'
+
+import { cn } from '@/lib/utils'
 
 type TProps = {
   mobile?: boolean
   user: TUserSession
+  Close?: any
 }
 
 export default function Sidebar({ mobile, user }: TProps) {
@@ -37,18 +41,30 @@ export default function Sidebar({ mobile, user }: TProps) {
             <Link
               key={idx}
               href={item.link}
-              className='flex itmes-center font-medium hover:bg-light/20 text-light px-4 py-2.5 lg:text-lg mb-4 gap-2 rounded-lg'
+              className={cn(
+                'flex itmes-center font-medium hover:bg-light/20 text-light px-4 py-2.5 lg:text-lg mb-4 gap-2',
+                !mobile && 'rounded-lg'
+              )}
             >
               <item.icon strokeWidth={2} />
               {item.name}
             </Link>
           ))}
-          <form action={logOut}>
-            <button className='w-full flex itmes-center font-medium hover:bg-light/20 text-light px-4 py-2.5 lg:text-lg mb-4 gap-2 rounded-lg'>
+          {!mobile && (
+            <button
+              onClick={() => {
+                confirmAlert({
+                  title: 'Are you sure',
+                  body: 'Sign out from roktodata?',
+                  precom: logOut
+                })
+              }}
+              className='w-full flex itmes-center font-medium hover:bg-light/20 text-light px-4 py-2.5 lg:text-lg mb-4 gap-2 rounded-lg'
+            >
               <LogOut />
               Logout
             </button>
-          </form>
+          )}
         </div>
       </div>
     </div>
