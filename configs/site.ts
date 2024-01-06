@@ -31,10 +31,19 @@ export const siteInfo = {
   ],
   donorDashboardItem: [
     { name: 'ড্যাশবোর্ড', link: '/dashboard/donor', icon: LayoutDashboard },
-    { name: 'আমার ডোনেশন', link: '/dashboard/donor', icon: HeartPulse },
+    {
+      name: 'আমার ডোনেশন',
+      link: '/dashboard/donor/donations',
+      icon: HeartPulse
+    },
     { name: 'রিভিউ', link: '/dashboard/donor', icon: Star },
     { name: 'প্রোফাইল', link: '/dashboard/donor', icon: UserCog2 },
     { name: 'সেটিংস', link: '/dashboard/donor', icon: Settings2Icon }
   ],
   userDashboardItem: [{ name: 'Dashboard', link: '/dashboard/receiver' }]
 }
+
+export const api =
+  process.env.NODE_ENV === 'development'
+    ? 'http://localhost:3000'
+    : 'https://roktodata.vercel.app'

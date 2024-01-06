@@ -50,6 +50,15 @@ export const getUser = async (email: any, password: any) => {
   }
 }
 
+export const getOwnInfo = async (id: string | undefined) => {
+  try {
+    const response = await prisma.user.findUnique({ where: { id } })
+    return response
+  } catch (error) {
+    throw error
+  }
+}
+
 export const logOut = async () => {
   await signOut()
 }
