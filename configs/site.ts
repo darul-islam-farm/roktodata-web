@@ -36,9 +36,9 @@ export const siteInfo = {
       link: '/dashboard/donor/donations',
       icon: HeartPulse
     },
-    { name: 'রিভিউ', link: '/dashboard/donor', icon: Star },
-    { name: 'প্রোফাইল', link: '/dashboard/donor', icon: UserCog2 },
-    { name: 'সেটিংস', link: '/dashboard/donor', icon: Settings2Icon }
+    { name: 'রিভিউ', link: '/dashboard/donor/reviews', icon: Star },
+    { name: 'প্রোফাইল', link: '/dashboard/donor/profile', icon: UserCog2 },
+    { name: 'সেটিংস', link: '/dashboard/donor/settings', icon: Settings2Icon }
   ],
   userDashboardItem: [{ name: 'Dashboard', link: '/dashboard/receiver' }]
 }

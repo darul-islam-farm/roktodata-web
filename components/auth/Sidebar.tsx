@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { logOut } from '@/actions/user'
 import { siteInfo } from '@/configs/site'
 import { confirmAlert } from '@/services/alerts/errorAlert'
@@ -15,6 +16,7 @@ type TProps = {
 }
 
 export default function Sidebar({ mobile, user }: TProps) {
+  const pathname = usePathname()
   return (
     <div className='bg-primary h-full'>
       {!mobile && (
@@ -43,7 +45,8 @@ export default function Sidebar({ mobile, user }: TProps) {
               href={item.link}
               className={cn(
                 'flex itmes-center font-medium hover:bg-light/20 text-light px-4 py-2.5 lg:text-lg mb-4 gap-2',
-                !mobile && 'rounded-lg'
+                !mobile && 'rounded-lg',
+                pathname === item.link && 'bg-light/20 border-l-2 border-white'
               )}
             >
               <item.icon strokeWidth={2} />
