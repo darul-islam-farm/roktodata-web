@@ -3,6 +3,9 @@ import { api } from '@/configs/site'
 import { Facebook, Twitter, Youtube } from 'lucide-react'
 
 export default async function ProfileCard() {
+  /*
+   * TODO: Integrate SWR here.
+   */
   const session = await auth()
   const response = await fetch(
     `${api}/api/user/get-own-info?id=${session?.user.id}`,
@@ -14,7 +17,7 @@ export default async function ProfileCard() {
   return (
     <div>
       <h1 className='text-dark'>প্রোফাইল তথ্য</h1>
-      <p className='text-litetext font-light text-sm'>
+      <p className='text-litetext text font-light text-sm'>
         একাউন্টের বেসিক তথ্যগুলো এখানে দেখানো হয়েছে, বিস্তারিত দেখতে ও এডিট করতে
         এডিট বাটনে ক্লিক করুন।
       </p>
