@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { authenticate } from '@/actions/user'
-import { logindata, TLogindata } from '@/constants/schema/register'
+import { creddata, TCreddata } from '@/constants/schema/register'
 import { errorAlert } from '@/services/alerts/errorAlert'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ShieldCheck, User2 } from 'lucide-react'
@@ -16,10 +16,10 @@ export default function Login() {
     register,
     handleSubmit,
     formState: { errors }
-  } = useForm<TLogindata>({
-    resolver: zodResolver(logindata)
+  } = useForm<TCreddata>({
+    resolver: zodResolver(creddata)
   })
-  const onSubmit = async (value: TLogindata) => {
+  const onSubmit = async (value: TCreddata) => {
     try {
       await authenticate(value)
     } catch (error) {
@@ -32,7 +32,7 @@ export default function Login() {
         <h1 className='text-3xl font-bold text-primary mb-4'>লগইন করুন</h1>
         <p className='text-sm text-light/70'>
           একাউন্ট নেই?{' '}
-          <Link href='/register' className='text-primary hover:underline'>
+          <Link href='/auth/register' className='text-primary hover:underline'>
             তৈরি করুন
           </Link>
         </p>

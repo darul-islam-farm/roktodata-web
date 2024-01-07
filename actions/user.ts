@@ -1,7 +1,7 @@
 'use server'
 
 import { signIn, signOut } from '@/configs/auth'
-import { TLogindata } from '@/constants/schema/register'
+import { TCreddata } from '@/constants/schema/register'
 import { AuthError } from 'next-auth'
 
 import prisma from '@/lib/prisma'
@@ -15,7 +15,7 @@ export const createUser = async (data: any) => {
   }
 }
 
-export async function authenticate(formData: TLogindata) {
+export async function authenticate(formData: TCreddata) {
   try {
     await signIn('credentials', formData)
   } catch (error) {

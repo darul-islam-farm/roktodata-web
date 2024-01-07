@@ -1,10 +1,25 @@
+'use client'
+
+import { contactdata, TContactData } from '@/constants/schema/contact'
 import { contactInfo } from '@/constants/static'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
 
 import { GInput, GTextarea } from '../customs/GInput'
 import Container from '../shared/Container'
 import { Button } from '../ui/button'
 
 export default function ContactFrom() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm<TContactData>({
+    resolver: zodResolver(contactdata)
+  })
+
+  const onSubmit = (data: TContactData) => console.log('data', data)
+
   return (
     <Container size='md' className='my-20'>
       <div className='bg-white rounded-xl shadow-2xl overflow-hidden grid grid-cols-1 lg:grid-cols-3'>
@@ -26,32 +41,48 @@ export default function ContactFrom() {
           <h2 className='text-center md:text-start font-medium text-3xl sm:text-4xl mb-10'>
             যোগাযোগ করুন
           </h2>
-          <form className='flex flex-col gap-4'>
+          <form
+            className='flex flex-col gap-4'
+            onSubmit={handleSubmit(onSubmit)}
+          >
             <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
               <div className='col-auto'>
-                <label htmlFor='name' className='text-sm font-medium'>
-                  আপনার নাম
-                </label>
-                <GInput id='name' transparent />
+                <GInput
+                  register={register}
+                  label='আপনার নাম'
+                  name='name'
+                  message={errors.name?.message}
+                  transparent
+                />
               </div>
               <div className='col-auto'>
-                <label htmlFor='email' className='text-sm font-medium'>
-                  আপনার ইমেইল
-                </label>
-                <GInput required id='email' type='email' transparent />
+                <GInput
+                  register={register}
+                  label='আপনার ইমেইল'
+                  name='email'
+                  message={errors.email?.message}
+                  transparent
+                />
               </div>
             </div>
             <div>
-              <label htmlFor='subject' className='text-sm font-medium'>
-                বিষয়
-              </label>
-              <GInput required id='subject' transparent />
+              <GInput
+                register={register}
+                label='বিষয়'
+                message={errors.subject?.message}
+                name='subject'
+                transparent
+                optional
+              />
             </div>
             <div>
-              <label htmlFor='message' className='text-sm font-medium'>
-                আপনার মেসেজ
-              </label>
-              <GTextarea required id='message' transparent />
+              <GTextarea
+                register={register}
+                label='আপনার মেসেজ'
+                message={errors.message?.message}
+                name='message'
+                transparent
+              />
             </div>
 
             <div className='text-right my-8'>
