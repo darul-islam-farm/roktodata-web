@@ -143,3 +143,12 @@ export const contactInfo: TWhydonate[] = [
   { icon: MapPinned, title: 'Address', description: 'College Road, Rangpur' },
   { icon: Sun, title: 'Open hours', description: '24/7' }
 ]
+
+export const genders = [
+  { name: 'পুরুষ', value: 'MALE' },
+  { name: 'নারী', value: 'FEMALE' }
+]
+export const userTypes = [
+  { name: 'রক্তদাতা', value: 'DONOR' },
+  { name: 'রক্ত গ্রহীতা', value: 'RECEIVER' }
+]

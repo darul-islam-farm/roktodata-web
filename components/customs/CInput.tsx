@@ -20,7 +20,6 @@ type TSelectProps = {
   register: any
   name: string
   data?: any
-  hasGroup?: boolean
 }
 
 export function CInput({
@@ -71,7 +70,6 @@ export function CSelect({
   data,
   register,
   name,
-  hasGroup,
   ...rest
 }: TSelectProps) {
   return (

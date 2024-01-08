@@ -13,49 +13,39 @@ export default function DonorDashboard() {
   return (
     <div>
       <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-        <div className='col-auto card-shadow p-2 lg:p-4'>
+        <div className='col-auto'>
           <ProfileCard />
         </div>
-        <div className='col-auto card-shadow p-2 lg:p-4'>
-          <h1 className='text-dark'>Platform Settings</h1>
-          <p className='font-medium uppercase my-2'>account</p>
-          <div className='flex items-center gap-2 mb-4'>
-            <Switch checked id='1' />
-            <label className=' text-litetext' htmlFor='1'>
-              Email me when someone follows me.
-            </label>
-          </div>
-          <div className='flex items-center gap-2 mb-4'>
-            <Switch id='2' />
-            <label className=' text-litetext' htmlFor='2'>
-              Email me when someone answers on my post.
-            </label>
-          </div>
-          <div className='flex items-center gap-2 mb-4'>
-            <Switch id='3' />
-            <label className=' text-litetext' htmlFor='3'>
-              Email me when someone make a review upon me.
-            </label>
-          </div>
+        <div className='col-auto'>
+          <div className='card-shadow p-2 lg:p-4'>
+            <h1 className='text-dark'>Platform Settings</h1>
+            <p className='font-medium uppercase my-2'>account</p>
+            <div className='flex items-center gap-2 mb-4'>
+              <Switch checked id='1' />
+              <label className=' text-litetext' htmlFor='1'>
+                Email me when someone follows me.
+              </label>
+            </div>
+            <div className='flex items-center gap-2 mb-4'>
+              <Switch id='2' />
+              <label className=' text-litetext' htmlFor='2'>
+                Email me when someone answers on my post.
+              </label>
+            </div>
 
-          <p className='font-medium uppercase mt-4 mb-2'>application</p>
-          <div className='flex items-center gap-2 mb-4'>
-            <Switch checked id='1' />
-            <label className=' text-litetext' htmlFor='1'>
-              Email me when someone follows me.
-            </label>
-          </div>
-          <div className='flex items-center gap-2 mb-4'>
-            <Switch id='2' />
-            <label className=' text-litetext' htmlFor='2'>
-              Email me when someone answers on my post.
-            </label>
-          </div>
-          <div className='flex items-center gap-2 mb-4'>
-            <Switch id='3' />
-            <label className=' text-litetext' htmlFor='3'>
-              Email me when someone make a review upon me.
-            </label>
+            <p className='font-medium uppercase mt-4 mb-2'>application</p>
+            <div className='flex items-center gap-2 mb-4'>
+              <Switch checked id='1' />
+              <label className=' text-litetext' htmlFor='1'>
+                Email me when someone follows me.
+              </label>
+            </div>
+            <div className='flex items-center gap-2 mb-4'>
+              <Switch id='2' />
+              <label className=' text-litetext' htmlFor='2'>
+                Email me when someone answers on my post.
+              </label>
+            </div>
           </div>
         </div>
       </div>

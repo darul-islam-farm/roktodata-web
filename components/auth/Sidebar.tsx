@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { logOut } from '@/actions/user'
 import { siteInfo } from '@/configs/site'
-import { confirmAlert } from '@/services/alerts/errorAlert'
+import { confirmAlert } from '@/services/alerts/alerts'
 import { ArrowLeft, LogOut, User2 } from 'lucide-react'
 
 import { cn } from '@/lib/utils'

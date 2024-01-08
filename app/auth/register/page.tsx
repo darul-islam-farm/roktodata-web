@@ -10,7 +10,7 @@ import {
   TLocationdata
 } from '@/constants/schema/register'
 import { bloodGroups } from '@/constants/static'
-import { errorAlert } from '@/services/alerts/errorAlert'
+import { errorAlert } from '@/services/alerts/alerts'
 import { ArrowLeft } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
