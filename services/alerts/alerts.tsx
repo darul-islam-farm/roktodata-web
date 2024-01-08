@@ -2,7 +2,7 @@ import COLORS from '@/constants/colors'
 import Swal from 'sweetalert2'
 
 type TErrorProps = {
-  title: any
+  title?: any
   body?: string
   icon?: 'error' | 'success' | 'warning' | 'info' | 'question'
   timer?: number
@@ -17,6 +17,21 @@ export function errorAlert({
   body,
   icon = 'error',
   timer
+}: TErrorProps) {
+  return Swal.fire({
+    title: title,
+    html: body,
+    icon: icon,
+    timer: timer,
+    timerProgressBar: true
+  })
+}
+
+export function successAlert({
+  title,
+  body,
+  icon = 'success',
+  timer = 3000
 }: TErrorProps) {
   return Swal.fire({
     title: title,

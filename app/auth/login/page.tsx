@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { authenticate } from '@/actions/user'
 import { creddata, TCreddata } from '@/constants/schema/register'
-import { errorAlert } from '@/services/alerts/errorAlert'
+import { errorAlert } from '@/services/alerts/alerts'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ShieldCheck, User2 } from 'lucide-react'
 import { useForm } from 'react-hook-form'

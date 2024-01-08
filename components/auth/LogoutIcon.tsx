@@ -1,7 +1,7 @@
 'use client'
 
 import { logOut } from '@/actions/user'
-import { confirmAlert } from '@/services/alerts/errorAlert'
+import { confirmAlert } from '@/services/alerts/alerts'
 import { LogOut } from 'lucide-react'
 
 export default function LogoutIcon() {

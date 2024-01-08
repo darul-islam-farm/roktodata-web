@@ -1,5 +1,7 @@
 import * as z from 'zod'
 
+import { genders, jilla, userTypes } from '../static'
+
 export const basicdata = z.object({
   name: z.string().min(4, 'আসল নাম আবশ্যক।'),
   identity: z.string().min(10, 'সঠিক পরিচয়পত্র নম্বর দিন।'),
@@ -37,14 +39,3 @@ export type TBasicdata = z.infer<typeof basicdata>
 export type TLocationdata = z.infer<typeof locationdata>
 export type TCreddata = z.infer<typeof creddata>
 export type TUpdatedata = z.infer<typeof updatedata>
-
-export const inputFields = [
-  { name: 'name', label: 'আপনার নাম' },
-  { name: 'identity', label: 'আইডেন্টিটি' },
-  { name: 'phone', label: 'ফোন নম্বর' },
-  { name: 'phone2', label: 'বিকল্প ফোন নম্বর' },
-  { name: 'subJilla', label: 'উপজেলা' },
-  { name: 'thana', label: 'থানা' },
-  { name: 'address', label: 'ঠিকানা' },
-  { name: 'email', label: 'ইমেইল' }
-]

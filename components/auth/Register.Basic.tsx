@@ -6,6 +6,7 @@ import {
   TCreddata,
   TLocationdata
 } from '@/constants/schema/register'
+import { genders, userTypes } from '@/constants/static'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
   ArrowRight,
@@ -70,10 +71,7 @@ export default function RegisterBasic({
             label='লিঙ্গ'
             message={errors.gender?.message}
             icon={{ icon: PersonStanding }}
-            data={[
-              { name: 'পুরুষ', value: 'MALE' },
-              { name: 'নারী', value: 'FEMALE' }
-            ]}
+            data={genders}
             name='gender'
             register={register}
           />
@@ -102,10 +100,7 @@ export default function RegisterBasic({
           label='রেজিস্ট্রেশনের ধরণ'
           message={errors.userType?.message}
           icon={{ icon: HeartPulse }}
-          data={[
-            { name: 'রক্তদাতা', value: 'DONOR' },
-            { name: 'রক্ত গ্রহীতা', value: 'RECEIVER' }
-          ]}
+          data={userTypes}
           name='userType'
           register={register}
         />
