@@ -1,9 +1,12 @@
 import {
   HeartPulse,
+  HeartPulseIcon,
   LayoutDashboard,
   LucideIcon,
+  Settings2,
   Settings2Icon,
   Star,
+  Syringe,
   UserCog2
 } from 'lucide-react'
 
@@ -25,8 +28,8 @@ export const siteInfo = {
   navItems: [
     { name: 'হোম', href: '/' },
     { name: 'আমাদের সম্পর্কে', href: '/about-us' },
-    { name: 'সাহায্য', href: '/help' },
-    { name: 'ফোরাম', href: '/forum' },
+    { name: 'সাহায্য', href: '/admin' },
+    { name: 'ফোরাম', href: '/dashboard/receiver' },
     { name: 'যোগাযোগ', href: '/contact' }
   ],
   donorDashboardItem: [
@@ -40,7 +43,14 @@ export const siteInfo = {
     { name: 'প্রোফাইল', link: '/dashboard/donor/profile', icon: UserCog2 },
     { name: 'সেটিংস', link: '/dashboard/donor/settings', icon: Settings2Icon }
   ],
-  userDashboardItem: [{ name: 'Dashboard', link: '/dashboard/receiver' }]
+  userDashboardItem: [
+    { name: 'User', link: '/dashboard/receiver', icon: LayoutDashboard }
+  ],
+  adminDashboardItem: [
+    { name: 'ডোনার রিকুয়েস্ট', link: '/admin', icon: HeartPulseIcon },
+    { name: 'রিসিভার রিকুয়েস্ট', link: '/admin/receiver', icon: Syringe },
+    { name: 'সেটিংস', link: '/admin/settings', icon: Settings2 }
+  ]
 }
 
 export const api =
