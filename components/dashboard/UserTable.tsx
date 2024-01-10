@@ -1,6 +1,6 @@
 'use client'
 
-import { createProfile } from '@/actions/admin'
+import { createProfile, deleteUser } from '@/actions/admin'
 import { confirmAlertAsync } from '@/services/alerts/alerts'
 import { MoreVertical } from 'lucide-react'
 
@@ -103,7 +103,12 @@ const requestActions = (
     return [
       {
         name: 'delete user',
-        action: () => alert(`user deleted`)
+        action: () =>
+          confirmAlertAsync({
+            title: 'রিকুয়েস্টটি ডিলিট করতে চান?',
+            body: 'রিকুয়েস্টটি ডিলিট করা হলে রিকুয়েস্টের সকল তথ্য মুছে যাবে।',
+            precom: () => deleteUser(item.id)
+          })
       }
     ]
 }

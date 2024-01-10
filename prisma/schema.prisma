@@ -35,7 +35,7 @@ model User {
 model DonorProfile {
   id              String        @id @default(auto()) @map("_id") @db.ObjectId
   bloodType       String        @map("blood_type")
-  user            User          @relation(fields: [userId], references: [id])
+  user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId          String        @unique @db.ObjectId
   status          Status        @default(INACTIVE)
   donationHistory Donation[]

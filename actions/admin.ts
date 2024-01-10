@@ -71,3 +71,11 @@ export const createProfile = async (data: {
     throw error
   }
 }
+
+export const deleteUser = async (id: string) => {
+  try {
+    await prisma.user.delete({ where: { id } })
+  } catch (error) {
+    throw new Error('No user deleted')
+  }
+}
