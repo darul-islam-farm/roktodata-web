@@ -23,7 +23,7 @@ export default async function PanelLayout({ children, donor, admin }: TProps) {
         <div
           className={cn(
             'lg:grid lg:grid-cols-5 gap-x-4 rounded-2xl lg:p-4 bg-primary',
-            admin && 'lg:grid-cols-7'
+            admin && 'lg:grid-cols-7 bg-secondary'
           )}
         >
           <div className='hidden lg:block lg:col-span-1 h-[80vh] text-white lg:sticky top-0'>

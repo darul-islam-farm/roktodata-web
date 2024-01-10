@@ -25,7 +25,7 @@ export default function Sidebar({ mobile, user, admin, donor }: TProps) {
     else return siteInfo.userDashboardItem
   }, [admin, donor])
   return (
-    <div className='bg-primary h-full'>
+    <div className={cn('bg-primary h-full', admin && 'bg-secondary')}>
       {!mobile && (
         <Link
           href='/'

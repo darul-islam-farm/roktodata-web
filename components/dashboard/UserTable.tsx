@@ -1,3 +1,7 @@
+'use client'
+
+import { MoreVertical } from 'lucide-react'
+
 import {
   Table,
   TableBody,
@@ -9,79 +13,59 @@ import {
   TableRow
 } from '@/components/ui/table'
 
-const invoices = [
-  {
-    invoice: 'INV001',
-    paymentStatus: 'Paid',
-    totalAmount: '$250.00',
-    paymentMethod: 'Credit Card'
-  },
-  {
-    invoice: 'INV002',
-    paymentStatus: 'Pending',
-    totalAmount: '$150.00',
-    paymentMethod: 'PayPal'
-  },
-  {
-    invoice: 'INV003',
-    paymentStatus: 'Unpaid',
-    totalAmount: '$350.00',
-    paymentMethod: 'Bank Transfer'
-  },
-  {
-    invoice: 'INV004',
-    paymentStatus: 'Paid',
-    totalAmount: '$450.00',
-    paymentMethod: 'Credit Card'
-  },
-  {
-    invoice: 'INV005',
-    paymentStatus: 'Paid',
-    totalAmount: '$550.00',
-    paymentMethod: 'PayPal'
-  },
-  {
-    invoice: 'INV006',
-    paymentStatus: 'Pending',
-    totalAmount: '$200.00',
-    paymentMethod: 'Bank Transfer'
-  },
-  {
-    invoice: 'INV007',
-    paymentStatus: 'Unpaid',
-    totalAmount: '$300.00',
-    paymentMethod: 'Credit Card'
-  }
-]
+import CMenu from '../customs/CMenu'
 
-export function TableDemo() {
+type TPros = {
+  data: any
+  type: string
+}
+
+export default function UserTable({ data, type }: TPros) {
   return (
     <Table>
-      <TableCaption>A list of your recent invoices.</TableCaption>
       <TableHeader>
         <TableRow>
-          <TableHead className='w-[100px]'>Invoice</TableHead>
-          <TableHead>Status</TableHead>
-          <TableHead>Method</TableHead>
-          <TableHead className='text-right'>Amount</TableHead>
+          <TableHead className='min-w-40'>name</TableHead>
+          <TableHead>Group</TableHead>
+          <TableHead>Phone</TableHead>
+          <TableHead>identity</TableHead>
+          <TableHead>actions</TableHead>
         </TableRow>
       </TableHeader>
+
+      {!data?.length && (
+        <TableCaption>
+          <h1 className='text-primary h-40 flex items-center justify-center'>
+            কোনো ডাটা পাওয়া যায়নি।
+          </h1>
+        </TableCaption>
+      )}
       <TableBody>
-        {invoices.map((invoice) => (
-          <TableRow key={invoice.invoice}>
-            <TableCell className='font-medium'>{invoice.invoice}</TableCell>
-            <TableCell>{invoice.paymentStatus}</TableCell>
-            <TableCell>{invoice.paymentMethod}</TableCell>
-            <TableCell className='text-right'>{invoice.totalAmount}</TableCell>
+        {data?.map((item: any, idx: number) => (
+          <TableRow key={idx}>
+            <TableCell className='min-w-40'>{item.name}</TableCell>
+            <TableCell>{item.bloodType}</TableCell>
+            <TableCell>{item.phone}</TableCell>
+            <TableCell>{item.identity}</TableCell>
+            <TableCell className='w-20'>
+              <CMenu
+                trigger={<MoreVertical />}
+                actions={[
+                  {
+                    name: 'accept',
+                    action: () => alert(`accept => ${item.id}`)
+                  },
+                  {
+                    name: 'reject',
+                    action: () => alert(`reject => ${item.id}`)
+                  }
+                ]}
+              />
+            </TableCell>
           </TableRow>
         ))}
       </TableBody>
-      <TableFooter>
-        <TableRow>
-          <TableCell colSpan={3}>Total</TableCell>
-          <TableCell className='text-right'>$2,500.00</TableCell>
-        </TableRow>
-      </TableFooter>
+      <TableFooter>{/* Add Pagination here */}</TableFooter>
     </Table>
   )
 }

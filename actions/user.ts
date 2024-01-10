@@ -1,17 +1,31 @@
 'use server'
 
 import { signIn, signOut } from '@/configs/auth'
-import { TCreddata, TUpdatedata } from '@/constants/schema/register'
+import { TCreddata } from '@/constants/schema/register'
 import { AuthError } from 'next-auth'
 
 import prisma from '@/lib/prisma'
 
 export const createUser = async (data: any) => {
   try {
+    const isDuplicate = await prisma.user.findMany({
+      where: {
+        OR: [
+          { email: data.email },
+          { identity: data.identity },
+          { phone: data.phone },
+          { phone2: data.phone2 }
+        ]
+      }
+    })
+    console.log('is duplicate', isDuplicate)
+    if (isDuplicate.length)
+      throw new Error('ইমেইল, আইডি কার্ড নম্বর অথবা ফোন নং ইউনিক হতে হবে।')
+
     const demo = await prisma.user.create({ data })
     return demo
   } catch (error) {
-    throw new Error('Error happended')
+    throw error
   }
 }
 
