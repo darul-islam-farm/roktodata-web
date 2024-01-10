@@ -28,7 +28,7 @@ export const createProfile = async (data: {
   userId: string
   userType: TUserType
 }) => {
-  const { bloodType, userId, userType: userType } = data
+  const { bloodType, userId, userType } = data
   try {
     if (userType === 'DONOR') {
       const res = await prisma.donorProfile.create({

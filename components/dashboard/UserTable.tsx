@@ -1,7 +1,7 @@
 'use client'
 
 import { createProfile } from '@/actions/admin'
-import { confirmAlert } from '@/services/alerts/alerts'
+import { confirmAlertAsync } from '@/services/alerts/alerts'
 import { MoreVertical } from 'lucide-react'
 
 import {
@@ -83,7 +83,7 @@ const requestActions = (
       {
         name: 'accept',
         action: () =>
-          confirmAlert({
+          confirmAlertAsync({
             title: 'রিকুয়েস্টটি কনফার্ম করতে চান?',
             body: 'রিকুয়েস্টটি কনফার্ম করা হলে উক্ত ইউজারের একটি প্রোফাইল তৈরি হবে।',
             precom: () =>

@@ -12,6 +12,10 @@ type TConfirmProps = TErrorProps & {
   precom: any
 } & Omit<TErrorProps, 'timer'>
 
+type TConfirmPropsAsync = TErrorProps & {
+  precom: () => Promise<any>
+} & Omit<TErrorProps, 'timer icon'>
+
 export function errorAlert({
   title,
   body,
@@ -42,20 +46,38 @@ export function successAlert({
   })
 }
 
-export async function confirmAlert({
-  title,
-  body,
-  icon = 'question',
-  precom
-}: TConfirmProps) {
+export async function confirmAlert({ title, body, precom }: TConfirmProps) {
   const result = await Swal.fire({
     title: title,
     html: body,
-    icon: icon,
+    icon: 'question',
     showCancelButton: true,
     confirmButtonColor: COLORS.success,
     cancelButtonColor: COLORS.primary,
     confirmButtonText: 'Confirm'
   })
   return result.isConfirmed && precom()
+}
+
+export async function confirmAlertAsync({
+  title,
+  body,
+  precom
+}: TConfirmPropsAsync) {
+  const result = await Swal.fire({
+    title: title,
+    html: body,
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonColor: COLORS.success,
+    cancelButtonColor: COLORS.primary,
+    confirmButtonText: 'Confirm'
+  })
+  if (result.isConfirmed) {
+    try {
+      await precom()
+    } catch (error) {
+      errorAlert({ title: 'একটি ইরর হয়েছে।', body: error as string })
+    }
+  }
 }
