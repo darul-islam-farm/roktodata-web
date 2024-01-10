@@ -9,7 +9,7 @@ type TErrorProps = {
 }
 
 type TConfirmProps = TErrorProps & {
-  precom: Function
+  precom: any
 } & Omit<TErrorProps, 'timer'>
 
 export function errorAlert({

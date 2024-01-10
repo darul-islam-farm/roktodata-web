@@ -48,7 +48,17 @@ export const siteInfo = {
   ],
   adminDashboardItem: [
     { name: 'ডোনার রিকুয়েস্ট', link: '/admin', icon: HeartPulseIcon },
-    { name: 'রিসিভার রিকুয়েস্ট', link: '/admin/receiver', icon: Syringe },
+    {
+      name: 'রিসিভার রিকুয়েস্ট',
+      link: '/admin/receiver-requests',
+      icon: Syringe
+    },
+    { name: 'সকল ডোনার', link: '/admin/all-donors', icon: HeartPulseIcon },
+    {
+      name: 'সকল রিসিভার',
+      link: '/admin/all-receivers',
+      icon: Syringe
+    },
     { name: 'সেটিংস', link: '/admin/settings', icon: Settings2 }
   ]
 }
