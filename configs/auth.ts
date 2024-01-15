@@ -7,6 +7,7 @@ import { authConfig } from './authconfig'
 
 declare module 'next-auth' {
   interface User {
+    id: string
     bloodType: string
     userType: string
     status: string
