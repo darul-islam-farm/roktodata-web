@@ -22,8 +22,8 @@ export default function Login() {
   const onSubmit = async (value: TCreddata) => {
     try {
       await authenticate(value)
-    } catch (error) {
-      errorAlert({ title: error, timer: 2500 })
+    } catch {
+      errorAlert({ title: 'ভুল ইমেইল অথবা পাসওয়ার্ড', timer: 2500 })
     }
   }
   return (

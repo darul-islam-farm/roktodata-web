@@ -1,6 +1,7 @@
 import type { NextAuthConfig } from 'next-auth'
 
 export const authConfig = {
+  debug: process.env.NODE_ENV === 'development',
   session: {
     strategy: 'jwt'
   },

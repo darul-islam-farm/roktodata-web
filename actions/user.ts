@@ -53,10 +53,14 @@ export const authenticate = async (formData: TCreddata) => {
     await signIn('credentials', formData)
   } catch (error) {
     if (error instanceof AuthError) {
-      if (error.type === 'CredentialsSignin')
-        return error_res('wrong email or password ')
+      switch (error.type) {
+        case 'CredentialsSignin':
+          throw new Error('credential error')
+        default:
+          throw new Error('Something went wrong')
+      }
     }
-    return error_res()
+    throw error
   }
 }
 
