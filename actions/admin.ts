@@ -1,9 +1,10 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
-import adminErrorMessage from '@/helper/adminErrorMessage'
 
 import prisma from '@/lib/prisma'
+
+const errorText = 'Something went wrong'
 
 /*
  * TODO: add auth if needed
@@ -17,27 +18,27 @@ export const getRequester = async (userType: TUserType, status: TStatus) => {
         status
       }
     })
-    return data
-  } catch (error) {
-    throw adminErrorMessage(error)
+    return { data }
+  } catch {
+    return { error: errorText }
   }
 }
 
 export const createProfile = async (data: {
   bloodType: string
   userId: string
-  userType: TUserType
+  userType: any
 }) => {
   const { bloodType, userId, userType } = data
   try {
     if (userType === 'DONOR') {
-      const res = await prisma.donorProfile.create({
+      await prisma.donorProfile.create({
         data: {
           bloodType,
           userId
         }
       })
-      const accept = await prisma.user.update({
+      await prisma.user.update({
         where: {
           id: userId
         },
@@ -47,15 +48,15 @@ export const createProfile = async (data: {
       })
 
       revalidatePath('/admin', 'layout')
-      return res
+      return { ok: true }
     } else if (userType === 'RECEIVER') {
-      const res = await prisma.receiverProfile.create({
+      await prisma.receiverProfile.create({
         data: {
           bloodType,
           userId
         }
       })
-      const accept = await prisma.user.update({
+      await prisma.user.update({
         where: {
           id: userId
         },
@@ -65,17 +66,18 @@ export const createProfile = async (data: {
       })
 
       revalidatePath('/admin', 'layout')
-      return res
-    } else throw new Error('unavaliable profile type')
-  } catch (error) {
-    throw error
+      return { ok: true }
+    } else return { error: 'Unavailable profile type' }
+  } catch {
+    return { error: errorText }
   }
 }
 
 export const deleteUser = async (id: string) => {
   try {
     await prisma.user.delete({ where: { id } })
-  } catch (error) {
-    throw new Error('No user deleted')
+    return { ok: true }
+  } catch {
+    return { error: 'No user deleted' }
   }
 }

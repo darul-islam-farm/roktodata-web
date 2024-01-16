@@ -35,7 +35,9 @@ export default function RootLayout({ children }: IChildren) {
           'bg-light dark:bg-darkbg text-dark dark:text-litetext'
         )}
       >
-        <Provider>{children}</Provider>
+        <Provider>
+          <main>{children}</main>
+        </Provider>
       </body>
     </html>
   )

@@ -8,7 +8,7 @@ export default async function AllReceivers() {
   return (
     <div>
       <UserTable
-        data={data}
+        data={data.data}
         actionType='granted'
         userType='RECEIVER'
         title='সকল রক্তগ্রহীতা'

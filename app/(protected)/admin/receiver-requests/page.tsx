@@ -8,7 +8,7 @@ export default async function ReceiverRequests() {
   return (
     <div>
       <UserTable
-        data={data}
+        data={data.data}
         actionType='requests'
         userType='RECEIVER'
         title='সকল গ্রহীতা রিকুয়েস্ট'

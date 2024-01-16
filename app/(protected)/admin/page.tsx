@@ -8,7 +8,7 @@ export default async function DonorRequests() {
   return (
     <div>
       <UserTable
-        data={data}
+        data={data.data}
         actionType='requests'
         userType='DONOR'
         title='সকল ডোনার রিকুয়েস্ট'

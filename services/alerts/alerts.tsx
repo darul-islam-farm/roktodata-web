@@ -1,4 +1,5 @@
 import COLORS from '@/constants/colors'
+import { toast } from 'sonner'
 import Swal from 'sweetalert2'
 
 type TErrorProps = {
@@ -14,6 +15,7 @@ type TConfirmProps = TErrorProps & {
 
 type TConfirmPropsAsync = TErrorProps & {
   precom: () => Promise<any>
+  successText?: string
 } & Omit<TErrorProps, 'timer icon'>
 
 export function errorAlert({
@@ -62,7 +64,8 @@ export async function confirmAlert({ title, body, precom }: TConfirmProps) {
 export async function confirmAlertAsync({
   title,
   body,
-  precom
+  precom,
+  successText
 }: TConfirmPropsAsync) {
   const result = await Swal.fire({
     title: title,
@@ -75,7 +78,10 @@ export async function confirmAlertAsync({
   })
   if (result.isConfirmed) {
     try {
-      await precom()
+      const res = await precom()
+      if (res.ok) toast.success(successText || 'successfully done the task.')
+      else if (res.error)
+        errorAlert({ title: 'একটি ইরর হয়েছে', body: res.error })
     } catch (error) {
       errorAlert({ title: 'একটি ইরর হয়েছে।', body: error as string })
     }

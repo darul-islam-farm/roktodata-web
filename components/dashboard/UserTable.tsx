@@ -3,6 +3,7 @@
 import { createProfile, deleteUser } from '@/actions/admin'
 import { confirmAlertAsync } from '@/services/alerts/alerts'
 import { MoreVertical } from 'lucide-react'
+import { toast } from 'sonner'
 
 import {
   Table,
@@ -19,7 +20,7 @@ import CMenu from '../customs/CMenu'
 
 type TPros = {
   title: string
-  data: TUser[]
+  data: TUser[] | undefined
   actionType: string
   userType: TUserType
 }
@@ -96,7 +97,7 @@ const requestActions = (
       },
       {
         name: 'reject',
-        action: () => alert(`reject`)
+        action: () => toast.info('user rejected')
       }
     ]
   else
