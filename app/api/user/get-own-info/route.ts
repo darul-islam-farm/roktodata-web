@@ -1,6 +1,6 @@
 import { auth } from '@/configs/auth'
-import { notFound, unAuth } from '@/helper/error-response'
 import excludeFields from '@/helper/excludeFields'
+import { notFound, unAuth } from '@/helper/static-response'
 
 import prisma from '@/lib/prisma'
 

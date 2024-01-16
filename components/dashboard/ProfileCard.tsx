@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { updateUser } from '@/actions/user'
 import { api } from '@/configs/site'
@@ -25,10 +26,11 @@ import Container from '../shared/Container'
 import { Button } from '../ui/button'
 
 export default function ProfileCard({ onProfile }: { onProfile?: boolean }) {
+  const [loading, setLoading] = useState(false)
   const { push } = useRouter()
   const { data: session } = useSession()
 
-  const { data, isLoading, error, mutate } = useAsync(
+  const { data, isLoading } = useAsync(
     `${api}/api/user/get-own-info?id=${session?.user.id}`,
     requests.get
   )
@@ -56,14 +58,19 @@ export default function ProfileCard({ onProfile }: { onProfile?: boolean }) {
   })
 
   const onSubmit = async (data: TUpdatedata) => {
+    setLoading(true)
     try {
-      await updateUser({
+      const res = await updateUser({
         ...data,
         id: session?.user.id
       })
-      await successAlert({ body: 'Successfully Updated your data' })
-    } catch (error) {
+
+      res.ok && successAlert({ body: 'তথ্যগুলো আপডেট করা হয়েছে।' })
+      res.error && errorAlert({ title: 'Error Ocurred', body: res.error })
+      setLoading(false)
+    } catch {
       errorAlert({ title: 'Error Ocurred', body: 'Please try again later.' })
+      setLoading(false)
     }
   }
 
@@ -184,7 +191,12 @@ export default function ProfileCard({ onProfile }: { onProfile?: boolean }) {
                 />
               </div>
             </div>
-            <Button type='submit' className='mt-4'>
+            <Button
+              disabled={isLoading || loading}
+              loading={isLoading || loading}
+              type='submit'
+              className='mt-4'
+            >
               <CheckCircle /> এডিট সম্পন্ন করুন
             </Button>
           </form>

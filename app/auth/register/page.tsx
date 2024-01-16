@@ -36,7 +36,8 @@ export default function Register() {
     }
     try {
       const succeed = await createUser({ ...data, bloodType: group })
-      succeed && push('/dashboard/donor')
+      succeed.ok && push('/dashboard/donor')
+      succeed.error && errorAlert({ title: succeed.error })
     } catch (error) {
       errorAlert({ title: error, timer: 2500 })
     }

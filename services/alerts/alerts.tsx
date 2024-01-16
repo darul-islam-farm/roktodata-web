@@ -22,13 +22,13 @@ export function errorAlert({
   title,
   body,
   icon = 'error',
-  timer
+  timer = 2500
 }: TErrorProps) {
   return Swal.fire({
-    title: title,
+    title,
     html: body,
     icon: icon,
-    timer: timer,
+    timer,
     timerProgressBar: true
   })
 }

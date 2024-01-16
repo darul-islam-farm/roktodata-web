@@ -2,11 +2,13 @@
 
 import { signIn, signOut } from '@/configs/auth'
 import { TCreddata } from '@/constants/schema/register'
+import { error_res, success_res } from '@/helper/static-response'
 import { AuthError } from 'next-auth'
 
 import prisma from '@/lib/prisma'
 
 export const createUser = async (data: any) => {
+  // TODO: Add data validation with appropriate schema and safeParse from zod
   try {
     const isDuplicate = await prisma.user.findMany({
       where: {
@@ -18,28 +20,31 @@ export const createUser = async (data: any) => {
         ]
       }
     })
-    console.log('is duplicate', isDuplicate)
     if (isDuplicate.length)
-      throw new Error('ইমেইল, আইডি কার্ড নম্বর অথবা ফোন নং ইউনিক হতে হবে।')
+      return {
+        error: 'ইমেইল, আইডি কার্ড নম্বর অথবা ফোন নং ইউনিক হতে হবে।',
+        ok: false
+      }
 
-    const demo = await prisma.user.create({ data })
-    return demo
-  } catch (error) {
-    throw error
+    await prisma.user.create({ data })
+    return success_res
+  } catch {
+    return error_res()
   }
 }
 
 export const updateUser = async (data: any) => {
+  const { id, ...rest } = data
   try {
-    const demo = await prisma.user.update({
+    await prisma.user.update({
       where: {
-        id: data.id
+        id
       },
-      data
+      data: rest
     })
-    return demo
-  } catch (error) {
-    throw new Error('Error happended')
+    return success_res
+  } catch {
+    return error_res('No info updated, try again.')
   }
 }
 
@@ -48,18 +53,15 @@ export const authenticate = async (formData: TCreddata) => {
     await signIn('credentials', formData)
   } catch (error) {
     if (error instanceof AuthError) {
-      switch (error.type) {
-        case 'CredentialsSignin':
-          throw new Error('wrong credentials.')
-        default:
-          throw new Error('Something went wrong')
-      }
+      if (error.type === 'CredentialsSignin')
+        return error_res('wrong email or password ')
     }
-    throw error
+    return error_res()
   }
 }
 
 export const getUser = async (email: any, password: any) => {
+  // get user data for authentication
   try {
     const user = await prisma.user.findUnique({
       where: { email, password },
@@ -73,17 +75,8 @@ export const getUser = async (email: any, password: any) => {
       }
     })
     return user
-  } catch (error) {
-    throw new Error('no user found')
-  }
-}
-
-export const getOwnInfo = async (id: string | undefined) => {
-  try {
-    const response = await prisma.user.findUnique({ where: { id } })
-    return response
-  } catch (error) {
-    throw error
+  } catch {
+    throw new Error('not found')
   }
 }
 
