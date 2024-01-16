@@ -27,7 +27,7 @@ export const getRequester = async (userType: TUserType, status: TStatus) => {
 export const createProfile = async (data: {
   bloodType: string
   userId: string
-  userType: any
+  userType: TUserType
 }) => {
   const { bloodType, userId, userType } = data
   try {
