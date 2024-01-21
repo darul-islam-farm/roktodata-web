@@ -1,12 +1,10 @@
 import { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
-import { contactInfo, whyDonate } from '@/constants/static'
+import { whyDonate } from '@/constants/static'
 import { ArrowRight } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { GInput, GTextarea } from '@/components/customs/GInput'
 import HomeSlider from '@/components/customs/HomeSlider'
 import ContactFrom from '@/components/home/ContactFrom'
 import Container from '@/components/shared/Container'

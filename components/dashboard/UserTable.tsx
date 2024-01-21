@@ -92,7 +92,8 @@ const requestActions = (
                 bloodType: item.bloodType,
                 userId: item.id,
                 userType
-              })
+              }),
+            successText: 'সফলভাবে ডোনার ক্রিয়েট হয়েছে।'
           })
       },
       {
@@ -106,8 +107,8 @@ const requestActions = (
         name: 'delete user',
         action: () =>
           confirmAlertAsync({
-            title: 'রিকুয়েস্টটি ডিলিট করতে চান?',
-            body: 'রিকুয়েস্টটি ডিলিট করা হলে রিকুয়েস্টের সকল তথ্য মুছে যাবে।',
+            title: 'ডোনারকে ডিলিট করতে চান?',
+            body: 'ডোনার ডিলিট করা হলে ডোনারের সকল তথ্য মুছে যাবে।',
             precom: () => deleteUser(item.id)
           })
       }

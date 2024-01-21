@@ -1,5 +1,6 @@
 'use client'
 
+import SearchModal from '../shared/SearchModal'
 import Appbar from '../shared/ui/Appbar'
 import { Button } from '../ui/button'
 
@@ -23,12 +24,7 @@ export default function HomeSlide({ image }: { image: string }) {
               recusandae quo similique.
             </p>
             <div className='my-10 md:mb-0 flex gap-4 flex-col md:flex-row w-full'>
-              <Button
-                className='button-shadow text-light'
-                onClick={() => alert('nin')}
-              >
-                রক্ত নিন
-              </Button>
+              <SearchModal />
               <Button
                 onClick={() => alert('din')}
                 className='bg-white button-shadow text-primary hover:bg-primary hover:text-white'
