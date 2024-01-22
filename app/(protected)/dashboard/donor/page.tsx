@@ -17,7 +17,7 @@ export default function DonorDashboard() {
           <ProfileCard />
         </div>
         <div className='col-auto'>
-          <div className='card-shadow p-2 lg:p-4'>
+          <div className='card-shadow bg-white p-2 lg:p-4'>
             <h1 className='text-dark'>Platform Settings</h1>
             <p className='font-medium uppercase my-2'>account</p>
             <div className='flex items-center gap-2 mb-4'>
@@ -49,7 +49,7 @@ export default function DonorDashboard() {
           </div>
         </div>
       </div>
-      <div className='mt-8 card-shadow p-2 lg:p-4'>
+      <div className='mt-8 card-shadow white p-2 lg:p-4'>
         <h1 className='text-dark'>Donations</h1>
         <p className='text-litetext font-light'>My donations history</p>
         <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-4 gap-y-8 mt-8'>

@@ -75,7 +75,7 @@ export default function ProfileCard({ onProfile }: { onProfile?: boolean }) {
   }
 
   return (
-    <div className='card-shadow p-2 lg:p-4'>
+    <div className='card-shadow bg-white p-2 lg:p-4'>
       <h1 className='text-dark'>প্রোফাইল তথ্য</h1>
       <p className='text-litetext text font-light text-sm'>
         {onProfile

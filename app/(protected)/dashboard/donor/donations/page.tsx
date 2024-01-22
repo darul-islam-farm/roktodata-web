@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button'
 
 export default function donations() {
   return (
-    <div className='mt-8 card-shadow p-2 lg:p-4'>
+    <div className='mt-8 card-shadow bg-white p-2 lg:p-4'>
       <h1 className='text-dark'>Donations</h1>
       <p className='text-litetext font-light'>My donations history</p>
       <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-4 gap-y-8 mt-8'>

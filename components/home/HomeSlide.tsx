@@ -23,7 +23,7 @@ export default function HomeSlide({ image }: { image: string }) {
               libero, fuga aut id voluptatibus necessitatibus labore officiis
               recusandae quo similique.
             </p>
-            <div className='my-10 md:mb-0 flex gap-4 flex-col md:flex-row w-full'>
+            <div className='my-10 md:mb-0 pb-10 flex gap-4 flex-col md:flex-row w-full'>
               <SearchModal />
               <Button
                 onClick={() => alert('din')}

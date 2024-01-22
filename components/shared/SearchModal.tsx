@@ -1,12 +1,15 @@
+'use client'
+
+import { useRouter } from 'next/navigation'
 import { searchdata, TSearchdata } from '@/constants/schema/others'
 import { bloodGroups, jilla } from '@/constants/static'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { X } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 
 import { cn } from '@/lib/utils'
 import {
   AlertDialog,
-  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
@@ -18,7 +21,11 @@ import {
 import { GSelect } from '../customs/GInput'
 import { Button, buttonVariants } from '../ui/button'
 
-export default function SearchModal() {
+type TProps = {
+  trigger?: string
+}
+export default function SearchModal({ trigger }: TProps) {
+  const { push } = useRouter()
   const {
     register,
     handleSubmit,
@@ -27,16 +34,22 @@ export default function SearchModal() {
     resolver: zodResolver(searchdata)
   })
 
-  const onSubmit = (data: TSearchdata) => console.log('data', data)
+  const onSubmit = (data: TSearchdata) =>
+    push(`/search?bloodType=${data.bloodType}&jilla=${data.jilla}`)
 
   return (
     <AlertDialog>
       <AlertDialogTrigger className={cn(buttonVariants(), 'button-shadow')}>
-        রক্ত নিন
+        {trigger || 'রক্ত নিন'}
       </AlertDialogTrigger>
       <AlertDialogContent className='rounded-lg'>
         <AlertDialogHeader>
-          <AlertDialogTitle>নিকটস্থ ডোনার খুঁজুন</AlertDialogTitle>
+          <AlertDialogTitle className='flex items-start justify-between'>
+            <span>নিকটস্থ ডোনার খুঁজুন</span>
+            <AlertDialogCancel className='text-dark p-0 border-none'>
+              <X className='-mt-8' />
+            </AlertDialogCancel>
+          </AlertDialogTitle>
           <AlertDialogDescription>
             রক্তের গ্রুপ ও জেলা নির্বাচনের মাধ্যমে ডোনার খুঁজুন
           </AlertDialogDescription>
@@ -79,9 +92,18 @@ export default function SearchModal() {
               >
                 Cancel
               </AlertDialogCancel>
-              <Button className='mt-2 sm:mt-0' type='submit'>
-                Search
-              </Button>
+              {trigger ? (
+                <AlertDialogCancel
+                  type='submit'
+                  className={cn(buttonVariants())}
+                >
+                  Search
+                </AlertDialogCancel>
+              ) : (
+                <Button className='mt-2 sm:mt-0' type='submit'>
+                  Search
+                </Button>
+              )}
             </div>
           </form>
         </div>

@@ -21,8 +21,10 @@
 }
 .card-shadow {
   border-radius: 0.5rem;
-  background: #ffffff;
   box-shadow: 0px 18.553px 18.553px 0px rgba(204, 204, 204, 0.5);
+}
+.donor-card {
+  background: linear-gradient(113deg, #b91c1c 8.6%, #4338ca 110.64%);
 }
 .contact__bg {
   background: linear-gradient(180deg, #b91c1c 27.85%, #5200ff 121.18%);
