@@ -1,14 +1,13 @@
-import type { Config } from 'tailwindcss'
-import colors from 'tailwindcss/colors'
+const colors = require('tailwindcss/colors')
 
-const config: Config = {
-  darkMode: ['class'],
+const config = {
+  darkMode: 'class',
   content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}'
+    './components/**/*.{js,jsx,ts,tsx}',
+    './app/**/*.{js,jsx,ts,tsx}',
+    './configs/**/*.{js,jsx,ts,tsx}'
   ],
+  // plugins: [require('tailwindcss-animate')],
   theme: {
     colors: {
       primary: colors.red[700],
@@ -55,8 +54,7 @@ const config: Config = {
         'accordion-up': 'accordion-up 0.2s ease-out'
       }
     }
-  },
-  plugins: [require('tailwindcss-animate')]
+  }
 }
 
-export default config
+module.exports = config
