@@ -15,7 +15,7 @@ model User {
   identity        String           @unique
   gender          String
   age             Int
-  religion        Religion         @default(ISLAM)
+  religion        String
   phone           String           @unique
   phone2          String           @unique @map("another_phone")
   bloodType       String           @map("blood_type")
@@ -132,12 +132,4 @@ enum AppointmentStatus {
   ACCEPTED
   COMPLETED
   CANCELED
-}
-
-enum Religion {
-  ISLAM
-  CHRISTIAN
-  HINDU
-  BUDDHIST
-  OTHERS
 }

@@ -46,7 +46,7 @@ export default async function PanelLayout({ children, donor, admin }: TProps) {
                 <Sheet>
                   <SheetTrigger asChild>
                     <AlignCenter
-                      className='h-full px-1 bg-white/50 hover:bg-primary hover:text-white rounded text-primary h-8 w-9 cursor-pointer'
+                      className='h-full px-1 bg-white/50 hover:bg-primary hover:text-white rounded text-primary w-9 cursor-pointer'
                       strokeWidth={1}
                     />
                   </SheetTrigger>

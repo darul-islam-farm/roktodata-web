@@ -18,6 +18,8 @@ type TUser = {
   createdAt: Date
   email: string
   gender: string
+  age: number
+  religion: string
   id: string
   identity: string
   jilla: string
@@ -28,7 +30,7 @@ type TUser = {
   subJilla: string
   thana: string
   updatedAt: Date
-  userType: string
+  userType: TUserType
 }
 
 type TUserType = 'DONOR' | 'RECEIVER'

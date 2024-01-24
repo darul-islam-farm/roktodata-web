@@ -148,7 +148,16 @@ export const genders = [
   { name: 'পুরুষ', value: 'MALE' },
   { name: 'নারী', value: 'FEMALE' }
 ]
+
 export const userTypes = [
   { name: 'রক্তদাতা', value: 'DONOR' },
   { name: 'রক্ত গ্রহীতা', value: 'RECEIVER' }
+]
+
+export const religions = [
+  { name: 'ইসলাম', value: 'ISLAM' },
+  { name: 'খ্রিষ্টান', value: 'CHRISTIAN' },
+  { name: 'হিন্দু', value: 'HINDU' },
+  { name: 'বৌদ্ধ', value: 'BUDDHIST' },
+  { name: 'অন্যান্য', value: 'OTHERS' }
 ]

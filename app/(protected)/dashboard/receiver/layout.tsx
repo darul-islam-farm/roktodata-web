@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 
-import PanelLayout from '@/components/shared/ui/PanelLayout'
+import PanelLayout from '@/components/shared/PanelLayout'
 
 export const metadata: Metadata = {
   title: 'ড্যাশবোর্ড'

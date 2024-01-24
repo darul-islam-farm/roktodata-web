@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button'
 import HomeSlider from '@/components/customs/HomeSlider'
 import ContactFrom from '@/components/home/ContactFrom'
 import Container from '@/components/shared/Container'
-import SectionHeader from '@/components/shared/SectionHeader'
+import SectionHeader from '@/components/shared/ui/SectionHeader'
 
 export const metadata: Metadata = {
   title: 'হোম'

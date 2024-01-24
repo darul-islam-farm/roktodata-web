@@ -1,17 +1,17 @@
 import { redirect } from 'next/navigation'
 import { getSearchedDonor } from '@/actions/others'
 
-import { cn } from '@/lib/utils'
 import Container from '@/components/shared/Container'
-import SearchModal from '@/components/shared/SearchModal'
 import DonorCard from '@/components/shared/ui/DonorCard'
+import Filterbar from '@/components/shared/ui/Filterbar'
+import SearchModal from '@/components/shared/ui/SearchModal'
 
 export default async function Search({
   searchParams
 }: {
   searchParams: { [key: string]: string | undefined }
 }) {
-  const { bloodType, jilla } = searchParams
+  const { bloodType, jilla, ageFrom, ageTo, religion } = searchParams
   if (!bloodType || !jilla) redirect('/')
 
   const convertedBloodType = () => {
@@ -21,23 +21,32 @@ export default async function Search({
 
   const data = await getSearchedDonor({
     bloodType: convertedBloodType(),
-    jilla
+    jilla,
+    ageFrom,
+    ageTo,
+    religion
   })
 
   return !data.length ? (
-    <div className='px-4 h-[60vh] flex items-center justify-center'>
+    <div className='px-4'>
+      <div className='my-8'>
+        <Filterbar data={{ bloodType, jilla, ageFrom, ageTo, religion }} />
+      </div>
+      <h1 className='text-primary text-2xl md:text-3xl mt-4 text-center'>
+        {jilla} জেলায় কোনো {convertedBloodType()} রক্তের ডোনার খুঁজে পাওয়া
+        যায়নি।
+      </h1>
       <div className='text-center'>
-        <h1 className='text-primary text-2xl md:text-3xl'>
-          {jilla} জেলায় কোনো {convertedBloodType()} রক্তের ডোনার খুঁজে পাওয়া
-          যায়নি।
-        </h1>
-        <div className='mt-4'>
-          <SearchModal trigger='ভিন্ন জেলায় সার্চ করুন' />
-        </div>
+        ধর্ম, বয়স ইত্যাদি ফিল্টারগুলো পরিবর্তন করে আবার চেষ্টা করুন।
       </div>
     </div>
   ) : (
     <Container className='mt-10'>
+      <div className='mb-8'>
+        <Filterbar data={{ bloodType, jilla, ageFrom, ageTo, religion }} />
+      </div>
+      <h1 className='text-primary text-center'>সার্চ ফলাফল</h1>
+      <hr className='mb-8' />
       <div className='grid grid-cols-1 md:grid-cols-2 gap-3 lg:grid-cols-3'>
         {data.map((donor: TUser, idx: number) => (
           <div className='col-auto' key={idx}>

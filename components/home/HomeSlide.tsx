@@ -1,7 +1,7 @@
 'use client'
 
-import SearchModal from '../shared/SearchModal'
 import Appbar from '../shared/ui/Appbar'
+import SearchModal from '../shared/ui/SearchModal'
 import { Button } from '../ui/button'
 
 export default function HomeSlide({ image }: { image: string }) {

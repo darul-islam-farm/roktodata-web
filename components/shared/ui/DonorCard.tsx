@@ -15,6 +15,7 @@ export default function DonorCard({ donor }: { donor: TUser }) {
     },
     { title: 'থানা', value: donor.thana }
   ]
+
   return (
     <div className='p-4 rounded-lg donor-card shadow-lg'>
       <div className='flex justify-start gap-2 sm:gap-4'>
@@ -32,7 +33,7 @@ export default function DonorCard({ donor }: { donor: TUser }) {
           </h1>
           <p className='text-sm text-light mb-2'>{donor.email}</p>
           <div className='flex flex-col gap-y-1'>
-            <div className='grid grid-cols-2 gap-2'>
+            <div className='flex items-center gap-4'>
               {address.slice(0, 2).map((item, idx) => (
                 <div key={idx} className='col-auto text-sm'>
                   <p className='font-medium text-light -mb-1'>{item.title}</p>
