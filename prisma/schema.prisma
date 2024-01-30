@@ -105,6 +105,22 @@ model Message {
   @@map("messages")
 }
 
+model Hospitals {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  phone     String
+  email     String
+  jilla     String
+  subJilla  String   @map("sub_jilla ")
+  thana     String
+  address   String
+  doctors   String[]
+  open      String
+  createdAt DateTime @default(now())
+
+  @@map("hospitals")
+}
+
 // model Comment {
 //   id String @id @default(auto()) @map("_id") @db.ObjectId
 
