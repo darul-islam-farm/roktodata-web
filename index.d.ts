@@ -17,7 +17,7 @@ type TUser = {
   bloodType: string
   createdAt: Date
   email: string
-  gender: string
+  gender: TGender
   age: number
   religion: string
   id: string
@@ -35,3 +35,4 @@ type TUser = {
 
 type TUserType = 'DONOR' | 'RECEIVER'
 type TStatus = 'PENDING' | 'ACCEPTED' | 'REJECTED'
+type TGender = 'MALE' | 'FEMALE' | 'OTHERS'

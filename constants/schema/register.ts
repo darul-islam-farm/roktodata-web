@@ -1,14 +1,11 @@
 import * as z from 'zod'
 
-import { genders, jilla, userTypes } from '../static'
-
 export const basicdata = z.object({
   name: z.string().min(4, 'আসল নাম আবশ্যক।'),
   identity: z.string().min(10, 'সঠিক পরিচয়পত্র নম্বর দিন।'),
   gender: z.string().min(2, 'লিঙ্গ নির্বাচন আবশ্যক।'),
   phone: z.string().min(11, 'সঠিক ফোন নাম্বার দিন।'),
-  phone2: z.string().min(11, 'সঠিক ফোন নাম্বার দিন।'),
-  userType: z.string().min(3, 'আপনি কি রক্তদাতা অথবা রক্তগ্রহীতা? ')
+  phone2: z.string().min(11, 'সঠিক ফোন নাম্বার দিন।')
 })
 export const locationdata = z.object({
   jilla: z.string().min(2, 'জেলার নাম আবশ্যক।'),

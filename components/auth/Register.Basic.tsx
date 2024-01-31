@@ -39,8 +39,7 @@ export default function RegisterBasic({
       identity: data?.identity,
       gender: data?.gender,
       phone: data?.phone,
-      phone2: data?.phone2,
-      userType: data?.userType
+      phone2: data?.phone2
     }
   })
   return (
@@ -96,14 +95,6 @@ export default function RegisterBasic({
             message={errors.phone2?.message}
           />
         </div>
-        <CSelect
-          label='রেজিস্ট্রেশনের ধরণ'
-          message={errors.userType?.message}
-          icon={{ icon: HeartPulse }}
-          data={userTypes}
-          name='userType'
-          register={register}
-        />
         <div>
           <Button type='submit' className='w-full mt-4'>
             পরবর্তী

@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { createUser } from '@/actions/user'
 import {
   TBasicdata,
@@ -19,7 +19,11 @@ import RegisterBasic from '@/components/auth/Register.Basic'
 import RegisterCred from '@/components/auth/Register.Cred'
 import RegisterLocation from '@/components/auth/Register.Location'
 
+type TSearchParams = null | 'donor' | 'receiver'
+
 export default function Register() {
+  const searchParams = useSearchParams()
+  const type = searchParams.get('type') as TSearchParams
   const { push } = useRouter()
   const [step, setStep] = useState(1)
   const [data, setData] = useState({})
@@ -35,13 +39,19 @@ export default function Register() {
       return setWarn(true)
     }
     try {
-      const succeed = await createUser({ ...data, bloodType: group })
+      const succeed = await createUser({
+        ...data,
+        userType: type?.toUpperCase(),
+        bloodType: group
+      })
       succeed.ok && push('/dashboard/donor')
       succeed.error && errorAlert({ title: succeed.error })
     } catch (error) {
       errorAlert({ title: error, timer: 2500 })
     }
   }
+
+  if (type !== 'donor' && type !== 'receiver') push('/')
 
   return (
     <div className='grid gap-y-4 auth__bg px-4 py-8 sm:py-12 rounded-xl'>
@@ -67,7 +77,8 @@ export default function Register() {
       {step === 4 && (
         <div>
           <p className='font-semibold text-lg text-center text-secondary py-1'>
-            আপনার রক্তের গ্রুপ নির্বাচন করুন
+            আপনার {type === 'receiver' && 'আকাঙ্ক্ষিত'} রক্তের গ্রুপ নির্বাচন
+            করুন
           </p>
 
           <div className='grid grid-cols-2 md:grid-cols-3 gap-2 sm:gap-4 mt-8 mb-4'>

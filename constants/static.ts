@@ -146,7 +146,8 @@ export const contactInfo: TWhydonate[] = [
 
 export const genders = [
   { name: 'পুরুষ', value: 'MALE' },
-  { name: 'নারী', value: 'FEMALE' }
+  { name: 'নারী', value: 'FEMALE' },
+  { name: 'অন্যান্য', value: 'OTHERS' }
 ]
 
 export const userTypes = [
