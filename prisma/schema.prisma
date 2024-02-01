@@ -13,7 +13,7 @@ model User {
   email           String           @unique
   password        String
   identity        String           @unique
-  gender          String
+  gender          Gender
   age             Int
   religion        String
   phone           String           @unique
@@ -126,6 +126,12 @@ model Hospitals {
 
 //   @@map("comments")
 // }
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
 
 enum UserType {
   DONOR
