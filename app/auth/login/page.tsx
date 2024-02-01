@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import Link from 'next/link'
 import { authenticate } from '@/actions/user'
 import { creddata, TCreddata } from '@/constants/schema/register'
@@ -10,8 +11,10 @@ import { useForm } from 'react-hook-form'
 
 import { Button } from '@/components/ui/button'
 import { CInput } from '@/components/customs/CInput'
+import TypeDialog from '@/components/shared/ui/TypeDialog'
 
 export default function Login() {
+  const [open, setOpen] = useState(false)
   const {
     register,
     handleSubmit,
@@ -28,13 +31,17 @@ export default function Login() {
   }
   return (
     <div className='auth__bg grid gap-y-4 px-4 py-8 sm:p-12 rounded-xl'>
+      <TypeDialog open={open} setOpen={setOpen} />
       <div className='text-center mb-6'>
         <h1 className='text-3xl font-bold text-primary mb-4'>লগইন করুন</h1>
         <p className='text-sm text-light/70'>
           একাউন্ট নেই?{' '}
-          <Link href='/auth/register' className='text-primary hover:underline'>
+          <button
+            className='text-primary hover:underline'
+            onClick={() => setOpen(true)}
+          >
             তৈরি করুন
-          </Link>
+          </button>
         </p>
       </div>
       <form onSubmit={handleSubmit(onSubmit)}>
