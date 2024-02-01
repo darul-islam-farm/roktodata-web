@@ -7,6 +7,7 @@ import { ArrowRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import HomeSlider from '@/components/customs/HomeSlider'
 import ContactFrom from '@/components/home/ContactFrom'
+import TopBanner from '@/components/home/TopBanner'
 import Container from '@/components/shared/Container'
 import SectionHeader from '@/components/shared/ui/SectionHeader'
 
@@ -17,6 +18,7 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <main>
+      <TopBanner isHome />
       <HomeSlider />
 
       {/* Why donate blood section */}

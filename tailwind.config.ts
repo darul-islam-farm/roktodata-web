@@ -7,7 +7,9 @@ const config = {
     './app/**/*.{js,jsx,ts,tsx}',
     './configs/**/*.{js,jsx,ts,tsx}'
   ],
-  // plugins: [require('tailwindcss-animate')],
+  plugins: [
+    process.env.NODE_ENV === 'production' && require('tailwindcss-animate')
+  ],
   theme: {
     colors: {
       primary: colors.red[700],
