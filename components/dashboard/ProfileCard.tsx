@@ -127,13 +127,6 @@ export default function ProfileCard({ onProfile }: { onProfile?: boolean }) {
                   label='বিকল্প ফোন নম্বর'
                   message={errors.phone2?.message}
                 />
-                <GSelect
-                  register={register}
-                  name='userType'
-                  label='রেজিস্ট্রেশনের ধরণ'
-                  data={userTypes}
-                  message={errors.userType?.message}
-                />
               </div>
             </div>
             <hr />
