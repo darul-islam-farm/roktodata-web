@@ -1,8 +1,10 @@
 import { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
+import { auth } from '@/configs/auth'
 import { whyDonate } from '@/constants/static'
 import { ArrowRight } from 'lucide-react'
+import { SessionProvider } from 'next-auth/react'
 
 import { Button } from '@/components/ui/button'
 import HomeSlider from '@/components/customs/HomeSlider'
@@ -15,11 +17,14 @@ export const metadata: Metadata = {
   title: 'হোম'
 }
 
-export default function Home() {
+export default async function Home() {
+  const session = await auth()
   return (
     <main>
-      <TopBanner isHome />
-      <HomeSlider />
+      <SessionProvider session={session}>
+        <TopBanner isHome />
+        <HomeSlider />
+      </SessionProvider>
 
       {/* Why donate blood section */}
       <Container>

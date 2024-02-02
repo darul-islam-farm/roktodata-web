@@ -31,7 +31,7 @@ export default function TypeDialog({
             আপনি কোন ইউজার হিসেবে লগইন করতে চান?
           </AlertDialogDescription>
         </AlertDialogHeader>
-        <AlertDialogFooter className='gap-2'>
+        <AlertDialogFooter className='gap-2 mt-10'>
           <Button
             onClick={() => push('/auth/register?type=donor')}
             className='bg-secondary'

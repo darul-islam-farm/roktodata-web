@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { siteInfo, TNavItem } from '@/configs/site'
 import { User2 } from 'lucide-react'
+import { useSession } from 'next-auth/react'
 
 import { cn } from '@/lib/utils'
 
@@ -12,6 +13,7 @@ import Container from '../Container'
 import SideNav from './SideNav'
 
 export default function Appbar({ isHome = false }) {
+  const session = useSession()
   const path = usePathname()
   return (
     <div className={cn(isHome ? 'bg-transparent' : 'bg-primary')}>
@@ -48,7 +50,7 @@ export default function Appbar({ isHome = false }) {
           ))}
         </div>
         <div>
-          <Link href='/auth/login'>
+          <Link href={session.data ? '/dashboard/donor' : '/auth/login'}>
             <User2
               className={cn('bg-white h-10 w-10 rounded-full p-1 text-primary')}
             />

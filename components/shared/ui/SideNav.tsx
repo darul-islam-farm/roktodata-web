@@ -1,12 +1,12 @@
+'use client'
+
 import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import { siteInfo, TNavItem } from '@/configs/site'
 import { AlignLeft } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
-import { Button } from '@/components/ui/button'
 import {
   Sheet,
   SheetClose,
@@ -16,6 +16,7 @@ import {
   SheetTrigger
 } from '@/components/ui/sheet'
 
+import AuthBtn from './AuthBtn'
 import TypeDialog from './TypeDialog'
 
 type TProps = {
@@ -24,7 +25,7 @@ type TProps = {
 }
 export default function SideNav({ isHome, path }: TProps) {
   const [open, setOpen] = useState(false)
-  const { push } = useRouter()
+
   return (
     <>
       <TypeDialog open={open} setOpen={setOpen} />
@@ -58,12 +59,7 @@ export default function SideNav({ isHome, path }: TProps) {
                 </Link>
               </SheetClose>
             ))}
-          </div>
-          <div className='mt-10 grid gap-y-4'>
-            <Button onClick={() => push('/auth/login')}>লগইন করুন</Button>
-            <Button onClick={() => setOpen(true)} variant='secondary'>
-              রেজিস্ট্রেশন করুন
-            </Button>
+            <AuthBtn setOpen={setOpen} />
           </div>
         </SheetContent>
       </Sheet>
