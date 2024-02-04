@@ -1,10 +1,14 @@
+import { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 import { getSearchedDonor } from '@/actions/others'
 
 import Container from '@/components/shared/Container'
 import DonorCard from '@/components/shared/ui/DonorCard'
 import Filterbar from '@/components/shared/ui/Filterbar'
-import SearchModal from '@/components/shared/ui/SearchModal'
+
+export const metadata: Metadata = {
+  title: 'সার্চ ফলাফল'
+}
 
 export default async function Search({
   searchParams

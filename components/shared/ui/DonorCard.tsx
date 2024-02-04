@@ -1,8 +1,13 @@
+'use client'
+
+import { useRouter } from 'next/navigation'
 import { Clock4Icon } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 
 export default function DonorCard({ donor }: { donor: TUser }) {
+  const { push } = useRouter()
+
   const address = [
     { title: 'জেলা', value: donor.jilla },
     { title: 'উপজেলা', value: donor.subJilla },
@@ -51,9 +56,13 @@ export default function DonorCard({ donor }: { donor: TUser }) {
         </div>
       </div>
       <div className='text-end mt-2'>
-        <Button size='sm' className='bg-light text-primary'>
+        <Button
+          onClick={() => push(`/profile/donor?id=${donor.id}`)}
+          size='sm'
+          className='bg-light text-primary'
+        >
           <Clock4Icon />
-          <span>আবেদন করুন</span>
+          <span>প্রোফাইল দেখুন</span>
         </Button>
       </div>
     </div>

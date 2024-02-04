@@ -18,7 +18,7 @@ import {
 } from '@/components/ui/alert-dialog'
 
 import { GSelect } from '../../customs/GInput'
-import { Button, buttonVariants } from '../../ui/button'
+import { Button } from '../../ui/button'
 
 type TProps = {
   trigger?: string
