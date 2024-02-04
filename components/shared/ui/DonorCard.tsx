@@ -40,13 +40,13 @@ export default function DonorCard({ donor }: { donor: TUser }) {
           <div className='flex flex-col gap-y-1'>
             <div className='flex items-center gap-4'>
               {address.slice(0, 2).map((item, idx) => (
-                <div key={idx} className='col-auto text-sm'>
+                <div key={idx} className='text-sm'>
                   <p className='font-medium text-light -mb-1'>{item.title}</p>
                   <p className='text-light'>{item.value}</p>
                 </div>
               ))}
             </div>
-            {address.slice(2, 4).map((item, idx) => (
+            {address.slice(2, 3).map((item, idx) => (
               <div key={idx} className='text-sm'>
                 <p className='font-medium text-light -mb-1'>{item.title}</p>
                 <p className='text-light'>{item.value}</p>
@@ -55,7 +55,7 @@ export default function DonorCard({ donor }: { donor: TUser }) {
           </div>
         </div>
       </div>
-      <div className='text-end mt-2'>
+      <div className='text-end mt-4'>
         <Button
           onClick={() => push(`/profile/donor?id=${donor.id}`)}
           size='sm'
