@@ -1,7 +1,10 @@
 import Link from 'next/link'
+import { auth } from '@/configs/auth'
 import { ArrowLeftIcon } from 'lucide-react'
+import { SessionProvider } from 'next-auth/react'
 
-export default function AuthLayout({ children }: IChildren) {
+export default async function AuthLayout({ children }: IChildren) {
+  const session = await auth()
   return (
     <div
       style={{ backgroundImage: 'url("/images/donations/donate1.jpg")' }}
@@ -16,7 +19,9 @@ export default function AuthLayout({ children }: IChildren) {
         </Link>
       </div>
       <div className='px-4 sm:px-0 sm:flex justify-center items-center min-h-[85vh]'>
-        <div className='sm:min-w-[500px] py-12 lg:py-10'>{children}</div>
+        <div className='sm:min-w-[500px] py-12 lg:py-10'>
+          <SessionProvider session={session}>{children}</SessionProvider>
+        </div>
       </div>
     </div>
   )

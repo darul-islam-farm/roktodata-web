@@ -1,12 +1,13 @@
 'use client'
 
 import { useState } from 'react'
-import Link from 'next/link'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { authenticate } from '@/actions/user'
 import { creddata, TCreddata } from '@/constants/schema/register'
 import { errorAlert } from '@/services/alerts/alerts'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ShieldCheck, User2 } from 'lucide-react'
+import { useSession } from 'next-auth/react'
 import { useForm } from 'react-hook-form'
 
 import { Button } from '@/components/ui/button'
@@ -14,6 +15,10 @@ import { CInput } from '@/components/customs/CInput'
 import TypeDialog from '@/components/shared/ui/TypeDialog'
 
 export default function Login() {
+  const params = useSearchParams()
+  const callbackUrl = params.get('callbackUrl')
+  const { data: session } = useSession()
+  const { push } = useRouter()
   const [open, setOpen] = useState(false)
   const {
     register,
@@ -28,6 +33,13 @@ export default function Login() {
     } catch {
       errorAlert({ title: 'ভুল ইমেইল অথবা পাসওয়ার্ড', timer: 2500 })
     }
+  }
+  if (session) {
+    if (callbackUrl) {
+      push(callbackUrl)
+      return
+    }
+    push('/')
   }
   return (
     <div className='auth__bg grid gap-y-4 px-4 py-8 sm:p-12 rounded-xl'>
