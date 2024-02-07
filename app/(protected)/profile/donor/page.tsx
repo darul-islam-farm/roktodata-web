@@ -8,7 +8,7 @@ import dayjs from 'dayjs'
 import { ArrowLeftIcon } from 'lucide-react'
 
 import useAsync from '@/lib/useAsync'
-import { Button } from '@/components/ui/button'
+import RequestDialog from '@/components/others/RequestDialog'
 import Container from '@/components/shared/Container'
 
 export default function DonorProfile() {
@@ -101,7 +101,7 @@ export default function DonorProfile() {
           </div>
         </div>
         <div className='mt-4'>
-          <Button className='w-full'>আবেদন করুন</Button>
+          <RequestDialog />
         </div>
       </div>
 
