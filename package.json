@@ -26,6 +26,7 @@
     "@radix-ui/react-tabs": "^1.0.4",
     "@radix-ui/react-toast": "^1.1.5",
     "@react-aria/ssr": "^3.9.0",
+    "@uploadthing/react": "^6.2.2",
     "axios": "^1.6.5",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
@@ -44,6 +45,7 @@
     "swr": "^2.2.4",
     "tailwind-merge": "^2.0.0",
     "tailwindcss-animate": "^1.0.7",
+    "uploadthing": "^6.3.3",
     "zod": "^3.22.4"
   },
   "devDependencies": {
