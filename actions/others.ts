@@ -12,6 +12,8 @@ const utapi = new UTApi()
 export const getSearchedDonor = async (data: TSearchdata) => {
   const { bloodType, jilla, religion, ageFrom, ageTo } = removeProperties(data)
 
+  /** @TODO return Donor profile here instead of User  */
+
   try {
     const data = prisma.user.findMany({
       where: {
@@ -19,7 +21,6 @@ export const getSearchedDonor = async (data: TSearchdata) => {
         bloodType,
         jilla,
         religion,
-        userType: 'DONOR',
         age: {
           gte: Number(ageFrom ?? 18),
           lte: Number(ageTo ?? 50)
@@ -47,6 +48,7 @@ export const submitApp = async (data: any) => {
     await prisma.appointment.create({ data })
     return success_res
   } catch (error) {
+    console.log('error', error)
     return error_res('something went wrong')
   }
 }
