@@ -16,8 +16,8 @@ import {
   SheetTrigger
 } from '@/components/ui/sheet'
 
+import TypeDialog from '../../Dialogs/TypeDialog'
 import AuthBtn from './AuthBtn'
-import TypeDialog from './TypeDialog'
 
 type TProps = {
   isHome: boolean

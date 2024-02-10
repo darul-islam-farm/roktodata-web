@@ -9,6 +9,7 @@ interface InputProps {
   optional?: boolean
   data?: { value: string | number; name: string | number }[]
   size?: 'sm'
+  compact?: boolean
   theme?: 'light' | 'dark'
 }
 
@@ -122,6 +123,7 @@ const GTextarea = ({
   transparent,
   label,
   optional,
+  compact,
   ...props
 }: TProps) => {
   return (
@@ -141,7 +143,7 @@ const GTextarea = ({
           className
         )}
         {...register(name)}
-        rows={4}
+        rows={compact ? 2 : 4}
         {...props}
         id={name}
       />

@@ -5,20 +5,17 @@ import { useRouter } from 'next/navigation'
 import { searchdata, TSearchdata } from '@/constants/schema/others'
 import { bloodGroups, jilla, religions } from '@/constants/static'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { X } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 
 import {
   AlertDialog,
-  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
-  AlertDialogHeader,
-  AlertDialogTitle
+  AlertDialogHeader
 } from '@/components/ui/alert-dialog'
 
-import { GSelect } from '../../customs/GInput'
-import { Button } from '../../ui/button'
+import { GSelect } from '../customs/GInput'
+import { Button } from '../ui/button'
 
 type TProps = {
   trigger?: string
@@ -38,7 +35,7 @@ export default function SearchModal({ trigger }: TProps) {
     push(
       `/search?bloodType=${data.bloodType}&jilla=${data.jilla}&religion=${data.religion}&ageFrom=${data.ageFrom}&ageTo=${data.ageTo}`
     )
-    setIsOpen(false)
+    setTimeout(() => setIsOpen(false), 1000)
   }
 
   return (
@@ -47,20 +44,10 @@ export default function SearchModal({ trigger }: TProps) {
         {trigger || 'রক্ত নিন'}
       </Button>
       <AlertDialogContent className='rounded-lg'>
-        <AlertDialogHeader>
-          <AlertDialogTitle className='flex items-start justify-between cursor-auto'>
-            <span>নিকটস্থ ডোনার খুঁজুন</span>
-            <AlertDialogCancel className='text-dark p-0 border-none'>
-              <X
-                className='-mt-8 hover:bg-extralight'
-                onClick={() => setIsOpen(false)}
-              />
-            </AlertDialogCancel>
-          </AlertDialogTitle>
-          <AlertDialogDescription>
-            রক্তের গ্রুপ ও জেলা নির্বাচনের মাধ্যমে ডোনার খুঁজুন
-          </AlertDialogDescription>
-        </AlertDialogHeader>
+        <AlertDialogHeader builtin>নিকটস্থ ডোনার খুঁজুন</AlertDialogHeader>
+        <AlertDialogDescription className='text-center sm:text-start'>
+          রক্তের গ্রুপ ও জেলা নির্বাচনের মাধ্যমে ডোনার খুঁজুন
+        </AlertDialogDescription>
         <div>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className='grid grid-cols-1 sm:grid-cols-2 gap-2'>
@@ -139,15 +126,15 @@ export default function SearchModal({ trigger }: TProps) {
               </div>
             </div>
 
-            <div className='flex items-center justify-end gap-2 mt-8'>
+            <div className='flex flex-col-reverse sm:flex-row items-center justify-end gap-2 mt-8'>
               <Button
                 onClick={() => setIsOpen(false)}
-                className='text-primary'
+                className='text-primary w-full'
                 variant='outline'
               >
                 Cancel
               </Button>
-              <Button className='mt-2 sm:mt-0' type='submit'>
+              <Button className='w-full' type='submit'>
                 Search
               </Button>
             </div>

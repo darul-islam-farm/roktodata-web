@@ -12,14 +12,14 @@ import { useForm } from 'react-hook-form'
 
 import { Button } from '@/components/ui/button'
 import { CInput } from '@/components/customs/CInput'
-import TypeDialog from '@/components/shared/ui/TypeDialog'
+import TypeDialog from '@/components/Dialogs/TypeDialog'
 
 export default function Login() {
+  const [open, setOpen] = useState(false)
   const params = useSearchParams()
   const callbackUrl = params.get('callbackUrl')
   const { data: session } = useSession()
   const { push } = useRouter()
-  const [open, setOpen] = useState(false)
   const {
     register,
     handleSubmit,

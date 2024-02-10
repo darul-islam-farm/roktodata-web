@@ -2,8 +2,8 @@
 
 import { useRouter } from 'next/navigation'
 
+import SearchModal from '../Dialogs/SearchModal'
 import Appbar from '../shared/ui/Appbar'
-import SearchModal from '../shared/ui/SearchModal'
 import { Button } from '../ui/button'
 
 export default function HomeSlide({ image }: { image: string }) {

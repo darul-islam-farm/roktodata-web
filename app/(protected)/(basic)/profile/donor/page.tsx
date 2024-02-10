@@ -1,18 +1,20 @@
 'use client'
 
 import Link from 'next/link'
-import { useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { api } from '@/configs/site'
 import requests from '@/services/network/http'
 import dayjs from 'dayjs'
-import { ArrowLeftIcon } from 'lucide-react'
+import { ArrowLeftIcon, ArrowRight } from 'lucide-react'
 
 import useAsync from '@/lib/useAsync'
-import RequestDialog from '@/components/others/RequestDialog'
+import { cn } from '@/lib/utils'
+import { Button, buttonVariants } from '@/components/ui/button'
 import Container from '@/components/shared/Container'
 
 export default function DonorProfile() {
   const searchparams = useSearchParams()
+  const { back } = useRouter()
 
   const { data, isLoading, error } = useAsync(
     `${api}/api/donor/get-donor-profile?id=${searchparams.get('id')}`,
@@ -44,12 +46,13 @@ export default function DonorProfile() {
     <div>
       <div className='donor-card pb-32'>
         <div className='mb-2 ml-2 md:ml-12 pt-2 w-24 md:w-28'>
-          <Link
-            href='/'
-            className='bg-white/50 hover:bg-white rounded p-1 md:p-2 uppercase font-semibold text-xs md:text-sm text-primary flex items-center gap-1'
+          <Button
+            onClick={() => back()}
+            size='sm'
+            className='bg-white/50 hover:bg-white text-primary'
           >
-            <ArrowLeftIcon strokeWidth={1.5} /> Go Home
-          </Link>
+            <ArrowLeftIcon strokeWidth={1.5} /> Go back
+          </Button>
         </div>
         <div className='max-w-32 md:max-w-40 mx-auto relative'>
           <div className='bg-white shadow-lg shadow-black/50 size-32 md:size-40 rounded-full flex-center text-primary font-bold text-5xl'>
@@ -101,7 +104,12 @@ export default function DonorProfile() {
           </div>
         </div>
         <div className='mt-4'>
-          <RequestDialog />
+          <Link
+            className={cn(buttonVariants(), 'w-full')}
+            href={`/application?donor_id=${searchparams.get('id')}`}
+          >
+            আবেদন করুন <ArrowRight className='size-5' />
+          </Link>
         </div>
       </div>
 

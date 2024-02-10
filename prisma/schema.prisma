@@ -69,13 +69,17 @@ model Donation {
 }
 
 model Appointment {
-  id          String            @id @default(auto()) @map("_id") @db.ObjectId
-  donor       DonorProfile      @relation(fields: [donorId], references: [id])
-  donorId     String            @db.ObjectId
-  receiver    ReceiverProfile   @relation(fields: [receiverId], references: [id])
-  receiverId  String            @db.ObjectId
-  scheduledAt DateTime
-  status      AppointmentStatus @default(PENDING)
+  id             String            @id @default(auto()) @map("_id") @db.ObjectId
+  donor          DonorProfile      @relation(fields: [donorId], references: [id]) // identity
+  donorId        String            @db.ObjectId
+  receiver       ReceiverProfile   @relation(fields: [receiverId], references: [id])
+  receiverId     String            @db.ObjectId
+  scheduledAt    DateTime // status
+  status         AppointmentStatus @default(PENDING)
+  images         String[] // documents
+  hospitalInfo   String            @map("hospital_info")
+  address        String
+  additionalInfo String            @map("additional_info")
 
   @@map("appointments")
 }
