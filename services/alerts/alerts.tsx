@@ -10,6 +10,8 @@ type TErrorProps = {
 }
 
 type TConfirmProps = TErrorProps & {
+  confirm: string
+  cancel: string
   precom: any
 } & Omit<TErrorProps, 'timer'>
 
@@ -48,7 +50,13 @@ export function successAlert({
   })
 }
 
-export async function confirmAlert({ title, body, precom }: TConfirmProps) {
+export async function confirmAlert({
+  title,
+  body,
+  confirm,
+  cancel,
+  precom
+}: TConfirmProps) {
   const result = await Swal.fire({
     title: title,
     html: body,
@@ -56,7 +64,8 @@ export async function confirmAlert({ title, body, precom }: TConfirmProps) {
     showCancelButton: true,
     confirmButtonColor: COLORS.success,
     cancelButtonColor: COLORS.primary,
-    confirmButtonText: 'Confirm'
+    confirmButtonText: confirm || 'Confirm',
+    cancelButtonText: cancel || 'Cancel'
   })
   return result.isConfirmed && precom()
 }

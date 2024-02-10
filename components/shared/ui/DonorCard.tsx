@@ -57,6 +57,7 @@ export default function DonorCard({ donor }: { donor: TUser }) {
       </div>
       <div className='text-end mt-4'>
         <Button
+          shadow
           onClick={() => push(`/profile/donor?id=${donor.id}`)}
           size='sm'
           className='bg-light text-primary'

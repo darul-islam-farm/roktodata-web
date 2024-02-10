@@ -40,6 +40,7 @@ export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   loading?: boolean
+  shadow?: boolean
   children: any
 }
 
@@ -48,12 +49,17 @@ const Button = ({
   variant,
   size,
   loading,
+  shadow,
   children,
   ...props
 }: ButtonProps) => {
   return (
     <button
-      className={cn(buttonVariants({ variant, size, className }), 'relative')}
+      className={cn(
+        buttonVariants({ variant, size, className }),
+        'relative',
+        shadow && 'button-shadow'
+      )}
       {...props}
     >
       {loading ? <div className='loader'></div> : children}
