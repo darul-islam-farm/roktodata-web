@@ -26,6 +26,7 @@ export default function Appbar({ isHome = false }) {
             <Image
               src='/logowhite.svg'
               alt='logo'
+              priority
               width={150}
               height={50}
               className='w-full'

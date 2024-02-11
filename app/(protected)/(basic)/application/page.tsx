@@ -1,16 +1,22 @@
 'use client'
 
 import { ChangeEvent, useState } from 'react'
+import Image from 'next/image'
 import { useSearchParams } from 'next/navigation'
 import { submitApp } from '@/actions/others'
 import {
   appointmentSchema,
   TAppointmentData
 } from '@/constants/schema/appointment'
-import { errorAlert } from '@/services/alerts/alerts'
+import {
+  confirmAlert,
+  errorAlert,
+  successAlert
+} from '@/services/alerts/alerts'
 import requests from '@/services/network/http'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ImagePlus, PlusCircle, SendHorizonal, X } from 'lucide-react'
+import { useSession } from 'next-auth/react'
 import { useForm } from 'react-hook-form'
 
 import {
@@ -32,13 +38,17 @@ type TInput = {
 
 export default function Application() {
   const searchparams = useSearchParams()
+  const { data: session } = useSession()
+  const donorId = searchparams.get('donor_id')
   const [imageInputs, setImageInputs] = useState<TInput[]>([
     { id: 0, file: null }
   ])
   const [isOpen, setIsOpen] = useState(false)
   const [count, setCount] = useState(1)
   const [loading, setLoading] = useState(false)
-  const [uploadedData, setUploadedData] = useState<String[] | null>(null)
+  const [selectedImages, setSelectedImages] = useState<
+    (string | ArrayBuffer | null)[]
+  >([])
 
   const {
     register,
@@ -74,24 +84,46 @@ export default function Application() {
       })
     }
   }
-  const handleImageUpload = (formData: FormData) => {
-    setLoading(true)
-    uploadImage(formData)
+  const handleImageUpload = () => {
+    setIsOpen(false)
+
+    const updatedImages = imageInputs.map((input) => {
+      const reader = new FileReader()
+      reader.readAsDataURL(input.file as File)
+      return new Promise<string | ArrayBuffer | null>((resolve) => {
+        reader.onload = () => {
+          resolve(reader.result)
+        }
+      })
+    })
+
+    Promise.all(updatedImages).then((images) => {
+      setSelectedImages((prevImages) => [
+        ...prevImages,
+        ...images.filter((image) => !!image)
+      ])
+    })
   }
-  const uploadImage = async (formData: FormData) => {
+  const uploadImage = async () => {
+    const imageData = new FormData()
+    if (imageInputs[0].file) {
+      imageInputs.forEach((item) => {
+        const file = item.file
+        if (file instanceof File) {
+          imageData.append('files', file)
+        }
+      })
+    }
     try {
       const uploadImagesRes = await requests.post(
         '/api/uploadthing/upload',
-        formData
+        imageData
       )
       if (uploadImagesRes.ok) {
-        setUploadedData(uploadImagesRes.data)
-        setIsOpen(false)
+        return uploadImagesRes.data as string[]
       } else throw new Error('something went wrong!')
-      setLoading(false)
     } catch (error) {
       console.log('error on uploading', error)
-      setIsOpen(false)
       setLoading(false)
       errorAlert({
         title: 'ইরর হয়েছে',
@@ -100,10 +132,8 @@ export default function Application() {
     }
   }
 
-  console.log('upload data', uploadedData)
-
   const onSubmit = async (inputData: TAppointmentData) => {
-    if (!uploadedData) {
+    if (imageInputs.length === 1 && !imageInputs[0].file) {
       errorAlert({
         title: 'ছবি আপলোড করা হয়নি',
         body: 'সংশ্লিষ্ট ডকুমেন্টস এর ছবি ছাড়া আবেদন সম্পূর্ণ হবে না।',
@@ -111,20 +141,32 @@ export default function Application() {
       })
       return
     }
-    console.log('input data', inputData)
-  }
-  const submitApplication = async (images: string[]) => {
-    // const fields = { ...data, images }
-    // try {
-    //   const res = await submitApp(fields)
-    //   console.log('res ooon submitionnnn', res)
-    // } catch (error) {
-    //   console.log('error', error)
-    //   errorAlert({
-    //     title: 'ইরর হয়েছে',
-    //     body: 'আবার চেষ্টা করুন।'
-    //   })
-    // }
+    setLoading(true)
+    const imageData = await uploadImage()
+    const fields = {
+      ...inputData,
+      images: imageData,
+      /** @TODO use Donor Profile id here instead of User id  */
+      donor: donorId,
+      receiver: session?.user.id,
+      scheduledAt: new Date()
+    }
+    try {
+      const res = await submitApp(fields)
+      console.log('res ooon submitionnnn', res)
+      if (res.ok)
+        successAlert({
+          body: 'আবেদনটি অ্যাডমিন চেকিংয়ে পাঠানো হয়েছে। অ্যাপ্রুভ করা হলে জানানো হবে।'
+        })
+      setLoading(false)
+    } catch (error) {
+      console.log('error', error)
+      setLoading(false)
+      errorAlert({
+        title: 'ইরর হয়েছে',
+        body: 'আবার চেষ্টা করুন।'
+      })
+    }
   }
 
   return (
@@ -153,7 +195,7 @@ export default function Application() {
           <GTextarea
             compact
             register={register}
-            label='হাসপাতালের তথ্য'
+            label='অন্যান্য তথ্য'
             message={errors.additionalInfo?.message}
             name='additionalInfo'
             optional
@@ -161,6 +203,7 @@ export default function Application() {
 
           <div className='mt-24 flex sm:justify-end'>
             <Button
+              shadow
               type='submit'
               className={loading ? 'w-full sm:w-28' : 'w-full sm:w-auto'}
               loading={loading}
@@ -175,9 +218,24 @@ export default function Application() {
           <Button
             type='button'
             variant='secondarysubtle'
-            className='w-full'
+            className='w-full shadow'
             size='lg'
-            onClick={() => setIsOpen(true)}
+            disabled={loading}
+            onClick={() =>
+              imageInputs[0].file
+                ? confirmAlert({
+                    title: 'ডিলেট নোটিস',
+                    body: `আপনি ইতোমধ্যে ${imageInputs.length} টি ছবি সিলেক্ট করেছেন। নতুন করে সিলেক্ট করলে পূর্বের সব সিলেকশন বাতিল হয়ে যাবে।`,
+                    confirm: 'এগিয়ে যান',
+                    cancel: 'বাতিল',
+                    precom: () => {
+                      setIsOpen(true)
+                      setImageInputs([{ id: 0, file: null }])
+                      setSelectedImages([])
+                    }
+                  })
+                : setIsOpen(true)
+            }
           >
             <ImagePlus /> ডকুমেন্টস এর ছবি আপলোড করুন
           </Button>
@@ -220,7 +278,7 @@ export default function Application() {
                 disabled={imageInputs.length === 5 || loading}
                 size='sm'
                 type='button'
-                className=' bg-success'
+                className=' bg-success/10 text-success shadow'
                 onClick={addImageInput}
               >
                 <PlusCircle className='size-5' />
@@ -231,8 +289,9 @@ export default function Application() {
                 <Button
                   disabled={loading}
                   onClick={() => {
-                    if (window.confirm('আপনার সকল ছবি মুছে যাবে।')) {
+                    if (window.confirm('সিলেক্টেড সকল ছবি মুছে যাবে।')) {
                       setImageInputs([{ id: 0, file: null }])
+                      setSelectedImages([])
                       setIsOpen(false)
                     }
                   }}
@@ -240,21 +299,40 @@ export default function Application() {
                   type='button'
                   className='text-primary disabled:text-litetext'
                 >
-                  বন্ধ করুন
+                  Cancel
                 </Button>
                 <Button
                   type='submit'
                   variant='secondary'
-                  className={loading ? 'w-full sm:w-24' : 'w-full sm:w-auto'}
-                  loading={loading}
-                  disabled={loading}
+                  className='w-full sm:w-auto'
                 >
-                  আপলোড করুন
+                  Confirm
                 </Button>
               </AlertDialogFooter>
             </form>
           </AlertDialogContent>
         </AlertDialog>
+
+        {/** @TODO Handle image preview layout */}
+        <div className='mt-20'>
+          <h1>Image Preview</h1>
+          <hr className='mb-4' />
+          <div className='image-row'>
+            {selectedImages.map((item) => (
+              <div className='image-column'>
+                {item && (
+                  <Image
+                    src={item.toString()}
+                    alt='preview images'
+                    width={300}
+                    height={250}
+                    className='w-full img'
+                  />
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
       </Container>
     </div>
   )
