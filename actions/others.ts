@@ -46,7 +46,7 @@ export const uploadFiles = async (formData: FormData) => {
 export const submitApp = async (data: any) => {
   try {
     await prisma.appointment.create({ data })
-    return success_res
+    return success_res()
   } catch (error) {
     console.log('error', error)
     return error_res('something went wrong')

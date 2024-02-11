@@ -1,14 +1,17 @@
 'use server'
 
 import { signIn, signOut } from '@/configs/auth'
-import { TCreddata } from '@/constants/schema/register'
+import { alldata, TCreddata } from '@/constants/schema/register'
 import { error_res, success_res } from '@/helper/static-response'
 import { AuthError } from 'next-auth'
 
 import prisma from '@/lib/prisma'
 
-export const createUser = async (data: any) => {
-  // TODO: Add data validation with appropriate schema and safeParse from zod
+export const createDonor = async (data: any) => {
+  const { bloodType, ...rest } = data
+  const parseData = alldata.safeParse(data)
+  if (!parseData.success) return error_res('Data validation failed')
+
   try {
     const isDuplicate = await prisma.user.findMany({
       where: {
@@ -21,13 +24,53 @@ export const createUser = async (data: any) => {
       }
     })
     if (isDuplicate.length)
-      return {
-        error: 'ইমেইল, আইডি কার্ড নম্বর অথবা ফোন নং ইউনিক হতে হবে।',
-        ok: false
-      }
+      return error_res(
+        'ইমেইল, আইডি কার্ড নম্বর অথবা ফোন নম্বর ইতোমধ্যে ব্যবহৃত হয়েছে।'
+      )
 
-    await prisma.user.create({ data })
-    return success_res
+    if (true) {
+      await prisma.user.create({
+        data: {
+          ...rest,
+          bloodType
+        }
+      })
+    }
+    return success_res()
+  } catch {
+    return error_res()
+  }
+}
+export const createReceiver = async (data: any) => {
+  const { bloodType, ...rest } = data
+  const parseData = alldata.safeParse(data)
+  if (!parseData.success) return error_res('Data validation failed')
+
+  try {
+    const isDuplicate = await prisma.receiver.findMany({
+      where: {
+        OR: [
+          { email: data.email },
+          { identity: data.identity },
+          { phone: data.phone },
+          { phone2: data.phone2 }
+        ]
+      }
+    })
+    if (isDuplicate.length)
+      return error_res(
+        'ইমেইল, আইডি কার্ড নম্বর অথবা ফোন নম্বর ইতোমধ্যে ব্যবহৃত হয়েছে।'
+      )
+
+    if (true) {
+      await prisma.receiver.create({
+        data: {
+          ...rest,
+          bloodType
+        }
+      })
+    }
+    return success_res()
   } catch {
     return error_res()
   }
@@ -42,7 +85,7 @@ export const updateUser = async (data: any) => {
       },
       data: rest
     })
-    return success_res
+    return success_res()
   } catch {
     return error_res('No info updated, try again.')
   }

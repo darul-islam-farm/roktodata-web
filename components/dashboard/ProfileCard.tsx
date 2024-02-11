@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { updateUser } from '@/actions/user'
 import { api } from '@/configs/site'
-import { TUpdatedata, updatedata } from '@/constants/schema/register'
+import { alldata, TAlldata } from '@/constants/schema/register'
 import { genders, jilla } from '@/constants/static'
 import { errorAlert, successAlert } from '@/services/alerts/alerts'
 import requests from '@/services/network/http'
@@ -39,25 +39,26 @@ export default function ProfileCard({ onProfile }: { onProfile?: boolean }) {
     register,
     handleSubmit,
     formState: { errors }
-  } = useForm<TUpdatedata>({
-    resolver: zodResolver(updatedata),
+  } = useForm<TAlldata>({
+    resolver: zodResolver(alldata),
     defaultValues: {
       name: data?.user.name,
       identity: data?.user.identity,
       gender: data?.user.gender,
-      phone: data?.user.phone,
-      phone2: data?.user.phone2,
-      userType: data?.user.userType,
+      religion: data?.user.religion,
+      age: data?.user.age,
       jilla: data?.user.jilla,
       subJilla: data?.user.subJilla,
       thana: data?.user.thana,
       address: data?.user.address,
       email: data?.user.email,
+      phone: data?.user.phone,
+      phone2: data?.user.phone2,
       password: data?.user.password
     }
   })
 
-  const onSubmit = async (data: TUpdatedata) => {
+  const onSubmit = async (data: TAlldata) => {
     setLoading(true)
     try {
       const res = await updateUser({

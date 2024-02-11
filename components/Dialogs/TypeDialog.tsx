@@ -22,16 +22,16 @@ export default function TypeDialog({
   return (
     <AlertDialog open={open}>
       <AlertDialogContent>
-        <AlertDialogHeader className='relative'>
-          <AlertDialogTitle>লগইন টাইপ</AlertDialogTitle>
+        <AlertDialogHeader builtin className='relative'>
+          <AlertDialogTitle>রেজিস্ট্রেশন টাইপ</AlertDialogTitle>
           <div className='absolute -top-4 right-0 cursor-pointer'>
             <X onClick={() => setOpen(false)} />
           </div>
           <AlertDialogDescription>
-            আপনি কোন ইউজার হিসেবে লগইন করতে চান?
+            আপনি কোন ইউজার হিসেবে রেজিস্ট্রেশন করতে চান?
           </AlertDialogDescription>
         </AlertDialogHeader>
-        <AlertDialogFooter className='gap-2 mt-10'>
+        <AlertDialogFooter className='mt-10'>
           <Button
             onClick={() => push('/auth/register?type=donor')}
             className='bg-secondary'

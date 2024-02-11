@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { createUser } from '@/actions/user'
+import { createDonor, createReceiver } from '@/actions/user'
 import {
   TBasicdata,
   TCreddata,
@@ -14,6 +14,13 @@ import { errorAlert } from '@/services/alerts/alerts'
 import { ArrowLeft } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader
+} from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
 import RegisterBasic from '@/components/auth/Register.Basic'
 import RegisterCred from '@/components/auth/Register.Cred'
@@ -23,12 +30,13 @@ type TSearchParams = null | 'donor' | 'receiver'
 
 export default function Register() {
   const searchParams = useSearchParams()
-  const type = searchParams.get('type') as TSearchParams
+  const userType = searchParams.get('type') as TSearchParams
   const { push } = useRouter()
   const [step, setStep] = useState(1)
   const [data, setData] = useState({})
   const [group, setGroup] = useState<string | null>(null)
   const [warn, setWarn] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
   const onSubmit = (values: TBasicdata | TLocationdata | TCreddata) => {
     setStep((prev) => prev + 1)
     setData((prev) => ({ ...prev, ...values }))
@@ -38,20 +46,28 @@ export default function Register() {
     if (!group) {
       return setWarn(true)
     }
+    let serverFunc = createReceiver
+    if (userType === 'donor') {
+      serverFunc = createDonor
+    } else if (userType === 'receiver') {
+      serverFunc = createReceiver
+    } else {
+      alert('unknown user type')
+      return
+    }
     try {
-      const succeed = await createUser({
+      const res = await serverFunc({
         ...data,
-        userType: type?.toUpperCase(),
         bloodType: group
       })
-      succeed.ok && push('/dashboard/donor')
-      succeed.error && errorAlert({ title: succeed.error })
+      res.ok && push('/auth/login')
+      res.error && errorAlert({ title: res.error })
     } catch (error) {
-      errorAlert({ title: error, timer: 2500 })
+      errorAlert({ title: error, timer: 5000 })
     }
   }
 
-  if (type !== 'donor' && type !== 'receiver') push('/')
+  if (userType !== 'donor' && userType !== 'receiver') push('/')
 
   return (
     <div className='grid gap-y-4 auth__bg px-4 py-8 sm:py-12 rounded-xl'>
@@ -77,8 +93,8 @@ export default function Register() {
       {step === 4 && (
         <div>
           <p className='font-semibold text-lg text-center text-secondary py-1'>
-            আপনার {type === 'receiver' && 'আকাঙ্ক্ষিত'} রক্তের গ্রুপ নির্বাচন
-            করুন
+            আপনার {userType === 'receiver' && 'আকাঙ্ক্ষিত'} রক্তের গ্রুপ
+            নির্বাচন করুন
           </p>
 
           <div className='grid grid-cols-2 md:grid-cols-3 gap-2 sm:gap-4 mt-8 mb-4'>
@@ -90,7 +106,7 @@ export default function Register() {
                   setWarn(false)
                 }}
                 className={cn(
-                  'col-auto text-5xl text-primary font-bold bg-primary/20 h-28 sm:h-32 rounded-lg hover:shadow-lg hover:border-[1px] hover:border-extralight transform-transition duration-300',
+                  'col-auto text-5xl text-primary font-bold bg-primary/20 h-28 sm:h-32 rounded-lg hover:shadow-lg hover:border-[1px] hover:border-extralight duration-100 ',
                   item === group && 'bg-primary text-white'
                 )}
               >
@@ -103,9 +119,50 @@ export default function Register() {
               একটি রক্তের গ্রুপ সিলেক্ট করুন
             </p>
           )}
+
+          {/** @TODO add terms & conditions of donation inside Dialog Content  */}
+          <AlertDialog open={isOpen}>
+            <AlertDialogContent>
+              <AlertDialogHeader builtin>
+                শর্তাবলীর সাথে সম্মত হোন
+              </AlertDialogHeader>
+              <AlertDialogDescription>
+                রক্তদাতা.COM এ ডোনার হতে হলে আপনাকে রক্তদানের পূর্বশর্তগুলোর
+                সাথে সম্মত হতে হবে।
+              </AlertDialogDescription>
+              <div>
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                  Perferendis placeat nihil voluptates odit deleniti, quaerat
+                  accusantium facere voluptatum, aperiam molestiae voluptate
+                  reiciendis explicabo ipsam impedit eius quia expedita sequi
+                  tempora ullam, incidunt numquam? Quisquam beatae quaerat
+                  inventore natus animi nisi, nulla itaque sint ducimus ipsum
+                  rerum qui ratione iure mollitia fugit porro, iusto id illo,
+                  aliquid dicta nostrum recusandae? Nobis illum accusamus
+                  maiores a omnis quas saepe magni quae. Tempora dolor alias
+                  aspernatur laborum laboriosam, atque sit, dolores iure in
+                  velit ullam quod quibusdam dolore officiis porro fugiat cum,
+                  at earum minus non doloribus eaque maiores architecto! Eius,
+                  dolore atque.
+                </p>
+              </div>
+              <AlertDialogFooter>
+                <Button
+                  onClick={() => setIsOpen(false)}
+                  variant='primarysubtle'
+                >
+                  আমি সম্মত নই
+                </Button>
+                <Button onClick={handleSubmit} variant='secondary'>
+                  আমি সম্মত
+                </Button>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
           <div>
             <Button
-              onClick={handleSubmit}
+              onClick={() => setIsOpen(true)}
               variant='secondary'
               className='w-full mt-4'
             >
