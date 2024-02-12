@@ -13,9 +13,9 @@ export default function useAuthStatus(auth: Session | null, nextUrl: NextURL) {
   const isOnReceiverDashboard = nextUrl.pathname.startsWith(
     '/dashboard/receiver'
   )
-  const isOnProtected = nextUrl.pathname.startsWith(
-    '/application' || '/profile'
-  )
+  const isOnProtected =
+    nextUrl.pathname.startsWith('/profile') ||
+    nextUrl.pathname.startsWith('/application')
   return {
     isLoggedIn,
     isAdmin,

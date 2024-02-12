@@ -1,7 +1,7 @@
 import Link from 'next/link'
-import { auth } from '@/configs/auth'
 import { AlignCenter, ArrowLeft } from 'lucide-react'
 import { SessionProvider } from 'next-auth/react'
+import { Session } from 'next-auth/types'
 
 import { cn } from '@/lib/utils'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
@@ -12,11 +12,15 @@ type TProps = {
   children: React.ReactNode
   donor?: boolean
   admin?: boolean
+  session: Session | null
 }
 
-export default async function PanelLayout({ children, donor, admin }: TProps) {
-  const session = await auth()
-
+export default function PanelLayout({
+  children,
+  session,
+  donor,
+  admin
+}: TProps) {
   return (
     <SessionProvider session={session}>
       <div className='min-h-screen bg-light lg:p-4'>

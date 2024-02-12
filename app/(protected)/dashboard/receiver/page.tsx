@@ -1,10 +1,7 @@
 import { Metadata } from 'next'
 
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-
 export const metadata: Metadata = {
-  title: 'হোম',
+  title: 'ড্যাশবোর্ড'
 }
 
 export default function Home() {

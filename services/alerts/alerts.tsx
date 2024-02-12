@@ -10,8 +10,8 @@ type TErrorProps = {
 }
 
 type TConfirmProps = TErrorProps & {
-  confirm: string
-  cancel: string
+  confirm?: string
+  cancel?: string
   precom: any
 } & Omit<TErrorProps, 'timer'>
 

@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import { api } from '@/configs/site'
 import requests from '@/services/network/http'
 import dayjs from 'dayjs'
@@ -13,17 +13,15 @@ import { Button, buttonVariants } from '@/components/ui/button'
 import Container from '@/components/shared/Container'
 
 export default function DonorProfile() {
-  const searchparams = useSearchParams()
+  const { id } = useParams()
   const { back } = useRouter()
 
   const { data, isLoading, error } = useAsync(
-    `${api}/api/donor/get-donor-profile?id=${searchparams.get('id')}`,
+    `${api}/api/donor/get-donor-profile?id=${id}`,
     requests.get
   )
+
   return isLoading ? (
-    /* 
-    TODO: add loading skeleton for user profile info.
-    */
     <div>
       <div className='donor-card pt-8 pb-32'>
         <div className='flex items-center justify-center'>
@@ -106,7 +104,7 @@ export default function DonorProfile() {
         <div className='mt-4'>
           <Link
             className={cn(buttonVariants(), 'w-full')}
-            href={`/application?donor_id=${searchparams.get('id')}`}
+            href={`/application?donor_id=${id}`}
           >
             আবেদন করুন <ArrowRight className='size-5' />
           </Link>

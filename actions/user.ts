@@ -1,7 +1,7 @@
 'use server'
 
 import { signIn, signOut } from '@/configs/auth'
-import { alldata, TCreddata } from '@/constants/schema/register'
+import { alldata, TLogindata } from '@/constants/schema/register'
 import { error_res, success_res } from '@/helper/static-response'
 import { AuthError } from 'next-auth'
 
@@ -9,8 +9,10 @@ import prisma from '@/lib/prisma'
 
 export const createDonor = async (data: any) => {
   const { bloodType, ...rest } = data
-  const parseData = alldata.safeParse(data)
+  const parseData = alldata.safeParse(rest)
   if (!parseData.success) return error_res('Data validation failed')
+
+  const { age, ...others } = data
 
   try {
     const isDuplicate = await prisma.user.findMany({
@@ -31,8 +33,8 @@ export const createDonor = async (data: any) => {
     if (true) {
       await prisma.user.create({
         data: {
-          ...rest,
-          bloodType
+          ...others,
+          age: parseInt(age)
         }
       })
     }
@@ -41,6 +43,7 @@ export const createDonor = async (data: any) => {
     return error_res()
   }
 }
+
 export const createReceiver = async (data: any) => {
   const { bloodType, ...rest } = data
   const parseData = alldata.safeParse(data)
@@ -91,7 +94,7 @@ export const updateUser = async (data: any) => {
   }
 }
 
-export const authenticate = async (formData: TCreddata) => {
+export const authenticate = async (formData: TLogindata) => {
   try {
     await signIn('credentials', formData)
   } catch (error) {
@@ -110,18 +113,30 @@ export const authenticate = async (formData: TCreddata) => {
 export const getUser = async (email: any, password: any) => {
   // get user data for authentication
   try {
-    const user = await prisma.user.findUnique({
+    const donor = await prisma.user.findUnique({
       where: { email, password },
       select: {
         id: true,
         name: true,
         email: true,
         bloodType: true,
-        userType: true,
-        status: true
+        status: true,
+        role: true
       }
     })
-    return user
+    const receiver = await prisma.receiver.findUnique({
+      where: { email, password },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        bloodType: true,
+        status: true,
+        role: true
+      }
+    })
+    console.log('user data', { donor, receiver })
+    return donor || receiver
   } catch {
     throw new Error('not found')
   }

@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { authenticate } from '@/actions/user'
-import { creddata, TCreddata } from '@/constants/schema/register'
+import { logindata, TLogindata } from '@/constants/schema/register'
 import { errorAlert } from '@/services/alerts/alerts'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ShieldCheck, User2 } from 'lucide-react'
@@ -16,22 +16,26 @@ import TypeDialog from '@/components/Dialogs/TypeDialog'
 
 export default function Login() {
   const [open, setOpen] = useState(false)
+  const [loading, setLoading] = useState(false)
   const params = useSearchParams()
   const callbackUrl = params.get('callbackUrl')
+  console.log('callback', callbackUrl)
   const { data: session } = useSession()
   const { push } = useRouter()
   const {
     register,
     handleSubmit,
     formState: { errors }
-  } = useForm<TCreddata>({
-    resolver: zodResolver(creddata)
+  } = useForm<TLogindata>({
+    resolver: zodResolver(logindata)
   })
-  const onSubmit = async (value: TCreddata) => {
+  const onSubmit = async (value: TLogindata) => {
+    setLoading(true)
     try {
       await authenticate(value)
     } catch {
       errorAlert({ title: 'ভুল ইমেইল অথবা পাসওয়ার্ড', timer: 2500 })
+      setLoading(false)
     }
   }
   if (session) {
@@ -80,7 +84,12 @@ export default function Login() {
           />
         </div>
         <div>
-          <Button type='submit' className='w-full mt-4'>
+          <Button
+            loading={loading}
+            disabled={loading}
+            type='submit'
+            className='w-full mt-4'
+          >
             লগইন
           </Button>
         </div>

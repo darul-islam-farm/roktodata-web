@@ -24,6 +24,7 @@ model User {
   thana        String
   address      String
   status       ProfileStatus @default(PENDING) // profiles
+  role         ProfileType   @default(DONOR)
   donorProfile DonorProfile?
   posts        Forum[]
   createdAt    DateTime      @default(now()) // timestamps
@@ -49,6 +50,7 @@ model Receiver {
   thana          String
   address        String
   status         ProfileStatus @default(PENDING) // profiles
+  role           ProfileType   @default(RECEIVER)
   receiveHistory Donation[]
   appointments   Appointment[]
   createdAt      DateTime      @default(now()) // timestamps
@@ -147,6 +149,13 @@ enum Gender {
   MALE
   FEMALE
   OTHER
+}
+
+enum ProfileType {
+  ADMIN
+  MODERATOR
+  DONOR
+  RECEIVER
 }
 
 enum ProfileStatus {

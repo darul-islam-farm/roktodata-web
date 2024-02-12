@@ -46,6 +46,10 @@ export default function Register() {
     if (!group) {
       return setWarn(true)
     }
+    setIsOpen(true)
+  }
+
+  const createUser = async () => {
     let serverFunc = createReceiver
     if (userType === 'donor') {
       serverFunc = createDonor
@@ -154,7 +158,7 @@ export default function Register() {
                 >
                   আমি সম্মত নই
                 </Button>
-                <Button onClick={handleSubmit} variant='secondary'>
+                <Button onClick={createUser} variant='secondary'>
                   আমি সম্মত
                 </Button>
               </AlertDialogFooter>
@@ -162,7 +166,7 @@ export default function Register() {
           </AlertDialog>
           <div>
             <Button
-              onClick={() => setIsOpen(true)}
+              onClick={handleSubmit}
               variant='secondary'
               className='w-full mt-4'
             >
