@@ -9,6 +9,7 @@ import { authConfig } from './authconfig'
 declare module 'next-auth' {
   interface User {
     id: string
+    role: TRole
     bloodType: string
     userType: string
     status: string
@@ -16,6 +17,7 @@ declare module 'next-auth' {
   interface Session {
     user: {
       id: string
+      role: TRole
       name: string
       email: string
       bloodType: string
@@ -46,6 +48,7 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id
+        token.role = user.role
         token.name = user.name
         token.email = user.email
         token.bloodType = user.bloodType
@@ -56,6 +59,7 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
     },
     async session({ session, token }) {
       session.user.id = token.id as string
+      session.user.role = token.role as TRole
       session.user.name = token.name as string
       session.user.email = token.email as string
       session.user.bloodType = token.bloodType as string

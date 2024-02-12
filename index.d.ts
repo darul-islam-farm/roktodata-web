@@ -36,3 +36,4 @@ type TUser = {
 type TUserType = 'DONOR' | 'RECEIVER'
 type TStatus = 'PENDING' | 'ACCEPTED' | 'REJECTED'
 type TGender = 'MALE' | 'FEMALE' | 'OTHERS'
+type TRole = 'ADMIN' | 'MODERATOR' | 'DONOR' | 'RECEIVER'
