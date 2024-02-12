@@ -1,3 +1,4 @@
+import useAuthStatus from '@/helper/useAuthStatus'
 import type { NextAuthConfig } from 'next-auth'
 
 export const authConfig = {
@@ -10,17 +11,30 @@ export const authConfig = {
   },
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
-      const isLoggedIn = !!auth?.user
-      const isOnDashboard = nextUrl.pathname.startsWith('/dashboard')
-      const isOnProfile = nextUrl.pathname.startsWith('/profile')
+      const {
+        isLoggedIn,
+        isAdmin,
+        isModerator,
+        isDonor,
+        isReceiver,
+        isOnDonorDashboard,
+        isOnReceiverDashboard,
+        isOnAdminDashboard,
+        isOnModDashboard,
+        isOnProtected
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+      } = useAuthStatus(auth, nextUrl)
+
       // const isOnLogin = nextUrl.pathname.startsWith('/auth')
       // if (isOnLogin) {
       //   if (isLoggedIn) return Response.redirect(new URL('/', nextUrl))
       // } else
-      if (isOnDashboard || isOnProfile) {
-        if (isLoggedIn) return true
-        return false // Redirect unauthenticated users to login page
-      }
+      if (isOnAdminDashboard) return isAdmin
+      if (isOnModDashboard) return isModerator
+      if (isOnDonorDashboard) return isDonor
+      if (isOnReceiverDashboard) return isReceiver
+      if (isOnProtected) return isLoggedIn
+
       return true
     }
   },
