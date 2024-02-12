@@ -21,7 +21,6 @@ import { CInput } from '../customs/CInput'
 import { Button } from '../ui/button'
 
 type TProps = {
-  // eslint-disable-next-line no-unused-vars
   onSubmit: (values: TBasicdata | TLocationdata | TCreddata) => void
   setStep: Dispatch<SetStateAction<number>>
   data: any

@@ -15,7 +15,6 @@ import { CInput, CSelect } from '../customs/CInput'
 import { Button } from '../ui/button'
 
 type TProps = {
-  // eslint-disable-next-line no-unused-vars
   onSubmit: (values: TBasicdata | TLocationdata | TCreddata) => void
   data: any
 }
