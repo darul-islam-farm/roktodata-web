@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { getUser } from '@/actions/user'
 import { creddata } from '@/constants/schema/register'
 import NextAuth from 'next-auth'
