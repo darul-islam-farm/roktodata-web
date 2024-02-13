@@ -1,21 +1,20 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { authenticate } from '@/actions/user'
 import { logindata, TLogindata } from '@/constants/schema/register'
 import { errorAlert } from '@/services/alerts/alerts'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { ShieldCheck, User2 } from 'lucide-react'
+import { ArrowRight, ShieldCheck, User2 } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import { useForm } from 'react-hook-form'
 
 import { Button } from '@/components/ui/button'
 import { CInput } from '@/components/customs/CInput'
-import TypeDialog from '@/components/Dialogs/TypeDialog'
 
 export default function Login() {
-  const [open, setOpen] = useState(false)
   const [loading, setLoading] = useState(false)
   const params = useSearchParams()
   const callbackUrl = params.get('callbackUrl')
@@ -46,19 +45,9 @@ export default function Login() {
     push('/')
   }
   return (
-    <div className='auth__bg grid gap-y-4 px-4 py-8 sm:p-12 rounded-xl'>
-      <TypeDialog open={open} setOpen={setOpen} />
+    <div className='auth__bg grid gap-y-4 px-3 py-8 sm:p-12 rounded-xl'>
       <div className='text-center mb-6'>
         <h1 className='text-3xl font-bold text-primary mb-4'>লগইন করুন</h1>
-        <p className='text-sm text-light/70'>
-          একাউন্ট নেই?{' '}
-          <button
-            className='text-primary hover:underline'
-            onClick={() => setOpen(true)}
-          >
-            তৈরি করুন
-          </button>
-        </p>
       </div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>
@@ -93,6 +82,16 @@ export default function Login() {
             লগইন
           </Button>
         </div>
+        <p className='text-sm mt-4 text-light font-medium flex-center gap-2'>
+          আপনি কি একজন রক্তদাতা?{' '}
+          <Link
+            className='text-secondary font-semibold flex-center'
+            href='/auth/register?type=donor'
+          >
+            রেজিস্ট্রেশন করুন
+            <ArrowRight className='size-5' />
+          </Link>
+        </p>
       </form>
     </div>
   )

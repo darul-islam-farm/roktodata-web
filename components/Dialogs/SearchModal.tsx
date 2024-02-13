@@ -40,7 +40,11 @@ export default function SearchModal({ trigger }: TProps) {
 
   return (
     <AlertDialog open={isOpen}>
-      <Button onClick={() => setIsOpen(true)} className='button-shadow'>
+      <Button
+        size='lg'
+        onClick={() => setIsOpen(true)}
+        className='button-shadow'
+      >
         {trigger || 'রক্ত নিন'}
       </Button>
       <AlertDialogContent className='rounded-lg'>

@@ -16,7 +16,6 @@ import {
   SheetTrigger
 } from '@/components/ui/sheet'
 
-import TypeDialog from '../../Dialogs/TypeDialog'
 import AuthBtn from './AuthBtn'
 
 type TProps = {
@@ -24,11 +23,8 @@ type TProps = {
   path: string
 }
 export default function SideNav({ isHome, path }: TProps) {
-  const [open, setOpen] = useState(false)
-
   return (
     <>
-      <TypeDialog open={open} setOpen={setOpen} />
       <Sheet>
         <SheetTrigger asChild>
           <AlignLeft className='text-white cursor-pointer' />
@@ -59,7 +55,7 @@ export default function SideNav({ isHome, path }: TProps) {
                 </Link>
               </SheetClose>
             ))}
-            <AuthBtn setOpen={setOpen} />
+            <AuthBtn />
           </div>
         </SheetContent>
       </Sheet>

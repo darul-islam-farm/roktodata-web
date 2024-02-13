@@ -4,26 +4,35 @@ import { useSession } from 'next-auth/react'
 
 import { Button } from '@/components/ui/button'
 
-export default function AuthBtn({ setOpen }: { setOpen: Function }) {
-  const session = useSession()
+export default function AuthBtn() {
+  const { data } = useSession()
   const { push } = useRouter()
 
-  return session.data ? (
+  return data ? (
     <Button
-      onClick={() => push('/dashboard/donor')}
+      shadow
+      onClick={() => push(`/dashboard/${data.user.role.toLowerCase()}`)}
       variant='primarysubtle'
       className='mt-8'
     >
-      {/* 
-        TODO: define role specific dashboard route to push function
-        */}
       প্রোফাইল <ArrowRight className='h-5' />
     </Button>
   ) : (
     <div className='mt-10 grid gap-y-4'>
-      <Button onClick={() => push('/auth/login')}>লগইন করুন</Button>
-      <Button onClick={() => setOpen(true)} variant='secondarysubtle'>
-        রেজিস্ট্রেশন করুন
+      <Button
+        size='lg'
+        className='shadow-md'
+        onClick={() => push('/auth/login')}
+      >
+        লগইন করুন
+      </Button>
+      <Button
+        size='lg'
+        className='shadow-md'
+        onClick={() => push('/auth/register?type=donor')}
+        variant='secondarysubtle'
+      >
+        রক্তদাতা রেজিস্ট্রেশন করুন
       </Button>
     </div>
   )

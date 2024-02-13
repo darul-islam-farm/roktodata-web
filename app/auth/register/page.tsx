@@ -11,7 +11,7 @@ import {
 } from '@/constants/schema/register'
 import { bloodGroups } from '@/constants/static'
 import { errorAlert } from '@/services/alerts/alerts'
-import { ArrowLeft } from 'lucide-react'
+import { ArrowLeft, ArrowRight } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
 import {
@@ -79,10 +79,14 @@ export default function Register() {
         <h1 className='text-3xl font-bold text-primary mb-4'>
           একটি একাউন্ট তৈরি করুন
         </h1>
-        <p className='text-sm text-light/70'>
-          একাউন্ট আছে?{' '}
-          <Link href='/auth/login' className='text-primary hover:underline'>
+        <p className='text-sm mt-4 text-light font-medium flex-center gap-2'>
+          একাউন্ট আছে?
+          <Link
+            className='text-secondary font-semibold flex-center'
+            href='/auth/login'
+          >
             লগইন করুন
+            <ArrowRight className='size-5' />
           </Link>
         </p>
       </div>

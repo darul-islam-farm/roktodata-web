@@ -29,7 +29,8 @@ export default function HomeSlide({ image }: { image: string }) {
             <div className='my-10 md:mb-0 pb-10 flex gap-4 flex-col md:flex-row w-full'>
               <SearchModal />
               <Button
-                onClick={() => push('/auth/register?type=receiver')}
+                size='lg'
+                onClick={() => push('/auth/register?type=donor')}
                 className='bg-white button-shadow text-primary'
               >
                 রক্ত দান করুন
