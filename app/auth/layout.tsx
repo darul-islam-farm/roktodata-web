@@ -13,7 +13,7 @@ export default async function AuthLayout({ children }: IChildren) {
       <div className='mb-2 ml-2 md:ml-12 lg:fixed lg:top-2'>
         <Link
           href='/'
-          className=' lg:bg-white/50 hover:bg-white/30 rounded pl-2 w-32 py-2 uppercase font-semibold text-sm text-primary flex items-center gap-1'
+          className=' lg:bg-white/30 hover:bg-white/50 rounded pl-2 w-32 py-2 uppercase font-semibold text-sm text-primary flex items-center gap-1'
         >
           <ArrowLeftIcon /> Go Home
         </Link>

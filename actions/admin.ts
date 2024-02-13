@@ -20,7 +20,7 @@ export const getDonorData = async (status: TStatus) => {
   }
 }
 
-export const createDonorProfile = async (data: {
+export const updateDonorProfile = async (data: {
   bloodType: string
   userId: string
   action: TStatus
