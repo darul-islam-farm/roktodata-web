@@ -11,5 +11,6 @@ export const success_res = (data?: any) => ({
 })
 export const error_res = (errorMsg?: string) => ({
   error: errorMsg ?? 'Something went wrong',
-  ok: false
+  ok: false,
+  data: null
 })

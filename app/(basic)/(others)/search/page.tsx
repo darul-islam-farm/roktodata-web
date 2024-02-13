@@ -52,7 +52,7 @@ export default async function Search({
       <h1 className='text-primary text-center'>সার্চ ফলাফল</h1>
       <hr className='mb-8' />
       <div className='grid grid-cols-1 md:grid-cols-2 gap-3 lg:grid-cols-3'>
-        {data.map((donor: TUser, idx: number) => (
+        {data.map((donor: TDonor, idx: number) => (
           <div className='col-auto' key={idx}>
             <DonorCard donor={donor} />
           </div>

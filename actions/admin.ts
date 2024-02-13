@@ -1,83 +1,62 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
+import { error_res, success_res } from '@/helper/static-response'
 
 import prisma from '@/lib/prisma'
 
-const errorText = 'Something went wrong'
+/** @TODO add auth and role*/
 
-/*
- * TODO: add auth if needed
- */
-
-export const getRequester = async (userType: TUserType, status: TStatus) => {
+export const getDonorData = async (status: TStatus) => {
   try {
     const data = await prisma.user.findMany({
       where: {
-        userType,
         status
       }
     })
-    return { data }
+    return success_res(data)
   } catch {
-    return { error: errorText }
+    return error_res()
   }
 }
 
-export const createProfile = async (data: {
+export const createDonorProfile = async (data: {
   bloodType: string
   userId: string
-  userType: TUserType
+  action: TStatus
 }) => {
-  const { bloodType, userId, userType } = data
+  const { bloodType, userId, action } = data
   try {
-    if (userType === 'DONOR') {
+    if (action === 'ACCEPTED') {
       await prisma.donorProfile.create({
         data: {
           bloodType,
           userId
         }
       })
-      await prisma.user.update({
-        where: {
-          id: userId
-        },
-        data: {
-          status: 'ACCEPTED'
-        }
-      })
+    }
+    await prisma.user.update({
+      where: {
+        id: userId
+      },
+      data: {
+        status: action
+      }
+    })
 
-      revalidatePath('/admin', 'layout')
-      return { ok: true }
-    } else if (userType === 'RECEIVER') {
-      await prisma.receiverProfile.create({
-        data: {
-          bloodType,
-          userId
-        }
-      })
-      await prisma.user.update({
-        where: {
-          id: userId
-        },
-        data: {
-          status: 'ACCEPTED'
-        }
-      })
+    revalidatePath('/admin', 'layout')
 
-      revalidatePath('/admin', 'layout')
-      return { ok: true }
-    } else return { error: 'Unavailable profile type' }
+    return success_res()
   } catch {
-    return { error: errorText }
+    return error_res()
   }
 }
 
 export const deleteUser = async (id: string) => {
   try {
     await prisma.user.delete({ where: { id } })
-    return { ok: true }
+    return success_res()
   } catch {
-    return { error: 'No user deleted' }
+    return error_res()
   }
 }

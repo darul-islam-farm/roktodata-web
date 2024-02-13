@@ -12,22 +12,35 @@ const utapi = new UTApi()
 export const getSearchedDonor = async (data: TSearchdata) => {
   const { bloodType, jilla, religion, ageFrom, ageTo } = removeProperties(data)
 
-  /** @TODO return Donor profile here instead of User  */
-
   try {
-    const data = prisma.user.findMany({
+    const data = await prisma.donorProfile.findMany({
       where: {
-        status: 'ACCEPTED',
+        status: 'INACTIVE',
         bloodType,
-        jilla,
-        religion,
-        age: {
-          gte: Number(ageFrom ?? 18),
-          lte: Number(ageTo ?? 50)
+        user: {
+          jilla,
+          religion,
+          age: {
+            gte: Number(ageFrom ?? 18),
+            lte: Number(ageTo ?? 50)
+          }
+        }
+      },
+      include: {
+        user: {
+          select: {
+            jilla: true,
+            subJilla: true,
+            address: true,
+            thana: true,
+            bloodType: true,
+            name: true,
+            email: true
+          }
         }
       }
     })
-    return data
+    return data as any
   } catch (error) {
     throw new Error('Something went wrong')
   }

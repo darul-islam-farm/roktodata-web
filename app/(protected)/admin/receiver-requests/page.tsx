@@ -1,9 +1,9 @@
-import { getRequester } from '@/actions/admin'
+import { getDonorData } from '@/actions/admin'
 
 import UserTable from '@/components/dashboard/UserTable'
 
 export default async function ReceiverRequests() {
-  const data = await getRequester('RECEIVER', 'PENDING')
+  const data = await getDonorData('RECEIVER', 'PENDING')
 
   return (
     <div>

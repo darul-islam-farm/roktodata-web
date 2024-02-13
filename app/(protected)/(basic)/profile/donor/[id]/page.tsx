@@ -21,7 +21,7 @@ export default function DonorProfile() {
     requests.get
   )
 
-  return isLoading ? (
+  return isLoading && !data ? (
     <div>
       <div className='donor-card pt-8 pb-32'>
         <div className='flex items-center justify-center'>
@@ -36,10 +36,19 @@ export default function DonorProfile() {
       </div>
     </div>
   ) : error ? (
-    /* 
-    TODO: add appropriate error message
+    /** 
+    @TODO - add appropriate error page design
     */
-    <div>error ocurred</div>
+    <div className='flex-center h-screen'>
+      <div className='text-center text-5xl'>
+        <p className='text-red-500 font-medium'>
+          একটি ইরর হয়েছে, কোনো ডোনার পাওয়া যায়নি
+        </p>
+        <Button variant='link' onClick={() => back()}>
+          <ArrowLeftIcon /> আবার চেষ্টা করুন
+        </Button>
+      </div>
+    </div>
   ) : (
     <div>
       <div className='donor-card pb-32'>
@@ -59,17 +68,15 @@ export default function DonorProfile() {
           <div className='absolute bottom-0 right-4 size-5 md:size-7 bg-green-500 rounded-full' />
         </div>
         <div className='text-center mt-3'>
-          <h1 className='text-white text-3xl font-bold'>
-            {data.donor.user.name}
-          </h1>
+          <h1 className='text-white text-3xl font-bold'>{data.donor.name}</h1>
           <p className='text-light'>{data.donor.user.email}</p>
           <p className='text-light/60 text-sm'>
             Donor from {dayjs(data.donor.user.createdAt).format('D MMM, YYYY')}
           </p>
         </div>
 
-        {/* 
-        TODO: place reviews link and star here like ` ★★★★★ | review -> `
+        {/** 
+        @TODO - place reviews link and star here like ` ★★★★★ | review -> `
         */}
       </div>
       <div className='max-w-[22rem] sm:max-w-[28rem] mx-auto'>

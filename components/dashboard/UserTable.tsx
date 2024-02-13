@@ -1,9 +1,8 @@
 'use client'
 
-import { createProfile, deleteUser } from '@/actions/admin'
+import { createDonorProfile, deleteUser } from '@/actions/admin'
 import { confirmAlertAsync } from '@/services/alerts/alerts'
 import { MoreVertical } from 'lucide-react'
-import { toast } from 'sonner'
 
 import {
   Table,
@@ -18,19 +17,13 @@ import {
 
 import CMenu from '../customs/CMenu'
 
-type TPros = {
+type TProps = {
   title: string
   data: TUser[] | undefined
   actionType: string
-  userType: TUserType
 }
 
-export default function UserTable({
-  title,
-  data,
-  actionType,
-  userType
-}: TPros) {
+export default function UserTable({ title, data, actionType }: TProps) {
   return (
     <>
       <h1 className='text-center my-8 text-secondary'>{title}</h1>
@@ -62,23 +55,19 @@ export default function UserTable({
               <TableCell className='w-20'>
                 <CMenu
                   trigger={<MoreVertical />}
-                  actions={requestActions(item, actionType, userType)}
+                  actions={requestActions(item, actionType)}
                 />
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
-        <TableFooter>{/* Add Pagination here */}</TableFooter>
+        <TableFooter>{/** @TODO Add Pagination here */}</TableFooter>
       </Table>
     </>
   )
 }
 
-const requestActions = (
-  item: TUser,
-  actionType: string,
-  userType: TUserType
-) => {
+const requestActions = (item: TUser, actionType: string) => {
   if (actionType === 'requests')
     return [
       {
@@ -86,19 +75,30 @@ const requestActions = (
         action: () =>
           confirmAlertAsync({
             title: 'রিকুয়েস্টটি কনফার্ম করতে চান?',
-            body: 'রিকুয়েস্টটি কনফার্ম করা হলে উক্ত ইউজারের একটি প্রোফাইল তৈরি হবে।',
+            body: 'রিকুয়েস্টটি কনফার্ম করা হলে উক্ত ডোনারের একটি প্রোফাইল তৈরি হবে।',
             precom: () =>
-              createProfile({
+              createDonorProfile({
                 bloodType: item.bloodType,
                 userId: item.id,
-                userType
+                action: 'ACCEPTED'
               }),
             successText: 'সফলভাবে ডোনার ক্রিয়েট হয়েছে।'
           })
       },
       {
         name: 'reject',
-        action: () => toast.info('user rejected')
+        action: () =>
+          confirmAlertAsync({
+            title: 'রিকুয়েস্টটি বাতিল করতে চান?',
+            body: 'রিকুয়েস্টটি বাতিল করা হলে উক্ত ডোনারের কোনো প্রোফাইল তৈরি হবে না।',
+            precom: () =>
+              createDonorProfile({
+                bloodType: item.bloodType,
+                userId: item.id,
+                action: 'REJECTED'
+              }),
+            successText: 'রিকুয়েস্টটি বাতিল করা হয়েছে।'
+          })
       }
     ]
   else

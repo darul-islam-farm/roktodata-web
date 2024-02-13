@@ -5,20 +5,20 @@ import { Clock4Icon } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 
-export default function DonorCard({ donor }: { donor: TUser }) {
+export default function DonorCard({ donor }: { donor: TDonor }) {
   const { push } = useRouter()
 
   const address = [
-    { title: 'জেলা', value: donor.jilla },
-    { title: 'উপজেলা', value: donor.subJilla },
+    { title: 'জেলা', value: donor.user.jilla },
+    { title: 'উপজেলা', value: donor.user.subJilla },
     {
       title: 'ঠিকানা',
       value:
-        donor.address.length > 25
-          ? `${donor.address.slice(0, 25)}...`
-          : donor.address
+        donor.user.address.length > 25
+          ? `${donor.user.address.slice(0, 25)}...`
+          : donor.user.address
     },
-    { title: 'থানা', value: donor.thana }
+    { title: 'থানা', value: donor.user.thana }
   ]
 
   return (
@@ -34,9 +34,9 @@ export default function DonorCard({ donor }: { donor: TUser }) {
 
         <div>
           <h1 className='text-white text-2xl md:text-base font-bold'>
-            {donor.name}
+            {donor.user.name}
           </h1>
-          <p className='text-sm text-light mb-2'>{donor.email}</p>
+          <p className='text-sm text-light mb-2'>{donor.user.email}</p>
           <div className='flex flex-col gap-y-1'>
             <div className='flex items-center gap-4'>
               {address.slice(0, 2).map((item, idx) => (

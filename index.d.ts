@@ -32,6 +32,35 @@ type TUser = {
   updatedAt: Date
 }
 
+type TDonor = {
+  id: string
+  bloodType: string
+  status: TStatus
+  userId?: string
+  user: TUser
+  donationHistory?: TDonation
+  appointments?: TAppointment
+}
+
+type TDonation = {
+  id: string
+  donor: TDonor
+  receiver: TUser
+  donateAt: Date
+}
+
+type TAppointment = {
+  id: string
+  donor: TDonor
+  receiver: TUser
+  scheduledAt: Date
+  status: TStatus
+  images: string[]
+  hospitalInfo: string
+  address: string
+  additionalInfo: string
+}
+
 type TUserType = 'DONOR' | 'RECEIVER'
 type TStatus = 'PENDING' | 'ACCEPTED' | 'REJECTED'
 type TGender = 'MALE' | 'FEMALE' | 'OTHER'

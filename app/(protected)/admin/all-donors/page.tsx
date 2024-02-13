@@ -1,18 +1,13 @@
-import { getRequester } from '@/actions/admin'
+import { getDonorData } from '@/actions/admin'
 
 import UserTable from '@/components/dashboard/UserTable'
 
 export default async function AllDonors() {
-  const data = await getRequester('DONOR', 'ACCEPTED')
+  const data = await getDonorData('ACCEPTED')
 
   return (
     <div>
-      <UserTable
-        data={data.data}
-        actionType='granted'
-        userType='DONOR'
-        title='সকল ডোনার'
-      />
+      <UserTable data={data.data} actionType='granted' title='সকল ডোনার' />
     </div>
   )
 }

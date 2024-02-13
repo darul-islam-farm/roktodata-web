@@ -1,5 +1,4 @@
 import { auth } from '@/configs/auth'
-// import excludeFields from '@/helper/excludeFields'
 import { notFound, unAuth } from '@/helper/static-response'
 
 import prisma from '@/lib/prisma'
@@ -11,7 +10,7 @@ export async function GET(request: Request) {
   const id = searchParams.get('id') as string
   try {
     const response = await prisma.donorProfile.findUnique({
-      where: { userId: id },
+      where: { id },
       select: {
         bloodType: true,
         status: true,
@@ -32,7 +31,6 @@ export async function GET(request: Request) {
         }
       }
     })
-    // const data = excludeFields(response, ['status'])
     return Response.json({ donor: response }, { status: 200 })
   } catch (error) {
     return notFound(error)
