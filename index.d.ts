@@ -47,6 +47,7 @@ type TDonation = {
   donor: TDonor
   receiver: TUser
   donateAt: Date
+  appintment: TAppointment
 }
 
 type TAppointment = {
@@ -54,7 +55,7 @@ type TAppointment = {
   donor: TDonor
   receiver: TUser
   scheduledAt: Date
-  status: TStatus
+  status: TAppointmentStatus
   images: string[]
   hospitalInfo: string
   address: string
@@ -63,5 +64,6 @@ type TAppointment = {
 
 type TUserType = 'DONOR' | 'RECEIVER'
 type TStatus = 'PENDING' | 'ACCEPTED' | 'REJECTED'
+type TAppointmentStatus = 'PENDING' | 'ACCEPTED' | 'COMPLETED' | 'CANCELED'
 type TGender = 'MALE' | 'FEMALE' | 'OTHER'
 type TRole = 'ADMIN' | 'MODERATOR' | 'DONOR' | 'RECEIVER'

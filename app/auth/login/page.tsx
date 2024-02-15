@@ -18,7 +18,6 @@ export default function Login() {
   const [loading, setLoading] = useState(false)
   const params = useSearchParams()
   const callbackUrl = params.get('callbackUrl')
-  console.log('callback', callbackUrl)
   const { data: session } = useSession()
   const { push } = useRouter()
   const {

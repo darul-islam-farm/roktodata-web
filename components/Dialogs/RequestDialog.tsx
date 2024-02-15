@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { submitApp } from '@/actions/others'
+import { createAppointment } from '@/actions/others'
 import {
   appointmentSchema,
   TAppointmentData

@@ -72,12 +72,14 @@ model DonorProfile {
 }
 
 model Donation {
-  id         String       @id @default(auto()) @map("_id") @db.ObjectId
-  donor      DonorProfile @relation(fields: [donorId], references: [id])
-  donorId    String       @db.ObjectId
-  receiver   Receiver     @relation(fields: [receiverId], references: [id])
-  receiverId String       @db.ObjectId
-  donateAt   DateTime     @default(now())
+  id            String       @id @default(auto()) @map("_id") @db.ObjectId
+  donor         DonorProfile @relation(fields: [donorId], references: [id])
+  donorId       String       @db.ObjectId
+  receiver      Receiver     @relation(fields: [receiverId], references: [id])
+  receiverId    String       @db.ObjectId
+  appointment   Appointment  @relation(fields: [appointmentId], references: [id])
+  appointmentId String       @unique @db.ObjectId
+  donateAt      DateTime     @default(now())
 
   @@map("donations")
 }
@@ -94,6 +96,7 @@ model Appointment {
   hospitalInfo   String            @map("hospital_info")
   address        String
   additionalInfo String?           @map("additional_info")
+  donation       Donation?
 
   @@map("appointments")
 }

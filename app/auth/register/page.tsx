@@ -77,7 +77,7 @@ export default function Register() {
     <div className='grid gap-y-4 auth__bg px-4 py-8 sm:py-12 rounded-xl'>
       <div className='text-center mb-6'>
         <h1 className='text-3xl font-bold text-primary mb-4'>
-          একটি একাউন্ট তৈরি করুন
+          {userType === 'donor' ? 'রক্তদাতা' : 'রক্তগ্রহীতা'} একাউন্ট তৈরি করুন
         </h1>
         <p className='text-sm mt-4 text-light font-medium flex-center gap-2'>
           একাউন্ট আছে?

@@ -56,7 +56,8 @@ export const uploadFiles = async (formData: FormData) => {
   }
 }
 
-export const submitApp = async (data: any) => {
+export const createAppointment = async (data: any) => {
+  console.log('data', data)
   try {
     await prisma.appointment.create({ data })
     return success_res()

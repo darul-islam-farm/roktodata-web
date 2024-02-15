@@ -3,7 +3,7 @@
 import { ChangeEvent, useState } from 'react'
 import Image from 'next/image'
 import { useSearchParams } from 'next/navigation'
-import { submitApp } from '@/actions/others'
+import { createAppointment } from '@/actions/others'
 import {
   appointmentSchema,
   TAppointmentData
@@ -133,32 +133,34 @@ export default function Application() {
   }
 
   const onSubmit = async (inputData: TAppointmentData) => {
-    if (imageInputs.length === 1 && !imageInputs[0].file) {
-      errorAlert({
-        title: 'ছবি আপলোড করা হয়নি',
-        body: 'সংশ্লিষ্ট ডকুমেন্টস এর ছবি ছাড়া আবেদন সম্পূর্ণ হবে না।',
-        timer: 5000
-      })
-      return
-    }
+    // if (imageInputs.length === 1 && !imageInputs[0].file) {
+    //   errorAlert({
+    //     title: 'ছবি আপলোড করা হয়নি',
+    //     body: 'সংশ্লিষ্ট ডকুমেন্টস এর ছবি ছাড়া আবেদন সম্পূর্ণ হবে না।',
+    //     timer: 5000
+    //   })
+    //   return
+    // }
     setLoading(true)
-    const imageData = await uploadImage()
+    // const imageData = await uploadImage()
     const fields = {
       ...inputData,
-      images: imageData,
-      /** @TODO use Donor Profile id here instead of User id  */
-      donor: donorId,
+      // images: imageData,
+      images: ['151184bb-392f-46c3-ba64-a3d70ef4e58d-b368l7.png'],
+      donorId,
       receiver: session?.user.id,
       scheduledAt: new Date()
     }
     try {
-      const res = await submitApp(fields)
+      const res = await createAppointment(fields)
       console.log('res ooon submitionnnn', res)
+      setLoading(false)
       if (res.ok)
         successAlert({
           body: 'আবেদনটি অ্যাডমিন চেকিংয়ে পাঠানো হয়েছে। অ্যাপ্রুভ করা হলে জানানো হবে।'
         })
-      setLoading(false)
+
+      if (res.error) throw new Error('something went wrong!')
     } catch (error) {
       console.log('error', error)
       setLoading(false)
