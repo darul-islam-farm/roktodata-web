@@ -1,11 +1,8 @@
-import { auth } from '@/configs/auth'
-import { notFound, unAuth } from '@/helper/static-response'
+import { notFound } from '@/helper/static-response'
 
 import prisma from '@/lib/prisma'
 
 export async function GET(request: Request) {
-  const isAuth = await auth()
-  if (!isAuth) return unAuth()
   const { searchParams } = new URL(request.url)
   const id = searchParams.get('id') as string
   try {
@@ -21,8 +18,6 @@ export async function GET(request: Request) {
             name: true,
             email: true,
             religion: true,
-            phone: true,
-            phone2: true,
             jilla: true,
             subJilla: true,
             thana: true,

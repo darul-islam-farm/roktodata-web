@@ -41,8 +41,9 @@ export default function Login() {
       push(callbackUrl)
       return
     }
-    push('/')
+    push(`/dashboard/${session.user.role.toLowerCase()}`)
   }
+  console.log('callbackUrl', { callbackUrl })
   return (
     <div className='auth__bg grid gap-y-4 px-3 py-8 sm:p-12 rounded-xl'>
       <div className='text-center mb-6'>
