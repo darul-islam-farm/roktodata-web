@@ -11,10 +11,11 @@ import useAsync from '@/lib/useAsync'
 import { cn } from '@/lib/utils'
 import { Button, buttonVariants } from '@/components/ui/button'
 import Container from '@/components/shared/Container'
+import Navigate from '@/components/shared/ui/Navigate'
 
 export default function DonorProfile() {
   const { id } = useParams()
-  const { back, push } = useRouter()
+  const { back } = useRouter()
 
   const { data, isLoading, error } = useAsync(
     `${api}/api/donor/get-donor-profile?id=${id}`,
@@ -49,20 +50,7 @@ export default function DonorProfile() {
   ) : (
     <div>
       <div className='donor-card pb-32 pt-2'>
-        <div className='mb-2 ml-2 md:ml-12 w-24 md:w-28 text-primary flex transition-all'>
-          <button
-            onClick={() => push('/')}
-            className='text-sm bg-white/50 hover:bg-white py-1 rounded-l px-3 w-full duration-200'
-          >
-            HOME
-          </button>
-          <button
-            onClick={() => back()}
-            className='text-sm bg-white/50 hover:bg-white py-1 sm:py-2 rounded-r px-3 sm:px-4 w-full duration-200'
-          >
-            BACK
-          </button>
-        </div>
+        <Navigate />
         <div className='max-w-32 md:max-w-40 mx-auto relative'>
           <div className='bg-white shadow-lg shadow-black/50 size-32 md:size-40 rounded-full flex-center text-primary font-bold text-5xl'>
             {data.donor.bloodType}
@@ -113,7 +101,7 @@ export default function DonorProfile() {
         <div className='mt-4'>
           <Link
             className={cn(buttonVariants(), 'w-full')}
-            href={`/application?donor_id=${id}`}
+            href={`/auth/register?type=receiver&donor=${id}`}
           >
             আবেদন করুন <ArrowRight className='size-5' />
           </Link>

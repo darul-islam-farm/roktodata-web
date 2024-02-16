@@ -30,14 +30,12 @@ export const createDonor = async (data: any) => {
         'ইমেইল, আইডি কার্ড নম্বর অথবা ফোন নম্বর ইতোমধ্যে ব্যবহৃত হয়েছে।'
       )
 
-    if (true) {
-      await prisma.user.create({
-        data: {
-          ...others,
-          age: parseInt(age)
-        }
-      })
-    }
+    await prisma.user.create({
+      data: {
+        ...others,
+        age: parseInt(age)
+      }
+    })
     return success_res()
   } catch {
     return error_res()
@@ -46,8 +44,10 @@ export const createDonor = async (data: any) => {
 
 export const createReceiver = async (data: any) => {
   const { bloodType, ...rest } = data
-  const parseData = alldata.safeParse(data)
+  const parseData = alldata.safeParse(rest)
   if (!parseData.success) return error_res('Data validation failed')
+
+  const { age, ...others } = data
 
   try {
     const isDuplicate = await prisma.receiver.findMany({
@@ -65,15 +65,13 @@ export const createReceiver = async (data: any) => {
         'ইমেইল, আইডি কার্ড নম্বর অথবা ফোন নম্বর ইতোমধ্যে ব্যবহৃত হয়েছে।'
       )
 
-    if (true) {
-      await prisma.receiver.create({
-        data: {
-          ...rest,
-          bloodType
-        }
-      })
-    }
-    return success_res()
+    const receiver = await prisma.receiver.create({
+      data: {
+        ...others,
+        age: parseInt(age)
+      }
+    })
+    return success_res(receiver.id)
   } catch {
     return error_res()
   }

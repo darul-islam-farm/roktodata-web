@@ -2,7 +2,7 @@
 
 import { ChangeEvent, useState } from 'react'
 import Image from 'next/image'
-import { useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { createAppointment } from '@/actions/others'
 import {
   appointmentSchema,
@@ -16,7 +16,6 @@ import {
 import requests from '@/services/network/http'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ImagePlus, PlusCircle, SendHorizonal, X } from 'lucide-react'
-import { useSession } from 'next-auth/react'
 import { useForm } from 'react-hook-form'
 
 import {
@@ -38,8 +37,9 @@ type TInput = {
 
 export default function Application() {
   const searchparams = useSearchParams()
-  const { data: session } = useSession()
-  const donorId = searchparams.get('donor_id')
+  const donor = searchparams.get('donor')
+  const receiver = searchparams.get('receiver')
+  const { push } = useRouter()
   const [imageInputs, setImageInputs] = useState<TInput[]>([
     { id: 0, file: null }
   ])
@@ -133,34 +133,38 @@ export default function Application() {
   }
 
   const onSubmit = async (inputData: TAppointmentData) => {
-    // if (imageInputs.length === 1 && !imageInputs[0].file) {
-    //   errorAlert({
-    //     title: 'ছবি আপলোড করা হয়নি',
-    //     body: 'সংশ্লিষ্ট ডকুমেন্টস এর ছবি ছাড়া আবেদন সম্পূর্ণ হবে না।',
-    //     timer: 5000
-    //   })
-    //   return
-    // }
+    if (imageInputs.length === 1 && !imageInputs[0].file) {
+      errorAlert({
+        title: 'ছবি আপলোড করা হয়নি',
+        body: 'সংশ্লিষ্ট ডকুমেন্টস এর ছবি ছাড়া আবেদন সম্পূর্ণ হবে না।',
+        timer: 5000
+      })
+      return
+    }
     setLoading(true)
-    // const imageData = await uploadImage()
+    const images = await uploadImage()
     const fields = {
       ...inputData,
-      // images: imageData,
-      images: ['151184bb-392f-46c3-ba64-a3d70ef4e58d-b368l7.png'],
-      donorId,
-      receiver: session?.user.id,
+      images,
+      donor,
+      receiver,
       scheduledAt: new Date()
     }
     try {
       const res = await createAppointment(fields)
-      console.log('res ooon submitionnnn', res)
-      setLoading(false)
-      if (res.ok)
+      if (res.ok) {
         successAlert({
           body: 'আবেদনটি অ্যাডমিন চেকিংয়ে পাঠানো হয়েছে। অ্যাপ্রুভ করা হলে জানানো হবে।'
         })
+        push('/')
+      }
 
-      if (res.error) throw new Error('something went wrong!')
+      if (res.error)
+        errorAlert({
+          title: 'ইরর হয়েছে',
+          body: res.error
+        })
+      setLoading(false)
     } catch (error) {
       console.log('error', error)
       setLoading(false)

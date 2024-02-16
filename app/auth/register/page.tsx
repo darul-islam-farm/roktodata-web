@@ -31,6 +31,7 @@ type TSearchParams = null | 'donor' | 'receiver'
 export default function Register() {
   const searchParams = useSearchParams()
   const userType = searchParams.get('type') as TSearchParams
+  const donorId = searchParams.get('donor')
   const { push } = useRouter()
   const [step, setStep] = useState(1)
   const [data, setData] = useState({})
@@ -64,9 +65,15 @@ export default function Register() {
         ...data,
         bloodType: group
       })
-      res.ok && push('/auth/login')
-      res.error && errorAlert({ title: res.error })
+
+      console.log('res', res)
+
+      res.error && errorAlert({ title: res.error, timer: 5000 })
+      if (res.ok && res.data) {
+        push(`/application?donor=${donorId}&receiver=${res.data}`)
+      }
     } catch (error) {
+      console.log('error catch', error)
       errorAlert({ title: error, timer: 5000 })
     }
   }

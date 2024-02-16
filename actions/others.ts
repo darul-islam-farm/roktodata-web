@@ -1,5 +1,6 @@
 'use server'
 
+import { cookies } from 'next/headers'
 import { TSearchdata } from '@/constants/schema/others'
 import removeProperties from '@/helper/removeProperties'
 import { error_res, success_res } from '@/helper/static-response'
@@ -57,12 +58,44 @@ export const uploadFiles = async (formData: FormData) => {
 }
 
 export const createAppointment = async (data: any) => {
-  console.log('data', data)
+  const { donor, receiver, ...rest } = data
   try {
-    await prisma.appointment.create({ data })
+    const donorRes = await prisma.donorProfile.findUnique({
+      where: { id: donor }
+    })
+    const userRes = await prisma.receiver.findUnique({
+      where: { id: receiver }
+    })
+    if (!donorRes || !userRes)
+      return error_res(
+        'কোনো ইউজার অথবা ডোনার ডাটা পাওয়া যায়নি। আবার চেষ্টা করুন।'
+      )
+    await prisma.appointment.create({
+      data: {
+        donor: { connect: { id: donor } },
+        receiver: { connect: { id: receiver } },
+        ...rest
+      }
+    })
     return success_res()
   } catch (error) {
     console.log('error', error)
     return error_res('something went wrong')
+  }
+}
+
+export const addRedirectUrlCookie = async (
+  type: 'add' | 'remove',
+  redirectUrl?: string
+) => {
+  const store = cookies()
+  try {
+    if (type === 'add') {
+      store.set('redirectUrl', redirectUrl as string, { httpOnly: true })
+    } else if (type === 'remove') {
+      store.delete('redirectUrl')
+    }
+  } catch (error) {
+    return { error }
   }
 }

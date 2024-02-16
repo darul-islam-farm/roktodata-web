@@ -24,7 +24,7 @@ export function errorAlert({
   title,
   body,
   icon = 'error',
-  timer = 2500
+  timer = 5000
 }: TErrorProps) {
   return Swal.fire({
     title,
