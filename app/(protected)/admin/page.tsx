@@ -1,16 +1,16 @@
 import { getDonorData } from '@/actions/admin'
 
-import UserTable from '@/components/dashboard/UserTable'
+import RequestTable from '@/components/dashboard/RequestTable'
 
 export default async function DonorRequests() {
   const data = await getDonorData('PENDING')
 
   return (
     <div>
-      <UserTable
+      <RequestTable
         data={data.data}
-        actionType='requests'
         title='সকল ডোনার রিকুয়েস্ট'
+        userType='DONOR'
       />
     </div>
   )

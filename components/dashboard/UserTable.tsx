@@ -1,6 +1,6 @@
 'use client'
 
-import { deleteUser, updateDonorProfile } from '@/actions/admin'
+import { deleteUser } from '@/actions/admin'
 import { confirmAlertAsync } from '@/services/alerts/alerts'
 import { MoreVertical } from 'lucide-react'
 
@@ -20,10 +20,10 @@ import CMenu from '../customs/CMenu'
 type TProps = {
   title: string
   data: TUser[] | undefined
-  actionType: string
+  userType: TUserType
 }
 
-export default function UserTable({ title, data, actionType }: TProps) {
+export default function UserTable({ title, data, userType }: TProps) {
   return (
     <>
       <h1 className='text-center my-8 text-secondary'>{title}</h1>
@@ -55,7 +55,25 @@ export default function UserTable({ title, data, actionType }: TProps) {
               <TableCell className='w-20'>
                 <CMenu
                   trigger={<MoreVertical />}
-                  actions={requestActions(item, actionType)}
+                  actions={[
+                    {
+                      name: `delete ${
+                        userType === 'DONOR' ? 'donor' : 'receiver'
+                      }`,
+                      action: () =>
+                        confirmAlertAsync({
+                          title: `${
+                            userType === 'DONOR' ? 'ডোনারকে' : 'রক্তগ্রহীতাকে'
+                          } ডিলিট করতে চান?`,
+                          body: 'ডিলিট করা হলে সকল তথ্য মুছে যাবে।',
+                          precom: () =>
+                            deleteUser(
+                              item.id,
+                              userType === 'DONOR' ? 'DONOR' : 'RECEIVER'
+                            )
+                        })
+                    }
+                  ]}
                 />
               </TableCell>
             </TableRow>
@@ -65,52 +83,4 @@ export default function UserTable({ title, data, actionType }: TProps) {
       </Table>
     </>
   )
-}
-
-const requestActions = (item: TUser, actionType: string) => {
-  if (actionType === 'requests')
-    return [
-      {
-        name: 'accept',
-        action: () =>
-          confirmAlertAsync({
-            title: 'রিকুয়েস্টটি কনফার্ম করতে চান?',
-            body: 'রিকুয়েস্টটি কনফার্ম করা হলে উক্ত ডোনারের একটি প্রোফাইল তৈরি হবে।',
-            precom: () =>
-              updateDonorProfile({
-                bloodType: item.bloodType,
-                userId: item.id,
-                action: 'ACCEPTED'
-              }),
-            successText: 'সফলভাবে ডোনার ক্রিয়েট হয়েছে।'
-          })
-      },
-      {
-        name: 'reject',
-        action: () =>
-          confirmAlertAsync({
-            title: 'রিকুয়েস্টটি বাতিল করতে চান?',
-            body: 'রিকুয়েস্টটি বাতিল করা হলে উক্ত ডোনারের কোনো প্রোফাইল তৈরি হবে না।',
-            precom: () =>
-              updateDonorProfile({
-                bloodType: item.bloodType,
-                userId: item.id,
-                action: 'REJECTED'
-              }),
-            successText: 'রিকুয়েস্টটি বাতিল করা হয়েছে।'
-          })
-      }
-    ]
-  else
-    return [
-      {
-        name: 'delete user',
-        action: () =>
-          confirmAlertAsync({
-            title: 'ডোনারকে ডিলিট করতে চান?',
-            body: 'ডোনার ডিলিট করা হলে ডোনারের সকল তথ্য মুছে যাবে।',
-            precom: () => deleteUser(item.id)
-          })
-      }
-    ]
 }

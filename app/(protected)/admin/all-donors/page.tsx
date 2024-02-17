@@ -7,7 +7,7 @@ export default async function AllDonors() {
 
   return (
     <div>
-      <UserTable data={data.data} actionType='granted' title='সকল ডোনার' />
+      <UserTable data={data.data} userType='DONOR' title='সকল ডোনার' />
     </div>
   )
 }

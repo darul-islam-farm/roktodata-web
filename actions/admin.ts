@@ -20,27 +20,40 @@ export const getDonorData = async (status: TStatus) => {
   }
 }
 
+export const getReceiverData = async (status: TStatus) => {
+  try {
+    const data = await prisma.receiver.findMany({
+      where: {
+        status
+      }
+    })
+    return success_res(data)
+  } catch {
+    return error_res()
+  }
+}
+
 export const updateDonorProfile = async (data: {
   bloodType: string
-  userId: string
-  action: TStatus
+  id: string
+  status: TStatus
 }) => {
-  const { bloodType, userId, action } = data
+  const { bloodType, id, status } = data
   try {
-    if (action === 'ACCEPTED') {
+    if (status === 'ACCEPTED') {
       await prisma.donorProfile.create({
         data: {
           bloodType,
-          userId
+          userId: id
         }
       })
     }
     await prisma.user.update({
       where: {
-        id: userId
+        id
       },
       data: {
-        status: action
+        status
       }
     })
 
@@ -52,10 +65,42 @@ export const updateDonorProfile = async (data: {
   }
 }
 
-export const deleteUser = async (id: string) => {
+export const updateReceiverProfile = async (data: {
+  id: string
+  status: TStatus
+}) => {
+  const { id, status } = data
   try {
-    await prisma.user.delete({ where: { id } })
+    await prisma.receiver.update({
+      where: {
+        id
+      },
+      data: {
+        status
+      }
+    })
+
+    revalidatePath('/admin', 'layout')
+
     return success_res()
+  } catch {
+    return error_res()
+  }
+}
+
+export const deleteUser = async (id: string, userType: TUserType) => {
+  try {
+    if (userType === 'DONOR') {
+      await prisma.user.delete({ where: { id } })
+      revalidatePath('/admin', 'layout')
+      return success_res()
+    } else if (userType === 'RECEIVER') {
+      await prisma.receiver.delete({ where: { id } })
+      revalidatePath('/admin', 'layout')
+      return success_res()
+    }
+
+    return error_res('Unknown type')
   } catch {
     return error_res()
   }
