@@ -1,6 +1,5 @@
 'use server'
 
-import { cookies } from 'next/headers'
 import { TSearchdata } from '@/constants/schema/others'
 import removeProperties from '@/helper/removeProperties'
 import { error_res, success_res } from '@/helper/static-response'
@@ -81,21 +80,5 @@ export const createAppointment = async (data: any) => {
   } catch (error) {
     console.log('error', error)
     return error_res('something went wrong')
-  }
-}
-
-export const addRedirectUrlCookie = async (
-  type: 'add' | 'remove',
-  redirectUrl?: string
-) => {
-  const store = cookies()
-  try {
-    if (type === 'add') {
-      store.set('redirectUrl', redirectUrl as string, { httpOnly: true })
-    } else if (type === 'remove') {
-      store.delete('redirectUrl')
-    }
-  } catch (error) {
-    return { error }
   }
 }
