@@ -39,7 +39,7 @@ export function successAlert({
   title,
   body,
   icon = 'success',
-  timer = 3000
+  timer = 5000
 }: TErrorProps) {
   return Swal.fire({
     title: title,

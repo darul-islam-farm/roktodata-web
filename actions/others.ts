@@ -82,3 +82,16 @@ export const createAppointment = async (data: any) => {
     return error_res('something went wrong')
   }
 }
+
+export const getUserStatus = async (id: string) => {
+  try {
+    const user = await prisma.receiver.findUnique({ where: { id } })
+    if (!user) return error_res('কোনো ইউজার পাওয়া যায়নি, আবার চেষ্টা করুন।')
+    return success_res({
+      profileStatus: user?.status,
+      requestStatus: user?.userStatus
+    })
+  } catch {
+    return error_res()
+  }
+}

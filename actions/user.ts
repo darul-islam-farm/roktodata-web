@@ -133,7 +133,6 @@ export const getUser = async (email: any, password: any) => {
         role: true
       }
     })
-    console.log('user data', { donor, receiver })
     return donor || receiver
   } catch {
     throw new Error('not found')

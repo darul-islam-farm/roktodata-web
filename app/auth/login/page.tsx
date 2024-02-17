@@ -18,6 +18,7 @@ export default function Login() {
   const [loading, setLoading] = useState(false)
   const params = useSearchParams()
   const callbackUrl = params.get('callbackUrl')
+  const donor = params.get('donor')
   const { data: session } = useSession()
   const { push } = useRouter()
   const {
@@ -40,10 +41,12 @@ export default function Login() {
     if (callbackUrl) {
       push(callbackUrl)
       return
+    } else if (donor) {
+      push(`/application?donor=${donor}&receiver=${session.user.id}`)
+      return
     }
     push(`/dashboard/${session.user.role.toLowerCase()}`)
   }
-  console.log('callbackUrl', { callbackUrl })
   return (
     <div className='auth__bg grid gap-y-4 px-3 py-8 sm:p-12 rounded-xl'>
       <div className='text-center mb-6'>

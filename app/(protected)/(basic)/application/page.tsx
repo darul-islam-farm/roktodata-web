@@ -1,9 +1,9 @@
 'use client'
 
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import Image from 'next/image'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { createAppointment } from '@/actions/others'
+import { createAppointment, getUserStatus } from '@/actions/others'
 import {
   appointmentSchema,
   TAppointmentData
@@ -15,9 +15,16 @@ import {
 } from '@/services/alerts/alerts'
 import requests from '@/services/network/http'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { ImagePlus, PlusCircle, SendHorizonal, X } from 'lucide-react'
+import {
+  AlertCircle,
+  ImagePlus,
+  PlusCircle,
+  SendHorizonal,
+  X
+} from 'lucide-react'
 import { useForm } from 'react-hook-form'
 
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import {
   AlertDialog,
   AlertDialogContent,
@@ -34,12 +41,20 @@ type TInput = {
   id: number
   file: File | null
 }
+type TReceiverStatus = {
+  profileStatus: TStatus | null
+  requestStatus: TUserStatus | null
+}
 
 export default function Application() {
   const searchparams = useSearchParams()
   const donor = searchparams.get('donor')
-  const receiver = searchparams.get('receiver')
-  const { push } = useRouter()
+  const [status, setStatus] = useState<TReceiverStatus>({
+    profileStatus: null,
+    requestStatus: null
+  })
+  const receiver = searchparams.get('receiver') as string
+  const { replace } = useRouter()
   const [imageInputs, setImageInputs] = useState<TInput[]>([
     { id: 0, file: null }
   ])
@@ -49,6 +64,18 @@ export default function Application() {
   const [selectedImages, setSelectedImages] = useState<
     (string | ArrayBuffer | null)[]
   >([])
+
+  let formStatus =
+    status.profileStatus === 'PENDING' || status.requestStatus === 'REQUESTED'
+
+  useEffect(() => {
+    const getData = async () => {
+      const { error, data } = await getUserStatus(receiver)
+      if (error) errorAlert({ title: 'ইরর হয়েছে', body: error })
+      if (data) setStatus(data)
+    }
+    getData()
+  }, [receiver])
 
   const {
     register,
@@ -145,6 +172,7 @@ export default function Application() {
     const images = await uploadImage()
     const fields = {
       ...inputData,
+      // images: ['dfdf'],
       images,
       donor,
       receiver,
@@ -156,7 +184,7 @@ export default function Application() {
         successAlert({
           body: 'আবেদনটি অ্যাডমিন চেকিংয়ে পাঠানো হয়েছে। অ্যাপ্রুভ করা হলে জানানো হবে।'
         })
-        push('/')
+        replace('/')
       }
 
       if (res.error)
@@ -166,7 +194,6 @@ export default function Application() {
         })
       setLoading(false)
     } catch (error) {
-      console.log('error', error)
       setLoading(false)
       errorAlert({
         title: 'ইরর হয়েছে',
@@ -184,6 +211,18 @@ export default function Application() {
           className='flex flex-col gap-2 my-10'
           onSubmit={handleSubmit(onSubmit)}
         >
+          {formStatus && (
+            <Alert variant='info' className='mb-8'>
+              <AlertCircle className='size-6' />
+              <AlertTitle>গুরুত্বপূর্ণ তথ্য</AlertTitle>
+              <AlertDescription>
+                {status.profileStatus === 'PENDING' &&
+                  'আপনার পূর্বের ফর্ম তথ্যগুলো রিভিউ করা হচ্ছে। অ্যাপ্রুভ করা হলে জানিয়ে দেয়া হবে। তখন নিম্নোক্ত ফর্মটি পূরণ করে আবেদন সম্পূর্ণ করতে পারবেন।'}
+                {status.requestStatus === 'REQUESTED' &&
+                  'আপনি ইতোমধ্যে একটি আবেদন করেছেন। সেটি রিভিউ করা হলে আবার আবেদন করতে পারবেন।'}
+              </AlertDescription>
+            </Alert>
+          )}
           <GTextarea
             compact
             register={register}
@@ -209,11 +248,11 @@ export default function Application() {
 
           <div className='mt-24 flex sm:justify-end'>
             <Button
-              shadow
+              shadow={!loading && !formStatus}
               type='submit'
               className={loading ? 'w-full sm:w-28' : 'w-full sm:w-auto'}
               loading={loading}
-              disabled={loading}
+              disabled={loading || formStatus}
             >
               আবেদন সম্পূর্ণ করুন <SendHorizonal className='size-4' />
             </Button>
@@ -226,7 +265,7 @@ export default function Application() {
             variant='secondarysubtle'
             className='w-full shadow'
             size='lg'
-            disabled={loading}
+            disabled={loading || formStatus}
             onClick={() =>
               imageInputs[0].file
                 ? confirmAlert({
@@ -320,25 +359,27 @@ export default function Application() {
         </AlertDialog>
 
         {/** @TODO Handle image preview layout */}
-        <div className='mt-20'>
-          <h1>Image Preview</h1>
-          <hr className='mb-4' />
-          <div className='image-row'>
-            {selectedImages.map((item) => (
-              <div className='image-column'>
-                {item && (
-                  <Image
-                    src={item.toString()}
-                    alt='preview images'
-                    width={300}
-                    height={250}
-                    className='w-full img'
-                  />
-                )}
-              </div>
-            ))}
+        {selectedImages.length ? (
+          <div className='mt-28'>
+            <h1>Image Preview</h1>
+            <hr className='mb-4' />
+            <div className='image-row'>
+              {selectedImages.map((item) => (
+                <div className='image-column'>
+                  {item && (
+                    <Image
+                      src={item.toString()}
+                      alt='preview images'
+                      width={300}
+                      height={250}
+                      className='w-full img'
+                    />
+                  )}
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
+        ) : null}
       </Container>
     </div>
   )
