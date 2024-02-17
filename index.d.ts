@@ -64,6 +64,7 @@ type TAppointment = {
 
 type TUserType = 'DONOR' | 'RECEIVER'
 type TStatus = 'PENDING' | 'ACCEPTED' | 'REJECTED'
+type TUserStatus = 'NORMAL' | 'REQUESTED'
 type TAppointmentStatus = 'PENDING' | 'ACCEPTED' | 'COMPLETED' | 'CANCELED'
 type TGender = 'MALE' | 'FEMALE' | 'OTHER'
 type TRole = 'ADMIN' | 'MODERATOR' | 'DONOR' | 'RECEIVER'

@@ -51,6 +51,7 @@ model Receiver {
   address        String
   status         ProfileStatus @default(PENDING) // profiles
   role           ProfileType   @default(RECEIVER)
+  userStatus     UserStatus    @default(NORMAL)
   receiveHistory Donation[]
   appointments   Appointment[]
   createdAt      DateTime      @default(now()) // timestamps
@@ -64,7 +65,7 @@ model DonorProfile {
   bloodType       String        @map("blood_type")
   user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId          String        @unique @db.ObjectId
-  status          Status        @default(INACTIVE)
+  status          DonorStatus   @default(INACTIVE)
   donationHistory Donation[]
   appointments    Appointment[]
 
@@ -167,9 +168,14 @@ enum ProfileStatus {
   REJECTED
 }
 
-enum Status {
+enum DonorStatus {
   ACTIVE
   INACTIVE
+}
+
+enum UserStatus {
+  NORMAL
+  REQUESTED
 }
 
 enum AppointmentStatus {
