@@ -147,7 +147,7 @@ export default function Application() {
         imageData
       )
       if (uploadImagesRes.ok) {
-        return uploadImagesRes.data as string[]
+        return uploadImagesRes.data
       } else throw new Error('something went wrong!')
     } catch (error) {
       console.log('error on uploading', error)
@@ -170,9 +170,11 @@ export default function Application() {
     }
     setLoading(true)
     const images = await uploadImage()
+    if (!images) return
+
     const fields = {
       ...inputData,
-      // images: ['dfdf'],
+      // images: ['82187904-bef2-4b67-bff5-33a3c3d08b18-rexrxh.png'],
       images,
       donor,
       receiver,

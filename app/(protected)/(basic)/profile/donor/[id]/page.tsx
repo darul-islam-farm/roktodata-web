@@ -6,6 +6,7 @@ import { api } from '@/configs/site'
 import requests from '@/services/network/http'
 import dayjs from 'dayjs'
 import { ArrowLeftIcon, ArrowRight } from 'lucide-react'
+import { useSession } from 'next-auth/react'
 
 import useAsync from '@/lib/useAsync'
 import { cn } from '@/lib/utils'
@@ -16,6 +17,7 @@ import Navigate from '@/components/shared/ui/Navigate'
 export default function DonorProfile() {
   const { id } = useParams()
   const { back } = useRouter()
+  const { data: session } = useSession()
 
   const { data, isLoading, error } = useAsync(
     `${api}/api/donor/get-donor-profile?id=${id}`,
@@ -101,7 +103,11 @@ export default function DonorProfile() {
         <div className='mt-4'>
           <Link
             className={cn(buttonVariants(), 'w-full')}
-            href={`/auth/register?type=receiver&donor=${id}`}
+            href={
+              session?.user
+                ? `/application?donor=${id}&receiver=${session.user.id}`
+                : `/auth/register?type=receiver&donor=${id}`
+            }
           >
             আবেদন করুন <ArrowRight className='size-5' />
           </Link>

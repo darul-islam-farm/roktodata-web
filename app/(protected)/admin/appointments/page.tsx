@@ -57,9 +57,6 @@ export default async function Applications() {
                     <ArrowRight className='size-3' strokeWidth={3} />
                   </Link>
                 </TableCell>
-                <TableCell className='w-20'>
-                  <CMenu trigger={<MoreVertical />} actions={[]} />
-                </TableCell>
               </TableRow>
             )
           )}

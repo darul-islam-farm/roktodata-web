@@ -112,3 +112,14 @@ export const deleteUser = async (id: string, userType: TUserType) => {
     return error_res()
   }
 }
+
+export const deleteAppointment = async (id: string) => {
+  try {
+    await prisma.appointment.delete({ where: { id } })
+
+    revalidatePath('/admin', 'layout')
+    return success_res()
+  } catch (error) {
+    return error_res()
+  }
+}

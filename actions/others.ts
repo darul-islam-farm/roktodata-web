@@ -49,8 +49,8 @@ export const getSearchedDonor = async (data: TSearchdata) => {
 export const uploadFiles = async (formData: FormData) => {
   const files = formData.getAll('files')
   try {
-    const response = await utapi.uploadFiles(files)
-    return { ok: true, data: response.map((item) => item.data?.key) }
+    const res = await utapi.uploadFiles(files)
+    return success_res(res.map((item) => item.data?.key))
   } catch (error) {
     console.log('error on uploading ', error)
   }
@@ -78,20 +78,6 @@ export const createAppointment = async (data: any) => {
     })
     return success_res()
   } catch (error) {
-    console.log('error', error)
-    return error_res('something went wrong')
-  }
-}
-
-export const getUserStatus = async (id: string) => {
-  try {
-    const user = await prisma.receiver.findUnique({ where: { id } })
-    if (!user) return error_res('কোনো ইউজার পাওয়া যায়নি, আবার চেষ্টা করুন।')
-    return success_res({
-      profileStatus: user?.status,
-      requestStatus: user?.userStatus
-    })
-  } catch {
     return error_res()
   }
 }
@@ -126,6 +112,19 @@ export const getAppointments = async () => {
       }
     })
     return success_res(applications)
+  } catch {
+    return error_res()
+  }
+}
+
+export const getUserStatus = async (id: string) => {
+  try {
+    const user = await prisma.receiver.findUnique({ where: { id } })
+    if (!user) return error_res('কোনো ইউজার পাওয়া যায়নি, আবার চেষ্টা করুন।')
+    return success_res({
+      profileStatus: user?.status,
+      requestStatus: user?.userStatus
+    })
   } catch {
     return error_res()
   }

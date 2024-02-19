@@ -1,10 +1,19 @@
-import { Metadata } from 'next'
+'use client'
 
-export const metadata: Metadata = {
-  title: 'ড্যাশবোর্ড'
-}
+import requests from '@/services/network/http'
+import { useSession } from 'next-auth/react'
+
+import useAsync from '@/lib/useAsync'
 
 export default function Home() {
+  const { data: session } = useSession()
+
+  const { data } = useAsync(
+    `/api/receiver/get-own-info?id=${session?.user.id}`,
+    requests.get
+  )
+
+  console.log('data', data)
   return (
     <main>
       <div className='h-screen flex items-center justify-center'>
