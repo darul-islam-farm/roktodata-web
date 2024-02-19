@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { createDonor, createReceiver } from '@/actions/user'
+import { createReceiver } from '@/actions/user'
 import {
   TBasicdata,
   TCreddata,
@@ -53,7 +53,7 @@ export default function Register() {
   const createUser = async () => {
     let serverFunc = createReceiver
     if (userType === 'donor') {
-      serverFunc = createDonor
+      serverFunc = createUser
     } else if (userType === 'receiver') {
       serverFunc = createReceiver
     } else {

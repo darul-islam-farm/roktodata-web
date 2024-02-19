@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 'use server'
 
 import { signIn, signOut } from '@/configs/auth'
@@ -7,7 +8,7 @@ import { AuthError } from 'next-auth'
 
 import prisma from '@/lib/prisma'
 
-export const createDonor = async (data: any) => {
+export const createUser = async (data: any) => {
   const { bloodType, ...rest } = data
   const parseData = alldata.safeParse(rest)
   if (!parseData.success) return error_res('Data validation failed')

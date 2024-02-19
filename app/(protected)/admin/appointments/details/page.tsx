@@ -120,14 +120,15 @@ export default function AppointmentsDetails() {
       <div className='mt-6'>
         <h2>সংশ্লিষ্ট ফাইল</h2>
         <hr />
-        <div className='mt-6'>
+        <div className='mt-6 grid grid-cols-1 md:grid-cols-2 gap-3'>
           {data.appointment.images.map((item: string, idx: number) => (
-            <div className='grid gap-3'>
+            <div className='col-auto'>
               <Image
                 width={400}
                 height={300}
-                src={item}
+                src={`https://utfs.io/f/${item}`}
                 alt='file image'
+                className='w-full'
                 key={idx}
               />
             </div>

@@ -21,7 +21,6 @@ export const getDonorData = async (status: TStatus) => {
         }
       }
     })
-    console.log('data', data)
     return success_res(data)
   } catch {
     return error_res()
@@ -41,7 +40,7 @@ export const getReceiverData = async (status: TStatus) => {
   }
 }
 
-export const updateDonorProfile = async (data: {
+export const createDonorProfile = async (data: {
   bloodType: string
   id: string
   status: TStatus

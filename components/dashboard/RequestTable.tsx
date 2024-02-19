@@ -1,6 +1,6 @@
 'use client'
 
-import { updateDonorProfile, updateReceiverProfile } from '@/actions/admin'
+import { createDonorProfile, updateReceiverProfile } from '@/actions/admin'
 import { confirmAlertAsync } from '@/services/alerts/alerts'
 import { MoreVertical } from 'lucide-react'
 
@@ -77,7 +77,7 @@ const requestActions = ({ id, bloodType }: TUser, userType: TUserType) => {
             title: 'রিকুয়েস্টটি কনফার্ম করতে চান?',
             body: 'রিকুয়েস্টটি কনফার্ম করা হলে উক্ত ডোনারের একটি ভেরিফাইড প্রোফাইল তৈরি হবে।',
             precom: () =>
-              updateDonorProfile({
+              createDonorProfile({
                 bloodType,
                 id,
                 status: 'ACCEPTED'
@@ -92,7 +92,7 @@ const requestActions = ({ id, bloodType }: TUser, userType: TUserType) => {
             title: 'রিকুয়েস্টটি বাতিল করতে চান?',
             body: 'রিকুয়েস্টটি বাতিল করা হলে উক্ত ডোনারের কোনো প্রোফাইল তৈরি হবে না।',
             precom: () =>
-              updateDonorProfile({
+              createDonorProfile({
                 bloodType,
                 id,
                 status: 'REJECTED'
