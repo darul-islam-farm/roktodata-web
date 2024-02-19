@@ -150,7 +150,6 @@ export default function Application() {
         return uploadImagesRes.data
       } else throw new Error('something went wrong!')
     } catch (error) {
-      console.log('error on uploading', error)
       setLoading(false)
       errorAlert({
         title: 'ইরর হয়েছে',
