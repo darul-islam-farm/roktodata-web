@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { authenticate } from '@/actions/user'
+import { authenticate, checkStatus } from '@/actions/user'
 import { logindata, TLogindata } from '@/constants/schema/register'
 import { errorAlert } from '@/services/alerts/alerts'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -31,9 +31,16 @@ export default function Login() {
   const onSubmit = async (value: TLogindata) => {
     setLoading(true)
     try {
-      await authenticate(value)
-    } catch {
-      errorAlert({ title: 'ভুল ইমেইল অথবা পাসওয়ার্ড', timer: 2500 })
+      const res = await checkStatus(value)
+      if (res.ok) {
+        await authenticate(value)
+        return
+      }
+      if (res.error) errorAlert({ body: res.error })
+      setLoading(false)
+    } catch (error) {
+      console.log('error', error)
+      errorAlert({ body: 'ভুল ইমেইল অথবা পাসওয়ার্ড' })
       setLoading(false)
     }
   }

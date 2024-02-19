@@ -12,8 +12,16 @@ export const getDonorData = async (status: TStatus) => {
     const data = await prisma.user.findMany({
       where: {
         status
+      },
+      include: {
+        donorProfile: {
+          include: {
+            appointments: true
+          }
+        }
       }
     })
+    console.log('data', data)
     return success_res(data)
   } catch {
     return error_res()

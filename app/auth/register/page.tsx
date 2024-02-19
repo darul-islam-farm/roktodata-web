@@ -10,7 +10,7 @@ import {
   TLocationdata
 } from '@/constants/schema/register'
 import { bloodGroups } from '@/constants/static'
-import { errorAlert } from '@/services/alerts/alerts'
+import { errorAlert, successAlert } from '@/services/alerts/alerts'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
@@ -32,7 +32,7 @@ export default function Register() {
   const searchParams = useSearchParams()
   const userType = searchParams.get('type') as TSearchParams
   const donor = searchParams.get('donor')
-  const { push } = useRouter()
+  const { push, replace } = useRouter()
   const [step, setStep] = useState(1)
   const [data, setData] = useState({})
   const [group, setGroup] = useState<string | null>(null)
@@ -67,12 +67,17 @@ export default function Register() {
       })
 
       res.error && errorAlert({ title: res.error, timer: 5000 })
-      if (res.ok)
-        userType === 'donor'
-          ? push('/auth/login')
-          : userType === 'receiver'
-            ? push(`/application?donor=${donor}&receiver=${res.data}`)
-            : null
+      if (res.ok) {
+        if (userType === 'donor') {
+          successAlert({
+            title: 'সফল হয়েছে',
+            body: 'আপনার রেজিস্ট্রেশন সফল হয়েছে। ভেরিফাই করা হলে জানিয়ে দেয়া হবে।'
+          })
+          replace('/auth/login')
+        } else if (userType === 'receiver') {
+          replace(`/application?donor=${donor}&receiver=${res.data}`)
+        }
+      }
     } catch (error) {
       errorAlert({ title: error, timer: 5000 })
     }

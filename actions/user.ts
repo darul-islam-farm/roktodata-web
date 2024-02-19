@@ -92,6 +92,32 @@ export const updateUser = async (data: any) => {
   }
 }
 
+export const checkStatus = async (formData: TLogindata) => {
+  const { email, password } = formData
+  try {
+    const donor = await prisma.user.findUnique({
+      where: { email, password }
+    })
+    const receiver = await prisma.receiver.findUnique({
+      where: { email, password }
+    })
+
+    if (donor || receiver) {
+      if (donor?.status === 'ACCEPTED' || receiver?.status === 'ACCEPTED') {
+        return success_res()
+      } else {
+        return error_res(
+          'আপনার একাউন্টটি এখনো ভেরিফাই করা হয়নি। হলে জানিয়ে দেয়া হবে।'
+        )
+      }
+    } else {
+      return error_res('ভুল ইমেইল অথবা পাসওয়ার্ড')
+    }
+  } catch {
+    return error_res()
+  }
+}
+
 export const authenticate = async (formData: TLogindata) => {
   try {
     await signIn('credentials', formData)
