@@ -95,3 +95,38 @@ export const getUserStatus = async (id: string) => {
     return error_res()
   }
 }
+
+export const getAppointments = async () => {
+  try {
+    const applications = await prisma.appointment.findMany({
+      include: {
+        donor: {
+          include: {
+            user: {
+              select: {
+                name: true,
+                jilla: true,
+                subJilla: true,
+                thana: true,
+                address: true
+              }
+            }
+          }
+        },
+        receiver: {
+          select: {
+            id: true,
+            name: true,
+            jilla: true,
+            subJilla: true,
+            thana: true,
+            address: true
+          }
+        }
+      }
+    })
+    return success_res(applications)
+  } catch {
+    return error_res()
+  }
+}

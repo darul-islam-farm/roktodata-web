@@ -3,6 +3,7 @@ import {
   HeartPulseIcon,
   LayoutDashboard,
   LucideIcon,
+  ScrollText,
   Settings2,
   Settings2Icon,
   Star,
@@ -52,6 +53,11 @@ export const siteInfo = {
       name: 'রিসিভার রিকুয়েস্ট',
       link: '/admin/receiver-requests',
       icon: Syringe
+    },
+    {
+      name: 'আবেদনসমূহ',
+      link: '/admin/appointments',
+      icon: ScrollText
     },
     { name: 'সকল ডোনার', link: '/admin/all-donors', icon: HeartPulseIcon },
     {

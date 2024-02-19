@@ -25,7 +25,7 @@ type TProps = {
 
 export default function UserTable({ title, data, userType }: TProps) {
   return (
-    <>
+    <div>
       <h1 className='text-center my-8 text-secondary'>{title}</h1>
       <Table>
         <TableHeader>
@@ -81,6 +81,6 @@ export default function UserTable({ title, data, userType }: TProps) {
         </TableBody>
         <TableFooter>{/** @TODO Add Pagination here */}</TableFooter>
       </Table>
-    </>
+    </div>
   )
 }
