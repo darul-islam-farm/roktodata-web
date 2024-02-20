@@ -119,7 +119,7 @@ export const getAppointments = async () => {
 
 export const getAppointmentById = async (id: string) => {
   try {
-    const applications = await prisma.appointment.findMany({
+    const applications = await prisma.appointment.findUnique({
       where: { receiverId: id },
       include: {
         donor: {

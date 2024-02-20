@@ -53,7 +53,7 @@ model Receiver {
   role           ProfileType   @default(RECEIVER)
   userStatus     UserStatus    @default(NORMAL)
   receiveHistory Donation[]
-  appointments   Appointment[]
+  appointment    Appointment?
   createdAt      DateTime      @default(now()) // timestamps
   updatedAt      DateTime      @updatedAt
 
@@ -90,7 +90,7 @@ model Appointment {
   donor          DonorProfile      @relation(fields: [donorId], references: [id]) // identity
   donorId        String            @db.ObjectId
   receiver       Receiver          @relation(fields: [receiverId], references: [id])
-  receiverId     String            @db.ObjectId
+  receiverId     String            @unique @db.ObjectId
   scheduledAt    DateTime // status
   status         AppointmentStatus @default(PENDING)
   images         String[] // documents
