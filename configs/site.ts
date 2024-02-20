@@ -45,7 +45,12 @@ export const siteInfo = {
     { name: 'সেটিংস', link: '/dashboard/donor/settings', icon: Settings2Icon }
   ],
   userDashboardItem: [
-    { name: 'User', link: '/dashboard/receiver', icon: LayoutDashboard }
+    { name: 'প্রোফাইল', link: '/dashboard/receiver', icon: UserCog2 },
+    {
+      name: 'আবেদন',
+      link: '/dashboard/receiver/applications',
+      icon: ScrollText
+    }
   ],
   adminDashboardItem: [
     { name: 'ডোনার রিকুয়েস্ট', link: '/admin', icon: HeartPulseIcon },

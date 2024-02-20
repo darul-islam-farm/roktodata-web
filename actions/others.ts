@@ -117,6 +117,42 @@ export const getAppointments = async () => {
   }
 }
 
+export const getAppointmentById = async (id: string) => {
+  try {
+    const applications = await prisma.appointment.findMany({
+      where: { receiverId: id },
+      include: {
+        donor: {
+          include: {
+            user: {
+              select: {
+                name: true,
+                jilla: true,
+                subJilla: true,
+                thana: true,
+                address: true
+              }
+            }
+          }
+        },
+        receiver: {
+          select: {
+            id: true,
+            name: true,
+            jilla: true,
+            subJilla: true,
+            thana: true,
+            address: true
+          }
+        }
+      }
+    })
+    return success_res(applications)
+  } catch {
+    return error_res()
+  }
+}
+
 export const getUserStatus = async (id: string) => {
   try {
     const user = await prisma.receiver.findUnique({ where: { id } })
