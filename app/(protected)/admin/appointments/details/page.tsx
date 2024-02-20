@@ -118,7 +118,9 @@ export default function AppointmentsDetails() {
         <h3 className='font-medium'>
           আবেদনের সময় :
           <span className='text-secondary pl-4'>
-            {dayjs(data.appointment.scheduledAt).format('D MMM, YYYY')}
+            {dayjs(data.appointment.scheduledAt).format(
+              'D MMM, YY  ~  h : mm A'
+            )}
           </span>
         </h3>
         <h3 className='font-medium mt-2'>হাসপাতালের ঠিকানা</h3>

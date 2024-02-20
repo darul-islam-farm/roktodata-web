@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { getAppointments } from '@/actions/others'
 import dayjs from 'dayjs'
-import { ArrowRight, MoreVertical } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 
 import {
   Table,
@@ -12,7 +12,6 @@ import {
   TableHeader,
   TableRow
 } from '@/components/ui/table'
-import CMenu from '@/components/customs/CMenu'
 
 export default async function Applications() {
   const { data } = await getAppointments()
@@ -46,7 +45,7 @@ export default async function Applications() {
                 <TableCell className='min-w-40'>{donor.user.name}</TableCell>
                 <TableCell className='min-w-40'>{receiver.name}</TableCell>
                 <TableCell>
-                  {dayjs(scheduledAt).format('D MMM, YYYY')}
+                  {dayjs(scheduledAt).format('D MMM, YY  ~  h : mm A')}
                 </TableCell>
                 <TableCell>
                   <Link

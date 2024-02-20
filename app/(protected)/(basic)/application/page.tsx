@@ -34,7 +34,7 @@ import {
 } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { GTextarea } from '@/components/customs/GInput'
+import { GInput, GTextarea } from '@/components/customs/GInput'
 import Container from '@/components/shared/Container'
 
 type TInput = {
@@ -237,6 +237,13 @@ export default function Application() {
             label='বর্তমান ঠিকানা'
             message={errors.address?.message}
             name='address'
+          />
+          <GInput
+            type='datetime-local'
+            register={register}
+            label='তারিখ ও সময়'
+            name='scheduledAt'
+            message={errors.scheduledAt?.message}
           />
           <GTextarea
             compact
