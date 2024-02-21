@@ -3,7 +3,11 @@
 import { ChangeEvent, useEffect, useState } from 'react'
 import Image from 'next/image'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { createAppointment, getUserStatus } from '@/actions/others'
+import {
+  checkAppointmentAvailablity,
+  createAppointment,
+  getUserStatus
+} from '@/actions/others'
 import {
   appointmentSchema,
   TAppointmentData
@@ -48,11 +52,11 @@ type TReceiverStatus = {
 
 export default function Application() {
   const searchparams = useSearchParams()
-  const donor = searchparams.get('donor')
   const [status, setStatus] = useState<TReceiverStatus>({
     profileStatus: null,
     requestStatus: null
   })
+  const donor = searchparams.get('donor') as string
   const receiver = searchparams.get('receiver') as string
   const { replace } = useRouter()
   const [imageInputs, setImageInputs] = useState<TInput[]>([
@@ -160,26 +164,32 @@ export default function Application() {
 
   const onSubmit = async (inputData: TAppointmentData) => {
     if (imageInputs.length === 1 && !imageInputs[0].file) {
-      errorAlert({
+      return errorAlert({
         title: 'ছবি আপলোড করা হয়নি',
         body: 'সংশ্লিষ্ট ডকুমেন্টস এর ছবি ছাড়া আবেদন সম্পূর্ণ হবে না।',
         timer: 5000
       })
-      return
     }
     setLoading(true)
-    const images = await uploadImage()
-    if (!images) return
-
-    const fields = {
-      ...inputData,
-      // images: ['82187904-bef2-4b67-bff5-33a3c3d08b18-rexrxh.png'],
-      images,
-      donor,
-      receiver,
-      scheduledAt: new Date()
-    }
     try {
+      const check = await checkAppointmentAvailablity(donor, receiver)
+      if (check.error) {
+        setLoading(false)
+        return errorAlert({
+          body: check.error
+        })
+      }
+
+      const images = await uploadImage()
+      if (!images) return
+      const fields = {
+        ...inputData,
+        // images: ['82187904-bef2-4b67-bff5-33a3c3d08b18-rexrxh.png'],
+        images,
+        donor,
+        receiver,
+        scheduledAt: new Date()
+      }
       const res = await createAppointment(fields)
       if (res.ok) {
         successAlert({
@@ -303,9 +313,9 @@ export default function Application() {
               সর্বোচ্চ 4mb সাইজ।{' '}
             </AlertDialogDescription>
             <form action={handleImageUpload}>
-              {imageInputs.map((item) => (
+              {imageInputs.map((item, idx) => (
                 <div
-                  key={item.id}
+                  key={idx}
                   className='flex items-center justify-between gap-2 '
                 >
                   <Input
@@ -372,8 +382,8 @@ export default function Application() {
             <h1>Image Preview</h1>
             <hr className='mb-4' />
             <div className='image-row'>
-              {selectedImages.map((item) => (
-                <div className='image-column'>
+              {selectedImages.map((item, idx) => (
+                <div key={idx} className='image-column'>
                   {item && (
                     <Image
                       src={item.toString()}

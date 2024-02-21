@@ -1,5 +1,6 @@
 'use server'
 
+import { revalidatePath } from 'next/cache'
 import { TSearchdata } from '@/constants/schema/others'
 import removeProperties from '@/helper/removeProperties'
 import { error_res, success_res } from '@/helper/static-response'
@@ -56,8 +57,10 @@ export const uploadFiles = async (formData: FormData) => {
   }
 }
 
-export const createAppointment = async (data: any) => {
-  const { donor, receiver, ...rest } = data
+export const checkAppointmentAvailablity = async (
+  donor: string,
+  receiver: string
+) => {
   try {
     const donorRes = await prisma.donorProfile.findUnique({
       where: { id: donor }
@@ -65,10 +68,27 @@ export const createAppointment = async (data: any) => {
     const userRes = await prisma.receiver.findUnique({
       where: { id: receiver }
     })
+    const hasReceiverAppointment = await prisma.appointment.findUnique({
+      where: { receiverId: receiver }
+    })
     if (!donorRes || !userRes)
       return error_res(
         'কোনো ইউজার অথবা ডোনার ডাটা পাওয়া যায়নি। আবার চেষ্টা করুন।'
       )
+    if (hasReceiverAppointment) {
+      return error_res(
+        'আপনি ইতোমধ্যে একটি আবেদন করেছেন। সেটির ফলাফল জানিয়ে দেয়া হলে আবার আবেদন করতে পারবেন।'
+      )
+    }
+    return success_res()
+  } catch {
+    return error_res()
+  }
+}
+
+export const createAppointment = async (data: any) => {
+  const { donor, receiver, ...rest } = data
+  try {
     await prisma.appointment.create({
       data: {
         donor: { connect: { id: donor } },
@@ -76,8 +96,19 @@ export const createAppointment = async (data: any) => {
         ...rest
       }
     })
+    await prisma.receiver.update({
+      where: {
+        id: receiver
+      },
+      data: {
+        userStatus: 'REQUESTED'
+      }
+    })
+
+    revalidatePath('/admin', 'layout')
+
     return success_res()
-  } catch (error) {
+  } catch {
     return error_res()
   }
 }
@@ -108,7 +139,7 @@ export const getAppointments = async () => {
   }
 }
 
-export const getAppointmentById = async (id: string) => {
+export const getAppointmentForUser = async (id: string) => {
   try {
     const applications = await prisma.appointment.findUnique({
       where: { receiverId: id },
@@ -124,6 +155,42 @@ export const getAppointmentById = async (id: string) => {
                 address: true,
                 phone: true,
                 phone2: true
+              }
+            }
+          }
+        },
+        receiver: {
+          select: {
+            id: true,
+            name: true,
+            jilla: true,
+            subJilla: true,
+            thana: true,
+            address: true
+          }
+        }
+      }
+    })
+    return success_res(applications)
+  } catch {
+    return error_res()
+  }
+}
+
+export const getAppointmentForDonor = async (id: string) => {
+  try {
+    const applications = await prisma.appointment.findMany({
+      where: { donorId: id },
+      include: {
+        donor: {
+          include: {
+            user: {
+              select: {
+                name: true,
+                jilla: true,
+                subJilla: true,
+                thana: true,
+                address: true
               }
             }
           }
