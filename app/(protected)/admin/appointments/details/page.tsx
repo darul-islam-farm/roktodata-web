@@ -34,7 +34,7 @@ export default function AppointmentsDetails() {
     )
   return (
     <div>
-      <DetailsApplication data={data} access='ADMIN' />
+      <DetailsApplication data={data.appointment} access='ADMIN' />
       <div className='mt-12 flex flex-col md:flex-row gap-8'>
         <Button
           onClick={() =>

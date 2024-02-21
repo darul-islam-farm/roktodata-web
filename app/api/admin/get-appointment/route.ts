@@ -19,7 +19,9 @@ export async function GET(request: Request) {
                 jilla: true,
                 subJilla: true,
                 thana: true,
-                address: true
+                address: true,
+                phone: true,
+                phone2: true
               }
             }
           }
@@ -32,7 +34,9 @@ export async function GET(request: Request) {
             jilla: true,
             subJilla: true,
             thana: true,
-            address: true
+            address: true,
+            phone: true,
+            phone2: true
           }
         }
       }

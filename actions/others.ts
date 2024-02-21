@@ -90,23 +90,14 @@ export const getAppointments = async () => {
           include: {
             user: {
               select: {
-                name: true,
-                jilla: true,
-                subJilla: true,
-                thana: true,
-                address: true
+                name: true
               }
             }
           }
         },
         receiver: {
           select: {
-            id: true,
-            name: true,
-            jilla: true,
-            subJilla: true,
-            thana: true,
-            address: true
+            name: true
           }
         }
       }
@@ -130,7 +121,9 @@ export const getAppointmentById = async (id: string) => {
                 jilla: true,
                 subJilla: true,
                 thana: true,
-                address: true
+                address: true,
+                phone: true,
+                phone2: true
               }
             }
           }
@@ -142,7 +135,9 @@ export const getAppointmentById = async (id: string) => {
             jilla: true,
             subJilla: true,
             thana: true,
-            address: true
+            address: true,
+            phone: true,
+            phone2: true
           }
         }
       }
