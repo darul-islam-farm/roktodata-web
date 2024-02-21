@@ -180,6 +180,7 @@ enum UserStatus {
 
 enum AppointmentStatus {
   PENDING
+  VERIFIED
   ACCEPTED
   COMPLETED
   CANCELED

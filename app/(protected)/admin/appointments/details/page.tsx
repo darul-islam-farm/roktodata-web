@@ -1,7 +1,7 @@
 'use client'
 
 import { useRouter, useSearchParams } from 'next/navigation'
-import { deleteAppointment } from '@/actions/admin'
+import { verifyAppointment } from '@/actions/admin'
 import { confirmAlertAsync } from '@/services/alerts/alerts'
 import requests from '@/services/network/http'
 
@@ -17,13 +17,13 @@ export default function AppointmentsDetails() {
     `/api/admin/get-appointment?appId=${appId}`,
     requests.get
   )
-  const handleDelete = async () => {
-    const res = await deleteAppointment(appId)
+  const handleAction = async (action: TAppointmentStatus) => {
+    const res = await verifyAppointment(appId, action)
     if (res.ok) {
       back()
       return { ok: true }
     }
-    if (res.error) return { error: 'আবেদনটি ডিলিট হয়নি।' }
+    if (res.error) return { error: 'আবার চেষ্টা করুন' }
   }
   if (isLoading) return <div>Loading...</div>
   if (error)
@@ -35,23 +35,35 @@ export default function AppointmentsDetails() {
   return (
     <div>
       <DetailsApplication data={data.appointment} access='ADMIN' />
-      <div className='mt-12 flex flex-col md:flex-row gap-8'>
+      <div className='mt-12 flex flex-col md:flex-row-reverse gap-8'>
         <Button
           onClick={() =>
             confirmAlertAsync({
-              body: 'আবেদনটি ডিলিট করা হবে?',
-              precom: handleDelete,
-              successText: 'আবেদনটি ডিলিট করা হয়েছে।'
+              body: 'আবেদনটি ভেরিফাই করা হবে?',
+              precom: () => handleAction('VERIFIED'),
+              successText: 'আবেদনটি ভেরিফাই করা হয়েছে এবং ডোনারকে জানানো হয়েছে।'
+            })
+          }
+          shadow
+          className='w-full'
+          size='lg'
+          variant='secondary'
+        >
+          ভেরিফাই করুন
+        </Button>
+        <Button
+          onClick={() =>
+            confirmAlertAsync({
+              body: 'আবেদনটি ক্যান্সেল করা হবে?',
+              precom: () => handleAction('CANCELED'),
+              successText: 'আবেদনটি ক্যান্সেল করা হয়েছে।'
             })
           }
           shadow
           className='w-full'
           size='lg'
         >
-          ডিলেট করুন
-        </Button>
-        <Button shadow className='w-full' size='lg' variant='secondary'>
-          অ্যাপ্রুভ করুন
+          ক্যান্সেল করুন
         </Button>
       </div>
     </div>

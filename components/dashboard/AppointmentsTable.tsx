@@ -14,12 +14,17 @@ import {
 
 type TProps = {
   data: any
+  title: string
   isAdmin?: boolean
 }
-export default async function AppointmentsTable({ data, isAdmin }: TProps) {
+export default async function AppointmentsTable({
+  data,
+  title,
+  isAdmin
+}: TProps) {
   return (
     <div>
-      <h1 className='text-center my-8 text-secondary'>সকল আবেদন</h1>
+      <h1 className='text-center my-8 text-secondary'>{title}</h1>
       <Table>
         <TableHeader>
           <TableRow>
@@ -32,7 +37,7 @@ export default async function AppointmentsTable({ data, isAdmin }: TProps) {
 
         {!data?.length && (
           <TableCaption>
-            <h1 className='text-primary h-40 flex items-center justify-center'>
+            <h1 className='text-primary text-xl h-40 flex items-center justify-center'>
               কোনো ডাটা পাওয়া যায়নি।
             </h1>
           </TableCaption>

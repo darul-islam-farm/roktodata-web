@@ -143,14 +143,13 @@ export default function DetailsApplication({ data, access }: TProps) {
         <hr />
         <div className='mt-6 grid grid-cols-1 md:grid-cols-2 gap-3'>
           {data.images.map((item: string, idx: number) => (
-            <div className='col-auto'>
+            <div className='col-auto' key={idx}>
               <Image
                 width={400}
                 height={300}
                 src={`https://utfs.io/f/${item}`}
                 alt='file image'
                 className='w-full'
-                key={idx}
               />
             </div>
           ))}
