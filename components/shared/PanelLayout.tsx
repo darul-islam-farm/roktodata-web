@@ -26,7 +26,7 @@ export default function PanelLayout({
       <div className='min-h-screen bg-light lg:p-4'>
         <div
           className={cn(
-            'lg:grid lg:grid-cols-5 gap-x-4 rounded-2xl lg:p-4 bg-primary',
+            'lg:grid lg:grid-cols-5 gap-x-4 rounded-2xl lg:p-4 bg-primary lg:min-h-[96vh]',
             admin && 'lg:grid-cols-7 bg-secondary'
           )}
         >

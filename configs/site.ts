@@ -36,6 +36,11 @@ export const siteInfo = {
   donorDashboardItem: [
     { name: 'ড্যাশবোর্ড', link: '/dashboard/donor', icon: LayoutDashboard },
     {
+      name: 'আবেদন',
+      link: '/dashboard/donor/appointments',
+      icon: ScrollText
+    },
+    {
       name: 'আমার ডোনেশন',
       link: '/dashboard/donor/donations',
       icon: HeartPulse
@@ -48,7 +53,7 @@ export const siteInfo = {
     { name: 'প্রোফাইল', link: '/dashboard/receiver', icon: UserCog2 },
     {
       name: 'আবেদন',
-      link: '/dashboard/receiver/applications',
+      link: '/dashboard/receiver/appointments',
       icon: ScrollText
     }
   ],

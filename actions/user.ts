@@ -166,6 +166,39 @@ export const getUser = async (email: any, password: any) => {
   }
 }
 
+export const getAppointmentsForDonor = async (id: string) => {
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id },
+      include: { donorProfile: true }
+    })
+    const applications = await prisma.appointment.findMany({
+      where: {
+        donorId: user?.donorProfile?.id
+      },
+      include: {
+        donor: {
+          include: {
+            user: {
+              select: {
+                name: true
+              }
+            }
+          }
+        },
+        receiver: {
+          select: {
+            name: true
+          }
+        }
+      }
+    })
+    return success_res(applications)
+  } catch {
+    return error_res()
+  }
+}
+
 export const logOut = async () => {
   await signOut()
 }
