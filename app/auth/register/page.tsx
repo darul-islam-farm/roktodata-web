@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { createReceiver } from '@/actions/user'
+import { createReceiver, createUser } from '@/actions/user'
 import {
   TBasicdata,
   TCreddata,
@@ -50,7 +50,7 @@ export default function Register() {
     setIsOpen(true)
   }
 
-  const createUser = async () => {
+  const create_user = async () => {
     let serverFunc = createReceiver
     if (userType === 'donor') {
       serverFunc = createUser
@@ -174,7 +174,7 @@ export default function Register() {
                 >
                   আমি সম্মত নই
                 </Button>
-                <Button onClick={createUser} variant='secondary'>
+                <Button onClick={create_user} variant='secondary'>
                   আমি সম্মত
                 </Button>
               </AlertDialogFooter>

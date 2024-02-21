@@ -14,7 +14,7 @@ export async function GET(request: Request) {
       where: { id },
       include: {
         receiveHistory: true,
-        appointments: true
+        appointment: true
       }
     })
     const data = excludeFields(response, ['status'])
