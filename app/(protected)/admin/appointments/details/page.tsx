@@ -1,7 +1,7 @@
 'use client'
 
 import { useRouter, useSearchParams } from 'next/navigation'
-import { verifyAppointment } from '@/actions/admin'
+import { deleteAppointment, verifyAppointment } from '@/actions/admin'
 import { confirmAlertAsync } from '@/services/alerts/alerts'
 import requests from '@/services/network/http'
 
@@ -18,8 +18,15 @@ export default function AppointmentsDetails() {
     `/api/admin/get-appointment?appId=${appId}`,
     requests.get
   )
-  const handleAction = async (action: TAppointmentStatus) => {
-    const res = await verifyAppointment(appId, action)
+  const handleAction = async (
+    action: TAppointmentStatus,
+    type: 'MOD' | 'DEL'
+  ) => {
+    let asyncFunction = () => verifyAppointment(appId, action)
+    if (type === 'DEL') {
+      asyncFunction = () => deleteAppointment(appId)
+    }
+    const res = await asyncFunction()
     if (res.ok) {
       back()
       return { ok: true }
@@ -43,7 +50,7 @@ export default function AppointmentsDetails() {
               onClick={() =>
                 confirmAlertAsync({
                   body: 'আবেদনটি ভেরিফাই করা হবে?',
-                  precom: () => handleAction('PENDING'),
+                  precom: () => handleAction('PENDING', 'MOD'),
                   successText:
                     'আবেদনটি ভেরিফাই করা হয়েছে এবং ডোনারকে জানানো হয়েছে।'
                 })
@@ -58,16 +65,17 @@ export default function AppointmentsDetails() {
             <Button
               onClick={() =>
                 confirmAlertAsync({
-                  body: 'আবেদনটি ক্যান্সেল করা হবে?',
-                  precom: () => handleAction('CANCELED'),
-                  successText: 'আবেদনটি ক্যান্সেল করা হয়েছে।'
+                  title: 'আবেদনটি ডিলিট করা হবে?',
+                  body: 'ডিলিট করা হলে আবেদনের সমস্ত তথ্য মুছে যাবে।',
+                  precom: () => handleAction('CANCELED', 'DEL'),
+                  successText: 'আবেদনটি ডিলিট করা হয়েছে।'
                 })
               }
               shadow
               className='w-full'
               size='lg'
             >
-              ক্যান্সেল করুন
+              ডিলিট করুন
             </Button>
           </div>
         )}
