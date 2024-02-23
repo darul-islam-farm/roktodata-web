@@ -16,11 +16,13 @@ type TProps = {
   data: any
   title: string
   isAdmin?: boolean
+  type?: TAppointmentStatus
 }
-export default async function AppointmentsTable({
+export default function AppointmentsTable({
   data,
   title,
-  isAdmin
+  isAdmin,
+  type
 }: TProps) {
   return (
     <div>
@@ -59,7 +61,7 @@ export default async function AppointmentsTable({
                     className='font-medium text-secondary flex w-16 items-center gap-1'
                     href={
                       isAdmin
-                        ? `/admin/appointments/details?id=${id}`
+                        ? `/admin/appointments/details?id=${id}&type=${type}`
                         : `/dashboard/donor/appointments/details?id=${id}`
                     }
                   >

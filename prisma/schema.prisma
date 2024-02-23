@@ -92,7 +92,7 @@ model Appointment {
   receiver       Receiver          @relation(fields: [receiverId], references: [id])
   receiverId     String            @unique @db.ObjectId
   scheduledAt    DateTime // status
-  status         AppointmentStatus @default(PENDING)
+  status         AppointmentStatus @default(UNVERIFIED)
   images         String[] // documents
   hospitalInfo   String            @map("hospital_info")
   address        String
@@ -179,8 +179,8 @@ enum UserStatus {
 }
 
 enum AppointmentStatus {
+  UNVERIFIED
   PENDING
-  VERIFIED
   ACCEPTED
   COMPLETED
   CANCELED
