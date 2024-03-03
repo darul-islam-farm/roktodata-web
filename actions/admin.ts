@@ -160,3 +160,22 @@ export const createAdmin = async () => {
     return error_res()
   }
 }
+
+export const getAdmin = async (email: any, password: any) => {
+  try {
+    const admin = await prisma.admin.findUnique({
+      where: { email, password }
+      // select: {
+      //   id: true,
+      //   name: true,
+      //   email: true,
+      //   bloodType: true,
+      //   status: true,
+      //   role: true
+      // }
+    })
+    return admin
+  } catch {
+    throw new Error('not found')
+  }
+}
