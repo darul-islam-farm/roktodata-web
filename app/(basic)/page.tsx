@@ -63,7 +63,7 @@ export default async function Home() {
                 </div>
                 <div className='mt-8 flex items-center gap-2'>
                   <Image
-                    src='/images/others/femaleage.png'
+                    src='/images/others/age.png'
                     alt='male'
                     width={50}
                     height={50}
@@ -74,10 +74,10 @@ export default async function Home() {
                 </div>
                 <div className='mt-2 flex items-center gap-2'>
                   <p className='font-medium text-white text-xs sm:text-lg'>
-                    সর্বনিম্ন বয়স
+                    সর্বনিম্ন ওজন
                   </p>
                   <Image
-                    src='/images/others/femaleage.png'
+                    src='/images/others/femaleweight.png'
                     alt='male'
                     width={50}
                     height={50}
@@ -85,13 +85,13 @@ export default async function Home() {
                 </div>
                 <div className='mt-2 flex items-center gap-2'>
                   <Image
-                    src='/images/others/femaleage.png'
+                    src='/images/others/femaledl.png'
                     alt='male'
                     width={50}
                     height={50}
                   />
                   <p className='font-medium text-white text-xs sm:text-lg'>
-                    সর্বনিম্ন বয়স
+                    হিমো./ডেসিলিটার
                   </p>
                 </div>
               </div>
@@ -109,7 +109,7 @@ export default async function Home() {
                 <h1 className='text-3xl font-bold text-white mb-2'>পুরুষ</h1>
                 <div className='flex justify-center'>
                   <Image
-                    src='/images/others/female.png'
+                    src='/images/others/male.png'
                     alt='male'
                     width={50}
                     height={50}
@@ -117,7 +117,7 @@ export default async function Home() {
                 </div>
                 <div className='mt-8 flex items-center gap-2'>
                   <Image
-                    src='/images/others/femaleage.png'
+                    src='/images/others/age.png'
                     alt='male'
                     width={50}
                     height={50}
@@ -128,10 +128,10 @@ export default async function Home() {
                 </div>
                 <div className='mt-2 flex items-center gap-2'>
                   <p className='font-medium text-white text-xs sm:text-lg'>
-                    সর্বনিম্ন বয়স
+                    সর্বনিম্ন ওজন
                   </p>
                   <Image
-                    src='/images/others/femaleage.png'
+                    src='/images/others/maleweight.png'
                     alt='male'
                     width={50}
                     height={50}
@@ -139,13 +139,13 @@ export default async function Home() {
                 </div>
                 <div className='mt-2 flex items-center gap-2'>
                   <Image
-                    src='/images/others/femaleage.png'
+                    src='/images/others/maledl.png'
                     alt='male'
                     width={50}
                     height={50}
                   />
                   <p className='font-medium text-white text-xs sm:text-lg'>
-                    সর্বনিম্ন বয়স
+                    হিমো./ডেসিলিটার
                   </p>
                 </div>
               </div>
