@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Anek_Bangla } from 'next/font/google'
+import { Analytics } from '@vercel/analytics/react'
 
 import './globals.css'
 import './component.css'
@@ -36,7 +37,10 @@ export default function RootLayout({ children }: IChildren) {
         )}
       >
         <Provider>
-          <main>{children}</main>
+          <main>
+            {children}
+            <Analytics />
+          </main>
         </Provider>
       </body>
     </html>
