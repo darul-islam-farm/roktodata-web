@@ -1,6 +1,7 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
+import { auth } from '@/configs/auth'
 import { error_res, success_res } from '@/helper/static-response'
 
 import prisma from '@/lib/prisma'
@@ -140,6 +141,22 @@ export const deleteAppointment = async (id: string) => {
     revalidatePath('/admin', 'layout')
     return success_res()
   } catch (error) {
+    return error_res()
+  }
+}
+
+export const createAdmin = async () => {
+  const session = await auth()
+  if (session?.user.role !== 'ADMIN') return error_res('UnAuthenticated')
+  try {
+    await prisma.admin.create({
+      data: {
+        email: 'demo@roktodata.com',
+        password: '147570'
+      }
+    })
+    return success_res()
+  } catch {
     return error_res()
   }
 }

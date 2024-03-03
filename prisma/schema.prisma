@@ -143,6 +143,14 @@ model Hospitals {
   @@map("hospitals")
 }
 
+model Admin {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  email    String
+  password String
+
+  @@map("admins")
+}
+
 // model Comment {
 //   id String @id @default(auto()) @map("_id") @db.ObjectId
 
