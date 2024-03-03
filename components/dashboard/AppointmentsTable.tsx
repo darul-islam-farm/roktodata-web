@@ -61,7 +61,7 @@ export default function AppointmentsTable({
                     className='font-medium text-secondary flex w-16 items-center gap-1'
                     href={
                       isAdmin
-                        ? `/admin/appointments/details?id=${id}&type=${type}`
+                        ? `/dashboard/admin/appointments/details?id=${id}&type=${type}`
                         : `/dashboard/donor/appointments/details?id=${id}`
                     }
                   >
