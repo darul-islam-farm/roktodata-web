@@ -62,30 +62,43 @@ export const siteInfo = {
     }
   ],
   adminDashboardItem: [
-    { name: 'ডোনার রিকুয়েস্ট', href: '/admin', icon: HeartPulseIcon },
+    { name: 'ডোনার রিকুয়েস্ট', href: '/dashboard/admin', icon: HeartPulseIcon },
     {
       name: 'রিসিভার রিকুয়েস্ট',
-      href: '/admin/receiver-requests',
+      href: '/dashboard/admin/receiver-requests',
       icon: Syringe
     },
     {
       name: 'আবেদনসমূহ',
-      href: '/admin/appointments',
+      href: '/dashboard/admin/appointments',
       icon: ScrollText,
       child: [
-        { name: 'আনভেরিফাইড আবেদন', href: '/admin/appointments/unverified' },
-        { name: 'পেন্ডিং আবেদন', href: '/admin/appointments/pending' },
-        { name: 'গৃহীত আবেদন', href: '/admin/appointments/accepted' },
-        { name: 'অস্বীকৃত আবেদন', href: '/admin/appointments/canceled' }
+        {
+          name: 'আনভেরিফাইড আবেদন',
+          href: '/dashboard/admin/appointments/unverified'
+        },
+        {
+          name: 'পেন্ডিং আবেদন',
+          href: '/dashboard/admin/appointments/pending'
+        },
+        { name: 'গৃহীত আবেদন', href: '/dashboard/admin/appointments/accepted' },
+        {
+          name: 'অস্বীকৃত আবেদন',
+          href: '/dashboard/admin/appointments/canceled'
+        }
       ]
     },
-    { name: 'সকল ডোনার', href: '/admin/all-donors', icon: HeartPulseIcon },
+    {
+      name: 'সকল ডোনার',
+      href: '/dashboard/admin/all-donors',
+      icon: HeartPulseIcon
+    },
     {
       name: 'সকল রিসিভার',
-      href: '/admin/all-receivers',
+      href: '/dashboard/admin/all-receivers',
       icon: Syringe
     },
-    { name: 'সেটিংস', href: '/admin/settings', icon: Settings2 }
+    { name: 'সেটিংস', href: '/dashboard/admin/settings', icon: Settings2 }
   ]
 }
 

@@ -86,7 +86,7 @@ export default function Register() {
   if (userType !== 'donor' && userType !== 'receiver') push('/')
 
   return (
-    <div className='grid gap-y-4 auth__bg px-4 py-8 sm:py-12 rounded-xl'>
+    <div className='grid gap-y-4 auth__bg px-4 py-8 sm:py-12 rounded-2xl'>
       <div className='text-center mb-6'>
         <h1 className='text-3xl font-bold text-primary mb-4'>
           {userType === 'donor' ? 'রক্তদাতা' : 'রক্তগ্রহীতা'} একাউন্ট তৈরি করুন

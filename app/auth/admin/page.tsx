@@ -2,8 +2,8 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { useRouter, useSearchParams } from 'next/navigation'
-import { authenticate, checkStatus } from '@/actions/user'
+import { useRouter } from 'next/navigation'
+import { authenticate } from '@/actions/user'
 import { logindata, TLogindata } from '@/constants/schema/register'
 import { errorAlert } from '@/services/alerts/alerts'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -16,9 +16,6 @@ import { CInput } from '@/components/customs/CInput'
 
 export default function Login() {
   const [loading, setLoading] = useState(false)
-  const params = useSearchParams()
-  const callbackUrl = params.get('callbackUrl')
-  const donor = params.get('donor')
   const { data: session } = useSession()
   const { push } = useRouter()
   const {
@@ -31,32 +28,20 @@ export default function Login() {
   const onSubmit = async (value: TLogindata) => {
     setLoading(true)
     try {
-      const res = await checkStatus(value)
-      if (res.ok) {
-        await authenticate({ ...value, username: 'user' })
-        return
-      }
-      if (res.error) errorAlert({ body: res.error })
+      await authenticate({ ...value, username: 'admin' })
       setLoading(false)
     } catch (error) {
       errorAlert({ body: 'ভুল ইমেইল অথবা পাসওয়ার্ড' })
       setLoading(false)
     }
   }
-  if (session) {
-    if (callbackUrl) {
-      push(callbackUrl)
-      return
-    } else if (donor) {
-      push(`/application?donor=${donor}&receiver=${session.user.id}`)
-      return
-    }
-    push(`/dashboard/${session.user.role.toLowerCase()}`)
-  }
+
+  if (session?.user.role === 'ADMIN') return push('/dashboard/admin')
+
   return (
-    <div className='auth__bg grid gap-y-4 px-3 py-8 sm:px-12 pb-4 rounded-2xl'>
-      <div className='text-center mb-4'>
-        <h1 className='text-3xl font-bold text-primary'>লগইন করুন</h1>
+    <div className='bg-secondary grid gap-y-4 px-3 py-8 sm:p-12 rounded-xl'>
+      <div className='text-center mb-6'>
+        <h1 className='text-3xl font-bold text-white mb-4'>অ্যাডমিন লগইন</h1>
       </div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>
@@ -91,25 +76,16 @@ export default function Login() {
             লগইন
           </Button>
         </div>
-        <p className='text-sm mt-4 text-light font-medium flex-center gap-2 '>
-          আপনি কি একজন রক্তদাতা?{' '}
+        <p className='text-sm mt-4 text-light font-medium flex-center gap-2'>
+          আপনি কি একজন রক্তদাতা ?{' '}
           <Link
-            className='text-secondary font-semibold flex-center'
+            className='text-white font-semibold flex-center'
             href='/auth/register?type=donor'
           >
             রেজিস্ট্রেশন করুন
             <ArrowRight className='size-5' />
           </Link>
         </p>
-        <div className='mt-4'>
-          <Link
-            className='text-primary font-semibold flex-center'
-            href='/auth/admin'
-          >
-            অ্যাডমিন লগইন
-            <ArrowRight className='size-5' />
-          </Link>
-        </div>
       </form>
     </div>
   )

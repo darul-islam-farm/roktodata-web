@@ -21,7 +21,8 @@ export const creddata = z.object({
 })
 export const logindata = z.object({
   email: z.string().email('সঠিক ইমেইল অ্যাড্রেস আবশ্যক।'),
-  password: z.string().min(6, 'পাসওয়ার্ড অন্তত ৬ সংখ্যার হতে হবে।')
+  password: z.string().min(6, 'পাসওয়ার্ড অন্তত ৬ সংখ্যার হতে হবে।'),
+  username: z.string().optional()
 })
 export const alldata = z.object({
   name: z.string().min(4, 'আসল নাম আবশ্যক।'),

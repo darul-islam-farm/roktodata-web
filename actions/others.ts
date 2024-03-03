@@ -54,6 +54,7 @@ export const uploadFiles = async (formData: FormData) => {
     return success_res(res.map((item) => item.data?.key))
   } catch (error) {
     console.log('error on uploading ', error)
+    throw new Error('something went wrong')
   }
 }
 

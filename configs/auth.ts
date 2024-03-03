@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+import { getAdmin } from '@/actions/admin'
 import { getUser } from '@/actions/user'
 import { logindata } from '@/constants/schema/register'
 import NextAuth from 'next-auth'
@@ -31,11 +32,16 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
     Credentials({
       async authorize(credentials) {
         const parsedCredentials = logindata.safeParse(credentials)
-
         if (parsedCredentials.success) {
-          const { email, password } = parsedCredentials.data
-          const user = await getUser(email, password)
-          return user ?? null
+          const { email, password, username } = parsedCredentials.data
+
+          if (username === 'admin') {
+            const admin = await getAdmin(email, password)
+            return admin ?? null
+          } else if (username === 'user') {
+            const user = await getUser(email, password)
+            return user ?? null
+          }
         }
 
         return null

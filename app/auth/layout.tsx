@@ -12,7 +12,7 @@ export default async function AuthLayout({ children }: IChildren) {
     >
       <Navigate />
       <div className='px-4 sm:px-0 sm:flex justify-center items-center min-h-[85vh]'>
-        <div className='sm:min-w-[500px] py-12 lg:py-10'>
+        <div className='sm:min-w-[500px] py-20'>
           <SessionProvider session={session}>{children}</SessionProvider>
         </div>
       </div>
