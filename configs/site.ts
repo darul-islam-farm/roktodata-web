@@ -15,7 +15,11 @@ export type TSiteInfo = typeof siteInfo
 export type TNavItem = {
   name: string
   href: string
-  icon?: LucideIcon
+  icon: LucideIcon
+  child?: {
+    name: string
+    href: string
+  }[]
 }
 export const siteInfo = {
   name: 'রক্তদাতা',
@@ -34,48 +38,54 @@ export const siteInfo = {
     { name: 'যোগাযোগ', href: '/contact' }
   ],
   donorDashboardItem: [
-    { name: 'ড্যাশবোর্ড', link: '/dashboard/donor', icon: LayoutDashboard },
+    { name: 'ড্যাশবোর্ড', href: '/dashboard/donor', icon: LayoutDashboard },
     {
       name: 'আবেদন',
-      link: '/dashboard/donor/appointments',
+      href: '/dashboard/donor/appointments',
       icon: ScrollText
     },
     {
       name: 'আমার ডোনেশন',
-      link: '/dashboard/donor/donations',
+      href: '/dashboard/donor/donations',
       icon: HeartPulse
     },
-    { name: 'রিভিউ', link: '/dashboard/donor/reviews', icon: Star },
-    { name: 'প্রোফাইল', link: '/dashboard/donor/profile', icon: UserCog2 },
-    { name: 'সেটিংস', link: '/dashboard/donor/settings', icon: Settings2Icon }
+    { name: 'রিভিউ', href: '/dashboard/donor/reviews', icon: Star },
+    { name: 'প্রোফাইল', href: '/dashboard/donor/profile', icon: UserCog2 },
+    { name: 'সেটিংস', href: '/dashboard/donor/settings', icon: Settings2Icon }
   ],
   userDashboardItem: [
-    { name: 'প্রোফাইল', link: '/dashboard/receiver', icon: UserCog2 },
+    { name: 'প্রোফাইল', href: '/dashboard/receiver', icon: UserCog2 },
     {
       name: 'আবেদন',
-      link: '/dashboard/receiver/appointments',
+      href: '/dashboard/receiver/appointments',
       icon: ScrollText
     }
   ],
   adminDashboardItem: [
-    { name: 'ডোনার রিকুয়েস্ট', link: '/admin', icon: HeartPulseIcon },
+    { name: 'ডোনার রিকুয়েস্ট', href: '/admin', icon: HeartPulseIcon },
     {
       name: 'রিসিভার রিকুয়েস্ট',
-      link: '/admin/receiver-requests',
+      href: '/admin/receiver-requests',
       icon: Syringe
     },
     {
       name: 'আবেদনসমূহ',
-      link: '/admin/appointments',
-      icon: ScrollText
+      href: '/admin/appointments',
+      icon: ScrollText,
+      child: [
+        { name: 'আনভেরিফাইড আবেদন', href: '/admin/appointments/unverified' },
+        { name: 'পেন্ডিং আবেদন', href: '/admin/appointments/pending' },
+        { name: 'গৃহীত আবেদন', href: '/admin/appointments/accepted' },
+        { name: 'অস্বীকৃত আবেদন', href: '/admin/appointments/canceled' }
+      ]
     },
-    { name: 'সকল ডোনার', link: '/admin/all-donors', icon: HeartPulseIcon },
+    { name: 'সকল ডোনার', href: '/admin/all-donors', icon: HeartPulseIcon },
     {
       name: 'সকল রিসিভার',
-      link: '/admin/all-receivers',
+      href: '/admin/all-receivers',
       icon: Syringe
     },
-    { name: 'সেটিংস', link: '/admin/settings', icon: Settings2 }
+    { name: 'সেটিংস', href: '/admin/settings', icon: Settings2 }
   ]
 }
 

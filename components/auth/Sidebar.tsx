@@ -2,13 +2,21 @@
 
 import { useMemo } from 'react'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { logOut } from '@/actions/user'
-import { siteInfo } from '@/configs/site'
+import { siteInfo, TNavItem } from '@/configs/site'
 import { confirmAlert } from '@/services/alerts/alerts'
 import { ArrowLeft, LogOut, User2 } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu'
 
 type TProps = {
   mobile?: boolean
@@ -19,6 +27,8 @@ type TProps = {
 
 export default function Sidebar({ mobile, user, admin, donor }: TProps) {
   const pathname = usePathname()
+  const { push } = useRouter()
+
   const meta = useMemo(() => {
     if (donor) return siteInfo.donorDashboardItem
     else if (admin) return siteInfo.adminDashboardItem
@@ -48,21 +58,50 @@ export default function Sidebar({ mobile, user, admin, donor }: TProps) {
           </div>
         )}
         <div className='mt-8'>
-          {meta.map((item, idx) => (
-            <Link
-              key={idx}
-              href={item.link}
-              className={cn(
-                'flex itmes-center font-medium hover:bg-light/20 text-light px-4 py-2.5 lg:text-lg mb-4 gap-2',
-                !mobile && 'rounded-lg',
-                pathname === item.link && 'bg-light/20 border-l-2 border-white',
-                admin && 'text-sm lg:text-sm'
-              )}
-            >
-              <item.icon strokeWidth={2} />
-              {item.name}
-            </Link>
-          ))}
+          {meta.map((item: TNavItem, idx: number) =>
+            item.child ? (
+              <DropdownMenu key={idx}>
+                <DropdownMenuTrigger
+                  className={cn(
+                    'flex w-full itmes-center font-medium hover:bg-light/20 text-light px-4 py-2.5 lg:text-lg mb-4 gap-2',
+                    !mobile && 'rounded-lg',
+                    admin && 'text-sm lg:text-sm'
+                  )}
+                >
+                  <item.icon strokeWidth={2} />
+                  {item.name}
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className='min-w-[300px]'>
+                  <DropdownMenuLabel>আবেদনসমূহ</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  {item.child.map((childLink, i) => (
+                    <DropdownMenuItem
+                      className='cursor-pointer'
+                      onClick={() => push(childLink.href)}
+                      key={i}
+                    >
+                      {childLink.name}
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Link
+                key={idx}
+                href={item.href}
+                className={cn(
+                  'flex itmes-center font-medium hover:bg-light/20 text-light px-4 py-2.5 lg:text-lg mb-4 gap-2',
+                  !mobile && 'rounded-lg',
+                  pathname === item.href &&
+                    'bg-light/20 border-l-2 border-white',
+                  admin && 'text-sm lg:text-sm'
+                )}
+              >
+                <item.icon strokeWidth={2} />
+                {item.name}
+              </Link>
+            )
+          )}
           {!mobile && (
             <button
               onClick={() => {

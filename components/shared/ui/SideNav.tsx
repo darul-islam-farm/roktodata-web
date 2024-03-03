@@ -1,9 +1,8 @@
 'use client'
 
-import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { siteInfo, TNavItem } from '@/configs/site'
+import { siteInfo } from '@/configs/site'
 import { AlignLeft } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
@@ -36,25 +35,27 @@ export default function SideNav({ isHome, path }: TProps) {
             </SheetTitle>
           </SheetHeader>
           <div className='grid gap-y-4 py-4'>
-            {siteInfo.navItems.map(({ name, href }: TNavItem, idx: number) => (
-              <SheetClose asChild key={idx}>
-                <Link
-                  className={cn(
-                    'text-dark px-4 py-2 rounded-md block hover:bg-primary/10',
-                    href.includes(path) &&
-                      !isHome &&
-                      'bg-primary/10 border-l-4 border-primary text-primary font-medium',
-                    isHome ? 'decoration-primary' : 'decoration-white',
-                    isHome &&
-                      href === '/' &&
-                      'bg-primary/10 border-l-4 border-primary text-primary font-medium'
-                  )}
-                  href={href}
-                >
-                  {name}
-                </Link>
-              </SheetClose>
-            ))}
+            {siteInfo.navItems.map(
+              ({ name, href }: { name: string; href: string }, idx: number) => (
+                <SheetClose asChild key={idx}>
+                  <Link
+                    className={cn(
+                      'text-dark px-4 py-2 rounded-md block hover:bg-primary/10',
+                      href.includes(path) &&
+                        !isHome &&
+                        'bg-primary/10 border-l-4 border-primary text-primary font-medium',
+                      isHome ? 'decoration-primary' : 'decoration-white',
+                      isHome &&
+                        href === '/' &&
+                        'bg-primary/10 border-l-4 border-primary text-primary font-medium'
+                    )}
+                    href={href}
+                  >
+                    {name}
+                  </Link>
+                </SheetClose>
+              )
+            )}
             <AuthBtn />
           </div>
         </SheetContent>
