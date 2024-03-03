@@ -1,53 +1,29 @@
-This is a **NextJs** project bootstrapped with **create-next-app**
+# Welcome to ROKTODATA project.
 
-## Getting Started
+### Revolutionising Car Ownership with AI-Powered Solutions for a Simplified, Seamless, Stress-Free Experience.
 
-First, install all dependencies:
+## Run Locally
 
-```bash
-npm i
-```
-
-Then, run the development server:
+Clone the project
 
 ```bash
-npm run dev
+  git clone https://github.com/darul-islam-farm/roktodata-web.git
 ```
 
-### Dependencies
+Go to the project directory
 
-```
-@hookform/resolvers
-@react-aria/ssr
-class-variance-authority
-clsx
-lucide-react
-next
-next-auth
-next-themes
-react
-react-dom
-react-hook-form
-tailwind-merge
-tailwindcss-animate
-zod
+```bash
+  cd roktodata-web
 ```
 
-### Dev Dependencies
+Install dependencies
 
+```bash
+  npm i && npm run build
 ```
-@ianvs/prettier-plugin-sort-imports
-@types/node
-@types/react
-@types/react-dom
-@typescript-eslint/parser
-autoprefixer
-eslint
-eslint-config-next
-eslint-config-prettier
-eslint-plugin-react
-eslint-plugin-tailwindcss
-postcss
-tailwindcss
-typescript
+
+Start the server
+
+```bash
+  npm start
 ```
