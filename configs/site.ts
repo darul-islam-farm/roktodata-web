@@ -105,4 +105,4 @@ export const siteInfo = {
 export const api =
   process.env.NODE_ENV === 'development'
     ? 'http://localhost:3000'
-    : 'https://roktodata.vercel.app'
+    : 'https://roktodata.onrender.com'
