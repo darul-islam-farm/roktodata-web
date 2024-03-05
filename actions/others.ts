@@ -106,7 +106,7 @@ export const createAppointment = async (data: any) => {
       }
     })
 
-    revalidatePath('/admin', 'layout')
+    revalidatePath('/dashboard/admin', 'layout')
 
     return success_res()
   } catch {

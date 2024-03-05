@@ -65,7 +65,7 @@ export const createDonorProfile = async (data: {
       }
     })
 
-    revalidatePath('/admin', 'layout')
+    revalidatePath('/dashboard/admin', 'layout')
 
     return success_res()
   } catch {
@@ -88,7 +88,7 @@ export const updateReceiverProfile = async (data: {
       }
     })
 
-    revalidatePath('/admin', 'layout')
+    revalidatePath('/dashboard/admin', 'layout')
 
     return success_res()
   } catch {
@@ -100,11 +100,11 @@ export const deleteUser = async (id: string, userType: TUserType) => {
   try {
     if (userType === 'DONOR') {
       await prisma.user.delete({ where: { id } })
-      revalidatePath('/admin', 'layout')
+      revalidatePath('/dashboard/admin', 'layout')
       return success_res()
     } else if (userType === 'RECEIVER') {
       await prisma.receiver.delete({ where: { id } })
-      revalidatePath('/admin', 'layout')
+      revalidatePath('/dashboard/admin', 'layout')
       return success_res()
     }
 
@@ -126,7 +126,7 @@ export const verifyAppointment = async (
       }
     })
 
-    revalidatePath('/admin', 'layout')
+    revalidatePath('/dashboard/admin', 'layout')
     revalidatePath('/dashboard/donor/appointments', 'page')
     revalidatePath('/dashboard/receiver/appointments', 'page')
     return success_res()
@@ -139,7 +139,7 @@ export const deleteAppointment = async (id: string) => {
   try {
     await prisma.appointment.delete({ where: { id } })
 
-    revalidatePath('/admin', 'layout')
+    revalidatePath('/dashboard/admin', 'layout')
     revalidatePath('/dashboard/donor/appointments', 'page')
     revalidatePath('/dashboard/receiver/appointments', 'page')
     return success_res()
