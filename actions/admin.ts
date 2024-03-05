@@ -128,6 +128,7 @@ export const verifyAppointment = async (
 
     revalidatePath('/admin', 'layout')
     revalidatePath('/dashboard/donor/appointments', 'page')
+    revalidatePath('/dashboard/receiver/appointments', 'page')
     return success_res()
   } catch (error) {
     return error_res()
@@ -139,6 +140,8 @@ export const deleteAppointment = async (id: string) => {
     await prisma.appointment.delete({ where: { id } })
 
     revalidatePath('/admin', 'layout')
+    revalidatePath('/dashboard/donor/appointments', 'page')
+    revalidatePath('/dashboard/receiver/appointments', 'page')
     return success_res()
   } catch (error) {
     return error_res()
