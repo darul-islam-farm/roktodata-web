@@ -3,12 +3,11 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { updateUser } from '@/actions/user'
-import { api } from '@/configs/site'
 import { alldata, TAlldata } from '@/constants/schema/register'
 import { genders, jilla } from '@/constants/static'
 import { errorAlert, successAlert } from '@/services/alerts/alerts'
-import requests from '@/services/network/http'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { User } from '@prisma/client'
 import {
   ArrowRight,
   CheckCircle,
@@ -16,24 +15,20 @@ import {
   Twitter,
   Youtube
 } from 'lucide-react'
-import { useSession } from 'next-auth/react'
 import { useForm } from 'react-hook-form'
-
-import useAsync from '@/lib/useAsync'
 
 import { GInput, GSelect } from '../customs/GInput'
 import Container from '../shared/Container'
 import { Button } from '../ui/button'
 
-export default function ProfileCard({ onProfile }: { onProfile?: boolean }) {
+type TProps = {
+  onProfile?: boolean
+  data: User
+  isLoading: boolean
+}
+export default function ProfileCard({ onProfile, data, isLoading }: TProps) {
   const [loading, setLoading] = useState(false)
   const { push } = useRouter()
-  const { data: session } = useSession()
-
-  const { data, isLoading } = useAsync(
-    `${api}/api/user/get-own-info?id=${session?.user.id}`,
-    requests.get
-  )
 
   const {
     register,
@@ -42,30 +37,26 @@ export default function ProfileCard({ onProfile }: { onProfile?: boolean }) {
   } = useForm<TAlldata>({
     resolver: zodResolver(alldata),
     defaultValues: {
-      name: data?.user.name,
-      identity: data?.user.identity,
-      gender: data?.user.gender,
-      religion: data?.user.religion,
-      age: data?.user.age,
-      jilla: data?.user.jilla,
-      subJilla: data?.user.subJilla,
-      thana: data?.user.thana,
-      address: data?.user.address,
-      email: data?.user.email,
-      phone: data?.user.phone,
-      phone2: data?.user.phone2,
-      password: data?.user.password
+      name: data.name,
+      identity: data.identity,
+      gender: data.gender,
+      religion: data.religion,
+      age: data.age.toString(),
+      jilla: data.jilla,
+      subJilla: data.subJilla,
+      thana: data.thana,
+      address: data.address,
+      email: data.email,
+      phone: data.phone,
+      phone2: data.phone2,
+      password: data.password
     }
   })
 
   const onSubmit = async (data: TAlldata) => {
     setLoading(true)
     try {
-      const res = await updateUser({
-        ...data,
-        id: session?.user.id
-      })
-
+      const res = await updateUser({ ...data, age: Number(data.age) })
       res.ok && successAlert({ body: 'তথ্যগুলো আপডেট করা হয়েছে।' })
       res.error && errorAlert({ title: 'Error Ocurred', body: res.error })
       setLoading(false)
@@ -76,7 +67,7 @@ export default function ProfileCard({ onProfile }: { onProfile?: boolean }) {
   }
 
   return (
-    <div className='card-shadow bg-white p-2 lg:p-4'>
+    <div className='card-shadow bg-white px-2 py-4 lg:px-4 lg:py-8'>
       <h1 className='text-dark'>প্রোফাইল তথ্য</h1>
       <p className='text-litetext text font-light text-sm'>
         {onProfile
@@ -200,25 +191,25 @@ export default function ProfileCard({ onProfile }: { onProfile?: boolean }) {
           <div>
             <div className='flex items-center gap-2'>
               <p className='font-medium text-dark'>পূর্ণ নাম: </p>
-              <p className='font-light text-litetext'>{data?.user?.name}</p>
+              <p className='font-light text-litetext'>{data.name}</p>
             </div>
           </div>
           <div>
             <div className='flex items-center gap-2'>
               <p className='font-medium text-dark'>ফোন নং: </p>
-              <p className='font-light text-litetext'>{data?.user?.phone}</p>
+              <p className='font-light text-litetext'>{data.phone}</p>
             </div>
           </div>
           <div>
             <div className='flex items-center gap-2'>
               <p className='font-medium text-dark'>ইমেইল:</p>
-              <p className='font-light text-litetext'>{data?.user?.email}</p>
+              <p className='font-light text-litetext'>{data.email}</p>
             </div>
           </div>
           <div>
             <div className='flex items-center gap-2'>
               <p className='font-medium text-dark'>ঠিকানা:</p>
-              <p className='font-light text-litetext'>{data?.user?.address}</p>
+              <p className='font-light text-litetext'>{data.address}</p>
             </div>
           </div>
           <div>
