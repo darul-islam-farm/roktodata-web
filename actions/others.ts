@@ -16,7 +16,7 @@ export const getSearchedDonor = async (data: TSearchdata) => {
   try {
     const data = await prisma.donorProfile.findMany({
       where: {
-        status: 'INACTIVE',
+        status: 'ACTIVE',
         bloodType,
         user: {
           jilla,
