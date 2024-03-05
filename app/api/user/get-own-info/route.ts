@@ -4,14 +4,19 @@ import { notFound, unAuth } from '@/helper/static-response'
 
 import prisma from '@/lib/prisma'
 
-export async function GET(request: Request) {
-  const isAuth = await auth()
-  if (!isAuth) return unAuth()
-  const { searchParams } = new URL(request.url)
-  const id = searchParams.get('id') as string
+export async function GET() {
+  const session = await auth()
+  if (!session) return unAuth()
   try {
     const response = await prisma.user.findUnique({
-      where: { id }
+      where: { id: session.user.id },
+      include: {
+        donorProfile: {
+          select: {
+            status: true
+          }
+        }
+      }
     })
     const data = excludeFields(response, ['status'])
     return Response.json({ user: data }, { status: 200 })

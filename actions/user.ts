@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 'use server'
 
-import { signIn, signOut } from '@/configs/auth'
+import { auth, signIn, signOut } from '@/configs/auth'
 import { alldata, TLogindata } from '@/constants/schema/register'
 import { error_res, success_res } from '@/helper/static-response'
 import { AuthError } from 'next-auth'
@@ -79,13 +79,14 @@ export const createReceiver = async (data: any) => {
 }
 
 export const updateUser = async (data: any) => {
-  const { id, ...rest } = data
+  const session = await auth()
+  if (!session) return error_res('UnAuthenticated')
   try {
     await prisma.user.update({
       where: {
-        id
+        id: session.user.id
       },
-      data: rest
+      data
     })
     return success_res()
   } catch {
