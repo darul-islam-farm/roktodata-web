@@ -26,16 +26,16 @@ export default function PanelLayout({
       <div className='min-h-screen bg-light lg:p-4'>
         <div
           className={cn(
-            'lg:grid lg:grid-cols-5 gap-x-4 rounded-2xl lg:p-4 bg-primary lg:min-h-[96vh]',
+            'lg:grid lg:grid-cols-5 gap-x-4 rounded-2xl lg:p-4 bg-primary lg:h-[95vh] ',
             admin && 'lg:grid-cols-7 bg-secondary'
           )}
         >
-          <div className='hidden lg:block lg:col-span-1 h-[80vh] text-white lg:sticky top-0'>
+          <div className='hidden lg:block lg:col-span-1 h-[90vh] overflow-y-auto secondary-scroll text-white'>
             <Sidebar donor={donor} admin={admin} user={session?.user} />
           </div>
           <div
             className={cn(
-              'lg:col-span-4 max-w-6xl p-4 bg-light rounded-lg',
+              'lg:col-span-4 max-w-6xl p-4 bg-light rounded-lg lg:overflow-auto secondary-scroll',
               admin && 'lg:col-span-6'
             )}
           >

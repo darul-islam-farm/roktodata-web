@@ -35,16 +35,21 @@ export default function Sidebar({ mobile, user, admin, donor }: TProps) {
     else return siteInfo.userDashboardItem
   }, [admin, donor])
   return (
-    <div className={cn('bg-primary h-full', admin && 'bg-secondary')}>
+    <div
+      style={{ scrollbarColor: 'white transparent' }}
+      className={cn('bg-primary h-full overflow-auto', admin && 'bg-secondary')}
+    >
       {!mobile && (
-        <Link
-          href='/'
-          className='flex items-center gap-2 font-medium text-sm mb-4'
-        >
-          <ArrowLeft /> হোম এ যান
-        </Link>
+        <div className='fixed'>
+          <Link
+            href='/'
+            className='flex items-center gap-2 font-medium text-sm mb-4'
+          >
+            <ArrowLeft /> হোম এ যান
+          </Link>
+        </div>
       )}
-      <div className='pt-4'>
+      <div className='py-4 lg:pt-16 lg:pb-0'>
         {!admin && (
           <div className='pl-4'>
             <User2
