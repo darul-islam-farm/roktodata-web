@@ -10,7 +10,8 @@ export default async function ReceiverApplications() {
   const { data, error } = await getAppointmentForUser(
     session?.user.id as string
   )
-  const status: TAppointmentStatus = data.status
+  const status: TAppointmentStatus = data?.status
+
   return data ? (
     <div className='grid gap-4'>
       <div className='flex gap-2 sm:gap-4 items-center'>

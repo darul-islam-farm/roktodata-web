@@ -1,7 +1,7 @@
 'use client'
 
 import { useRouter, useSearchParams } from 'next/navigation'
-import { verifyAppointment } from '@/actions/admin'
+import { updateAppointmentStatus } from '@/actions/admin'
 import { confirmAlertAsync } from '@/services/alerts/alerts'
 import requests from '@/services/network/http'
 
@@ -20,7 +20,7 @@ export default function AppointmentsDetailsForDonor() {
   )
 
   const handleAction = async (action: TAppointmentStatus) => {
-    const res = await verifyAppointment(appId, action)
+    const res = await updateAppointmentStatus(appId, action)
     if (res.ok) {
       back()
       return { ok: true }

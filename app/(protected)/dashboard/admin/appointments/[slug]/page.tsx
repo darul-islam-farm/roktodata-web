@@ -3,7 +3,7 @@ import { getAppointments } from '@/actions/others'
 
 import AppointmentsTable from '@/components/dashboard/AppointmentsTable'
 
-type TSlug = 'unverified' | 'pending' | 'accepted' | 'canceled'
+type TSlug = 'unverified' | 'pending' | 'accepted' | 'canceled' | 'rejected'
 
 const getComponent = (type: TSlug, data: TAppointment[]) => {
   switch (type) {
@@ -46,6 +46,16 @@ const getComponent = (type: TSlug, data: TAppointment[]) => {
           data={data.filter(
             (item: TAppointment) => item.status === 'UNVERIFIED'
           )}
+        />
+      )
+
+    case 'rejected':
+      return (
+        <AppointmentsTable
+          title='রিজেক্টেড আবেদন'
+          isAdmin
+          type='REJECTED'
+          data={data.filter((item: TAppointment) => item.status === 'REJECTED')}
         />
       )
 

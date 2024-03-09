@@ -114,7 +114,7 @@ export const deleteUser = async (id: string, userType: TUserType) => {
   }
 }
 
-export const verifyAppointment = async (
+export const updateAppointmentStatus = async (
   id: string,
   status: TAppointmentStatus
 ) => {

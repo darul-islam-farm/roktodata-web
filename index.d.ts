@@ -67,6 +67,7 @@ type TStatus = 'PENDING' | 'ACCEPTED' | 'REJECTED'
 type TUserStatus = 'NORMAL' | 'REQUESTED'
 type TAppointmentStatus =
   | 'UNVERIFIED'
+  | 'REJECTED'
   | 'PENDING'
   | 'ACCEPTED'
   | 'COMPLETED'

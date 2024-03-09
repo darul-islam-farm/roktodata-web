@@ -85,6 +85,10 @@ export const siteInfo = {
         {
           name: 'অস্বীকৃত আবেদন',
           href: '/dashboard/admin/appointments/canceled'
+        },
+        {
+          name: 'রিজেক্টেড আবেদন',
+          href: '/dashboard/admin/appointments/rejected'
         }
       ]
     },

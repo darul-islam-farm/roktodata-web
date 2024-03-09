@@ -1,7 +1,7 @@
 'use client'
 
 import { useRouter, useSearchParams } from 'next/navigation'
-import { deleteAppointment, verifyAppointment } from '@/actions/admin'
+import { updateAppointmentStatus } from '@/actions/admin'
 import { confirmAlertAsync } from '@/services/alerts/alerts'
 import requests from '@/services/network/http'
 
@@ -18,15 +18,8 @@ export default function AppointmentsDetails() {
     `/api/admin/get-appointment?appId=${appId}`,
     requests.get
   )
-  const handleAction = async (
-    action: TAppointmentStatus,
-    type: 'MOD' | 'DEL'
-  ) => {
-    let asyncFunction = () => verifyAppointment(appId, action)
-    if (type === 'DEL') {
-      asyncFunction = () => deleteAppointment(appId)
-    }
-    const res = await asyncFunction()
+  const handleAction = async (status: TAppointmentStatus) => {
+    const res = await updateAppointmentStatus(appId, status)
     if (res.ok) {
       back()
       return { ok: true }
@@ -50,7 +43,7 @@ export default function AppointmentsDetails() {
               onClick={() =>
                 confirmAlertAsync({
                   body: 'আবেদনটি ভেরিফাই করা হবে?',
-                  precom: () => handleAction('PENDING', 'MOD'),
+                  precom: () => handleAction('PENDING'),
                   successText:
                     'আবেদনটি ভেরিফাই করা হয়েছে এবং ডোনারকে জানানো হয়েছে।'
                 })
@@ -65,17 +58,16 @@ export default function AppointmentsDetails() {
             <Button
               onClick={() =>
                 confirmAlertAsync({
-                  title: 'আবেদনটি ডিলিট করা হবে?',
-                  body: 'ডিলিট করা হলে আবেদনের সমস্ত তথ্য মুছে যাবে।',
-                  precom: () => handleAction('CANCELED', 'DEL'),
-                  successText: 'আবেদনটি ডিলিট করা হয়েছে।'
+                  body: 'আবেদনটি রিজেক্ট করা হবে?',
+                  precom: () => handleAction('REJECTED'),
+                  successText: 'আবেদনটি রিজেক্ট করা হয়েছে।'
                 })
               }
               shadow
               className='w-full'
               size='lg'
             >
-              ডিলিট করুন
+              রিজেক্ট করুন
             </Button>
           </div>
         )}

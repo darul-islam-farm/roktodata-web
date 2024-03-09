@@ -97,6 +97,7 @@ model Appointment {
   hospitalInfo   String            @map("hospital_info")
   address        String
   additionalInfo String?           @map("additional_info")
+  cancelMessage  String?           @map("cancel_message")
   donation       Donation?
 
   @@map("appointments")
@@ -188,8 +189,9 @@ enum UserStatus {
 
 enum AppointmentStatus {
   UNVERIFIED
+  REJECTED
   PENDING
   ACCEPTED
-  COMPLETED
   CANCELED
+  COMPLETED
 }
