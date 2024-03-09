@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { updateAppointmentStatus } from '@/actions/admin'
+import { cancelAppointment } from '@/actions/donor'
 import { errorAlert, successAlert } from '@/services/alerts/alerts'
 
 import {
@@ -32,9 +32,8 @@ export default function CancelDialog({ open, setOpen, appId }: TPorps) {
       alert('যেকোনো একটি ফিল্ড পূরণ করুন।')
       return
     }
-    const res = await updateAppointmentStatus(
+    const res = await cancelAppointment(
       appId,
-      'CANCELED',
       checked ? 'আমি ইতোমধ্যে অন্য ডোনেশন রিকুয়েস্ট কনফার্ম করেছি।' : msg
     )
     if (res.ok) {

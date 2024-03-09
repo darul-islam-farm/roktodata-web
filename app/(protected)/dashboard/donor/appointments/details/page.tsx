@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { updateAppointmentStatus } from '@/actions/admin'
+import { acceptAppointment } from '@/actions/donor'
 import { confirmAlertAsync } from '@/services/alerts/alerts'
 import requests from '@/services/network/http'
 
@@ -23,7 +23,7 @@ export default function AppointmentsDetailsForDonor() {
   )
 
   const handleAction = async () => {
-    const res = await updateAppointmentStatus(appId, 'ACCEPTED')
+    const res = await acceptAppointment(appId)
     if (res.ok) {
       back()
       return { ok: true }
