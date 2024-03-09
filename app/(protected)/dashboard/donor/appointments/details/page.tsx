@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { updateAppointmentStatus } from '@/actions/admin'
 import { confirmAlertAsync } from '@/services/alerts/alerts'
@@ -9,9 +10,11 @@ import useAsync from '@/lib/useAsync'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import DetailsApplication from '@/components/dashboard/DetailsApplication'
+import CancelDialog from '@/components/Dialogs/CancelDialog'
 
 export default function AppointmentsDetailsForDonor() {
   const searchParams = useSearchParams()
+  const [open, setOpen] = useState(false)
   const appId = searchParams.get('id') as string
   const { back } = useRouter()
   const { data, isLoading, error } = useAsync(
@@ -19,8 +22,8 @@ export default function AppointmentsDetailsForDonor() {
     requests.get
   )
 
-  const handleAction = async (action: TAppointmentStatus) => {
-    const res = await updateAppointmentStatus(appId, action)
+  const handleAction = async () => {
+    const res = await updateAppointmentStatus(appId, 'ACCEPTED')
     if (res.ok) {
       back()
       return { ok: true }
@@ -38,6 +41,9 @@ export default function AppointmentsDetailsForDonor() {
   return (
     <div>
       <DetailsApplication data={data.appointment} access='DONOR' />
+
+      <CancelDialog appId={appId} open={open} setOpen={setOpen} />
+
       <div
         className={cn(
           'mt-12 flex flex-col md:flex-row-reverse gap-8',
@@ -48,7 +54,7 @@ export default function AppointmentsDetailsForDonor() {
           onClick={() =>
             confirmAlertAsync({
               body: 'আবেদনটি গ্রহণ করা হবে?',
-              precom: () => handleAction('ACCEPTED'),
+              precom: handleAction,
               successText:
                 'আবেদনটি গ্রহণ করা হয়েছে। অনুগ্রহ করে সঠিক সময়ে সঠিক স্থানে গিয়ে আপনার মূল্যবান ডোনেশনটি সম্পন্ন করুন। জাযাকাল্লাহু খাইরান।'
             })
@@ -61,13 +67,7 @@ export default function AppointmentsDetailsForDonor() {
           গ্রহণ করুন
         </Button>
         <Button
-          onClick={() =>
-            confirmAlertAsync({
-              body: 'আবেদনটি ক্যান্সেল করা হবে?',
-              precom: () => handleAction('CANCELED'),
-              successText: 'আবেদনটি ক্যান্সেল করা হয়েছে।'
-            })
-          }
+          onClick={() => setOpen(true)}
           shadow
           className='w-full'
           size='lg'

@@ -116,15 +116,24 @@ export const deleteUser = async (id: string, userType: TUserType) => {
 
 export const updateAppointmentStatus = async (
   id: string,
-  status: TAppointmentStatus
+  status: TAppointmentStatus,
+  message?: string
 ) => {
   try {
-    await prisma.appointment.update({
-      where: { id },
-      data: {
-        status
-      }
-    })
+    message
+      ? await prisma.appointment.update({
+          where: { id },
+          data: {
+            status,
+            cancelMessage: message
+          }
+        })
+      : await prisma.appointment.update({
+          where: { id },
+          data: {
+            status
+          }
+        })
 
     revalidatePath('/dashboard/admin', 'layout')
     revalidatePath('/dashboard/donor/appointments', 'page')
