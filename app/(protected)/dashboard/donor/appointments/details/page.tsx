@@ -10,11 +10,13 @@ import useAsync from '@/lib/useAsync'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import DetailsApplication from '@/components/dashboard/DetailsApplication'
+import AcceptDialog from '@/components/Dialogs/AcceptDialog'
 import CancelDialog from '@/components/Dialogs/CancelDialog'
 
 export default function AppointmentsDetailsForDonor() {
   const searchParams = useSearchParams()
-  const [open, setOpen] = useState(false)
+  const [openCancelDialog, setOpenCancelDialog] = useState(false)
+  const [openAcceptDialog, setOpenAcceptDialog] = useState(false)
   const appId = searchParams.get('id') as string
   const { back } = useRouter()
   const { data, isLoading, error } = useAsync(
@@ -22,13 +24,17 @@ export default function AppointmentsDetailsForDonor() {
     requests.get
   )
 
-  const handleAction = async () => {
-    const res = await acceptAppointment(appId)
-    if (res.ok) {
-      back()
-      return { ok: true }
+  const handleAccept = async () => {
+    try {
+      const res = await acceptAppointment(appId)
+      if (res.ok) {
+        back()
+        return { ok: true }
+      }
+      if (res.error) return { error: 'আবার চেষ্টা করুন' }
+    } catch {
+      return { error: 'আবার চেষ্টা করুন' }
     }
-    if (res.error) return { error: 'আবার চেষ্টা করুন' }
   }
 
   if (isLoading) return <div>Loading...</div>
@@ -42,19 +48,29 @@ export default function AppointmentsDetailsForDonor() {
     <div>
       <DetailsApplication data={data.appointment} access='DONOR' />
 
-      <CancelDialog appId={appId} open={open} setOpen={setOpen} />
+      <CancelDialog
+        appId={appId}
+        open={openCancelDialog}
+        setOpen={setOpenCancelDialog}
+      />
+      <AcceptDialog
+        appId={appId}
+        open={openAcceptDialog}
+        setOpen={setOpenAcceptDialog}
+      />
 
+      {/* Pending Actions */}
       <div
         className={cn(
           'mt-12 flex flex-col md:flex-row-reverse gap-8',
-          data.appointment.status === 'ACCEPTED' && 'hidden'
+          data.appointment.status === 'PENDING' ? 'block' : 'hidden'
         )}
       >
         <Button
           onClick={() =>
             confirmAlertAsync({
               body: 'আবেদনটি গ্রহণ করা হবে?',
-              precom: handleAction,
+              precom: handleAccept,
               successText:
                 'আবেদনটি গ্রহণ করা হয়েছে। অনুগ্রহ করে সঠিক সময়ে সঠিক স্থানে গিয়ে আপনার মূল্যবান ডোনেশনটি সম্পন্ন করুন। জাযাকাল্লাহু খাইরান।'
             })
@@ -67,12 +83,27 @@ export default function AppointmentsDetailsForDonor() {
           গ্রহণ করুন
         </Button>
         <Button
-          onClick={() => setOpen(true)}
+          onClick={() => setOpenCancelDialog(true)}
           shadow
           className='w-full'
           size='lg'
         >
           ক্যান্সেল করুন
+        </Button>
+      </div>
+
+      {/* Complete Actions */}
+      <div
+        className={cn(
+          'mt-12',
+          data.appointment.status === 'ACCEPTED' ? 'block' : 'hidden'
+        )}
+      >
+        <Button
+          onClick={() => setOpenAcceptDialog(true)}
+          className='bg-success w-full'
+        >
+          ডোনেশনটি সম্পূর্ণ হয়েছে
         </Button>
       </div>
     </div>

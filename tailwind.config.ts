@@ -9,6 +9,7 @@ const config = {
   ],
   plugins: [
     process.env.NODE_ENV === 'production' && require('tailwindcss-animate')
+    // require('tailwindcss-animate')
   ],
   theme: {
     colors: {

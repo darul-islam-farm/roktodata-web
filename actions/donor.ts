@@ -68,3 +68,31 @@ export const cancelAppointment = async (id: string, message: string) => {
     return error_res()
   }
 }
+
+export const createDonation = async (appId: string, image?: string) => {
+  const session = await auth()
+  if (!session) return error_res('UnAuthenticated')
+  try {
+    const appointment = await prisma.appointment.findUnique({
+      where: { id: appId }
+    })
+    if (!appointment) return error_res('no appointment found')
+    await prisma.donation.create({
+      data: {
+        donorId: appointment.donorId,
+        receiverId: appointment.receiverId,
+        address: appointment.address,
+        donatedAt: appointment.scheduledAt,
+        image
+      }
+    })
+    await prisma.appointment.delete({ where: { id: appId } })
+
+    revalidatePath('/dashboard/admin', 'layout')
+    revalidatePath('/dashboard/donor/appointments', 'page')
+    revalidatePath('/dashboard/receiver/appointments', 'page')
+    return success_res()
+  } catch {
+    return error_res()
+  }
+}
