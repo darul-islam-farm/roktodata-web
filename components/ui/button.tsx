@@ -4,7 +4,7 @@ import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/lib/utils'
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors cursor:pointer focus-visible:outline-none focus-visible:ring-none disabled:pointer-events-none disabled:bg-litetext/50 disabled:cursor-not-allowed',
+  'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors cursor:pointer focus-visible:outline-none focus-visible:ring-none disabled:pointer-events-none disabled:bg-litetext/50 disabled:cursor-not-allowed min-w-20',
   {
     variants: {
       variant: {
@@ -49,12 +49,14 @@ const Button = ({
   variant,
   size,
   loading,
+  disabled,
   shadow,
   children,
   ...props
 }: ButtonProps) => {
   return (
     <button
+      disabled={disabled || loading}
       className={cn(
         buttonVariants({ variant, size, className }),
         'relative',
