@@ -59,6 +59,11 @@ export const siteInfo = {
       name: 'আবেদন',
       href: '/dashboard/receiver/appointments',
       icon: ScrollText
+    },
+    {
+      name: 'রক্তপ্রাপ্তি',
+      href: '/dashboard/receiver/receipts',
+      icon: ScrollText
     }
   ],
   adminDashboardItem: [

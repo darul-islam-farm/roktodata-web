@@ -190,3 +190,45 @@ export const getUserStatus = async (id: string) => {
     return error_res()
   }
 }
+
+export const getDonations = async () => {
+  try {
+    const data = await prisma.donation.findMany({
+      include: {
+        receiver: {
+          select: {
+            name: true,
+            religion: true,
+            bloodType: true,
+            jilla: true,
+            subJilla: true,
+            thana: true,
+            address: true,
+            phone: true,
+            phone2: true
+          }
+        },
+        donor: {
+          include: {
+            user: {
+              select: {
+                name: true,
+                religion: true,
+                bloodType: true,
+                jilla: true,
+                subJilla: true,
+                thana: true,
+                address: true,
+                phone: true,
+                phone2: true
+              }
+            }
+          }
+        }
+      }
+    })
+    return success_res(data)
+  } catch {
+    return error_res()
+  }
+}
