@@ -86,6 +86,12 @@ export const createDonation = async (appId: string, image?: string) => {
         image
       }
     })
+    await prisma.receiver.update({
+      where: { id: appointment.receiverId },
+      data: {
+        userStatus: 'NORMAL'
+      }
+    })
     await prisma.appointment.delete({ where: { id: appId } })
 
     revalidatePath('/dashboard/admin', 'layout')

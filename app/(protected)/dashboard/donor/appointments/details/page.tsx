@@ -10,13 +10,13 @@ import useAsync from '@/lib/useAsync'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import DetailsApplication from '@/components/dashboard/DetailsApplication'
-import AcceptDialog from '@/components/Dialogs/AcceptDialog'
 import CancelDialog from '@/components/Dialogs/CancelDialog'
+import CompleteDialog from '@/components/Dialogs/CompleteDialog'
 
 export default function AppointmentsDetailsForDonor() {
   const searchParams = useSearchParams()
   const [openCancelDialog, setOpenCancelDialog] = useState(false)
-  const [openAcceptDialog, setOpenAcceptDialog] = useState(false)
+  const [openCompleteDialog, setOpenCompleteDialog] = useState(false)
   const appId = searchParams.get('id') as string
   const { back } = useRouter()
   const { data, isLoading, error } = useAsync(
@@ -53,10 +53,10 @@ export default function AppointmentsDetailsForDonor() {
         open={openCancelDialog}
         setOpen={setOpenCancelDialog}
       />
-      <AcceptDialog
+      <CompleteDialog
         appId={appId}
-        open={openAcceptDialog}
-        setOpen={setOpenAcceptDialog}
+        open={openCompleteDialog}
+        setOpen={setOpenCompleteDialog}
       />
 
       {/* Pending Actions */}
@@ -100,7 +100,7 @@ export default function AppointmentsDetailsForDonor() {
         )}
       >
         <Button
-          onClick={() => setOpenAcceptDialog(true)}
+          onClick={() => setOpenCompleteDialog(true)}
           className='bg-success w-full'
         >
           ডোনেশনটি সম্পূর্ণ হয়েছে

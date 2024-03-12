@@ -26,7 +26,7 @@ type TPorps = {
   appId: string
 }
 
-export default function AcceptDialog({ open, setOpen, appId }: TPorps) {
+export default function CompleteDialog({ open, setOpen, appId }: TPorps) {
   const { back } = useRouter()
 
   const [image, setImage] = useState<string | ArrayBuffer | null>(null)
