@@ -111,7 +111,8 @@ export const siteInfo = {
   ]
 }
 
-export const api =
-  process.env.NODE_ENV === 'development'
-    ? 'http://localhost:3000'
-    : 'https://roktodata.onrender.com'
+export const api = 'http://localhost:3000'
+// export const api =
+//   process.env.NODE_ENV === 'development'
+//     ? 'http://localhost:3000'
+//     : 'https://roktodata.onrender.com'
