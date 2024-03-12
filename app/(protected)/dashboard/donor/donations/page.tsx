@@ -1,27 +1,18 @@
-'use client'
+import { getDonations } from '@/actions/others'
 
-import requests from '@/services/network/http'
-import { useSession } from 'next-auth/react'
-
-import useAsync from '@/lib/useAsync'
 import DonationCards from '@/components/dashboard/DonationCards'
-import CardSkeleton from '@/components/shared/skeleton/Card.S'
 
-export default function Donations() {
-  const { data: session } = useSession()
-  const { data, isLoading } = useAsync(
-    `/api/user/get-own-info?id=${session?.user.id}`,
-    requests.get
-  )
-  return (
+export default async function Donations() {
+  const { data } = await getDonations()
+  return data ? (
     <div>
-      <h1 className='text-dark'>Donations</h1>
-      <p className='text-litetext font-light'>My donations history</p>
-      {isLoading && !data ? (
-        <CardSkeleton />
-      ) : (
-        <DonationCards donations={data.user.donorProfile.donationHistory} />
-      )}
+      <h1 className='text-dark'>রক্তদান</h1>
+      <p className='text-litetext font-light'>আমার রক্তদানের ইতিহাস</p>
+      <DonationCards forDonor donations={data} />
+    </div>
+  ) : (
+    <div className='my-10 text-center'>
+      <h1 className='text-red-500'>আপনি এখনও কোনো রক্তগ্রহণ করেননি।</h1>
     </div>
   )
 }
