@@ -46,8 +46,9 @@ type TDonation = {
   id: string
   donor: TDonor
   receiver: TUser
-  donateAt: Date
-  appintment: TAppointment
+  donatedAt: Date
+  image: string
+  address: string
 }
 
 type TAppointment = {

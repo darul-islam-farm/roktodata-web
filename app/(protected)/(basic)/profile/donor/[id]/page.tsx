@@ -76,26 +76,26 @@ export default function DonorProfile() {
           <div className='p-4 grid gap-y-2'>
             <div className='grid grid-cols-2'>
               <div className='col-auto'>
-                <p className='font-medium text-dark'>jilla</p>
+                <p className='font-medium text-dark'>জেলা</p>
                 <p className=''>{data.donor.user.jilla}</p>
               </div>
               <div className='col-auto'>
-                <p className='font-medium text-dark'>sub jilla</p>
+                <p className='font-medium text-dark'>উপজেলা</p>
                 <p className=''>{data.donor.user.subJilla}</p>
               </div>
             </div>
             <div className='grid grid-cols-2'>
               <div className='col-auto'>
-                <p className='font-medium text-dark'>thana</p>
+                <p className='font-medium text-dark'>থানা</p>
                 <p className=''>{data.donor.user.thana}</p>
               </div>
               <div className='col-auto'>
-                <p className='font-medium text-dark'>religion</p>
+                <p className='font-medium text-dark'>ধর্ম</p>
                 <p className=''>{data.donor.user.religion}</p>
               </div>
             </div>
             <div>
-              <p className='font-medium text-dark'>address</p>
+              <p className='font-medium text-dark'>ঠিকানা</p>
               <p className=''>{data.donor.user.address}</p>
             </div>
           </div>

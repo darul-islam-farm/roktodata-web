@@ -13,7 +13,24 @@ export async function GET() {
       include: {
         donorProfile: {
           select: {
-            status: true
+            status: true,
+            donationHistory: {
+              include: {
+                receiver: {
+                  select: {
+                    name: true,
+                    religion: true,
+                    bloodType: true,
+                    jilla: true,
+                    subJilla: true,
+                    thana: true,
+                    address: true,
+                    phone: true,
+                    phone2: true
+                  }
+                }
+              }
+            }
           }
         }
       }

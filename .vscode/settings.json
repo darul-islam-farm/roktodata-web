@@ -5,5 +5,8 @@
   "files.autoSave": "onWindowChange",
   "[prisma]": {
     "editor.defaultFormatter": "Prisma.prisma"
+  },
+  "[snippets]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
   }
 }
