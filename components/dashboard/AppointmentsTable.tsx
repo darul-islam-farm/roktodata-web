@@ -1,6 +1,10 @@
+'use client'
+
 import Link from 'next/link'
+import { deleteAppointment } from '@/actions/admin'
+import { confirmAlertAsync } from '@/services/alerts/alerts'
 import dayjs from 'dayjs'
-import { ArrowRight } from 'lucide-react'
+import { Eye, Trash2Icon } from 'lucide-react'
 
 import {
   Table,
@@ -56,18 +60,27 @@ export default function AppointmentsTable({
                 <TableCell>
                   {dayjs(scheduledAt).format('D MMM, YY  ~  h : mm A')}
                 </TableCell>
-                <TableCell>
+                <TableCell className='flex items-center gap-8'>
                   <Link
-                    className='font-medium text-secondary flex w-16 items-center gap-1'
+                    className='font-medium text-emerald-500 hover:text-secondary flex items-center gap-1'
                     href={
                       isAdmin
                         ? `/dashboard/admin/appointments/details?id=${id}&type=${type}`
                         : `/dashboard/donor/appointments/details?id=${id}`
                     }
                   >
-                    details
-                    <ArrowRight className='size-3' strokeWidth={3} />
+                    <Eye className='size-7' />
                   </Link>
+                  <Trash2Icon
+                    onClick={() =>
+                      confirmAlertAsync({
+                        body: 'আবেদনটি ডেটাবেজ থেকে মুছে ফেলা হবে?',
+                        precom: () => deleteAppointment(id),
+                        successText: 'আবেদনটি মুছে ফেলা হয়েছে।'
+                      })
+                    }
+                    className='size-6 text-red-500 cursor-pointer hover:text-secondary'
+                  />
                 </TableCell>
               </TableRow>
             )
