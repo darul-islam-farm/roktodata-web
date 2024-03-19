@@ -84,13 +84,15 @@ export default function DonorDashboard() {
       <div className='mt-10'>
         <h1 className='text-dark'>Donations</h1>
         <p className='text-litetext font-light'>My donations history</p>
-        {isLoading && !data ? (
+        {isLoading ? (
           <CardSkeleton />
         ) : (
-          <DonationCards
-            forDonor
-            donations={data.user.donorProfile.donationHistory}
-          />
+          data && (
+            <DonationCards
+              forDonor
+              donations={data.user.donorProfile.donationHistory}
+            />
+          )
         )}
       </div>
     </div>
