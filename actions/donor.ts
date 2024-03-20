@@ -48,27 +48,6 @@ export const acceptAppointment = async (id: string) => {
   }
 }
 
-export const cancelAppointment = async (id: string, message: string) => {
-  const session = await auth()
-  if (!session) return error_res('UnAuthenticated')
-  try {
-    await prisma.appointment.update({
-      where: { id },
-      data: {
-        status: 'CANCELED',
-        cancelMessage: message
-      }
-    })
-
-    revalidatePath('/dashboard/admin', 'layout')
-    revalidatePath('/dashboard/donor/appointments', 'page')
-    revalidatePath('/dashboard/receiver/appointments', 'page')
-    return success_res()
-  } catch (error) {
-    return error_res()
-  }
-}
-
 export const createDonation = async (appId: string, image?: string) => {
   const session = await auth()
   if (!session) return error_res('UnAuthenticated')
