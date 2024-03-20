@@ -135,7 +135,7 @@ export const updateAppointmentStatus = async (
   }
 }
 
-export const rejectOrCancelAppointment = async (
+export const declineAppointment = async (
   id: string,
   status: 'CANCELED' | 'REJECTED',
   message?: string
@@ -173,6 +173,15 @@ export const rejectOrCancelAppointment = async (
     revalidatePath('/dashboard/receiver/appointments', 'page')
     return success_res()
   } catch (error) {
+    return error_res()
+  }
+}
+
+export const deleteDeclinedAppointment = async (id: string) => {
+  try {
+    await prisma.declinedAppointment.delete({ where: { id } })
+    return success_res()
+  } catch {
     return error_res()
   }
 }

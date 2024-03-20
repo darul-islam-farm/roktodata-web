@@ -2,7 +2,8 @@
 
 import { useRouter, useSearchParams } from 'next/navigation'
 import {
-  rejectOrCancelAppointment,
+  declineAppointment,
+  deleteDeclinedAppointment,
   updateAppointmentStatus
 } from '@/actions/admin'
 import { confirmAlertAsync } from '@/services/alerts/alerts'
@@ -19,18 +20,26 @@ export default function AppointmentsDetails() {
   const searchParams = useSearchParams()
   const appId = searchParams.get('id') as string
   const type = searchParams.get('type') as TAppointmentType
-  const appStatus = searchParams.get('type') as TAppointmentStatus
 
   const { data, isLoading, error } = useAsync(
     `/api/admin/get-appointment?appId=${appId}&type=${type}`,
     requests.get
   )
 
-  const handleAction = async (status: TAppointmentStatus) => {
+  const handleVerifyOrReject = async (status: TAppointmentStatus) => {
     const res =
       status === 'REJECTED'
-        ? await rejectOrCancelAppointment(appId, 'REJECTED')
+        ? await declineAppointment(appId, 'REJECTED')
         : await updateAppointmentStatus(appId, status)
+    if (res.ok) {
+      back()
+      return { ok: true }
+    }
+    if (res.error) return { error: 'আবার চেষ্টা করুন' }
+  }
+
+  const handleDeleteDeclined = async () => {
+    const res = await deleteDeclinedAppointment(appId)
     if (res.ok) {
       back()
       return { ok: true }
@@ -40,7 +49,7 @@ export default function AppointmentsDetails() {
 
   if (isLoading)
     return <div className='text-center text-xl font-medium'>Loading...</div>
-  if (error)
+  if (error || !data)
     return (
       <div className='text-red-500 font-medium text-3xl text-center'>
         ইরর হয়েছে, আবার চেষ্টা করুন।
@@ -49,15 +58,15 @@ export default function AppointmentsDetails() {
 
   return (
     <div>
-      <DetailsApplication data={data.appointments} access='ADMIN' />
+      <DetailsApplication data={data.appointment} access='ADMIN' />
       <div className='mt-12'>
-        {appStatus === 'UNVERIFIED' && (
+        {data.appointment.status === 'UNVERIFIED' && (
           <div className='flex flex-col md:flex-row-reverse gap-8'>
             <Button
               onClick={() =>
                 confirmAlertAsync({
                   body: 'আবেদনটি ভেরিফাই করা হবে?',
-                  precom: () => handleAction('PENDING'),
+                  precom: () => handleVerifyOrReject('PENDING'),
                   successText:
                     'আবেদনটি ভেরিফাই করা হয়েছে এবং ডোনারকে জানানো হয়েছে।'
                 })
@@ -73,7 +82,7 @@ export default function AppointmentsDetails() {
               onClick={() =>
                 confirmAlertAsync({
                   body: 'আবেদনটি রিজেক্ট করা হবে?',
-                  precom: () => handleAction('REJECTED'),
+                  precom: () => handleVerifyOrReject('REJECTED'),
                   successText: 'আবেদনটি রিজেক্ট করা হয়েছে।'
                 })
               }
@@ -84,6 +93,23 @@ export default function AppointmentsDetails() {
               রিজেক্ট করুন
             </Button>
           </div>
+        )}
+
+        {data.appointment.status === 'REJECTED' && (
+          <Button
+            onClick={() =>
+              confirmAlertAsync({
+                body: 'আবেদনটি ডিলিট করা হবে?',
+                precom: handleDeleteDeclined,
+                successText: 'আবেদনটি ডেটাবেজ থেকে মুছে ফেলা হয়েছে।'
+              })
+            }
+            shadow
+            className='w-full'
+            size='lg'
+          >
+            ডিলিট করুন
+          </Button>
         )}
       </div>
     </div>
