@@ -116,24 +116,15 @@ export const deleteUser = async (id: string, userType: TUserType) => {
 
 export const updateAppointmentStatus = async (
   id: string,
-  status: TAppointmentStatus,
-  message?: string
+  status: TAppointmentStatus
 ) => {
   try {
-    message
-      ? await prisma.appointment.update({
-          where: { id },
-          data: {
-            status,
-            cancelMessage: message
-          }
-        })
-      : await prisma.appointment.update({
-          where: { id },
-          data: {
-            status
-          }
-        })
+    await prisma.appointment.update({
+      where: { id },
+      data: {
+        status
+      }
+    })
 
     revalidatePath('/dashboard/admin', 'layout')
     revalidatePath('/dashboard/donor/appointments', 'page')
@@ -146,37 +137,36 @@ export const updateAppointmentStatus = async (
 
 export const rejectOrCancelAppointment = async (
   id: string,
+  status: 'CANCELED' | 'REJECTED',
   message?: string
 ) => {
   try {
-    message
-      ? await prisma.appointment.update({
-          where: { id },
-          data: {
-            status: 'CANCELED',
-            cancelMessage: message,
-            receiver: {
-              update: {
-                data: {
-                  userStatus: 'NORMAL'
-                }
-              }
-            }
-          }
-        })
-      : await prisma.appointment.update({
-          where: { id },
-          data: {
-            status: 'REJECTED',
-            receiver: {
-              update: {
-                data: {
-                  userStatus: 'NORMAL'
-                }
-              }
-            }
-          }
-        })
+    const appointment = await prisma.appointment.findUnique({ where: { id } })
+
+    if (!appointment) return error_res('no appointment found')
+
+    await prisma.declinedAppointment.create({
+      data: {
+        donor: { connect: { id: appointment.donorId } },
+        receiver: { connect: { id: appointment.receiverId } },
+        scheduledAt: appointment.scheduledAt,
+        status,
+        images: appointment.images,
+        hospitalInfo: appointment.hospitalInfo,
+        address: appointment.address,
+        additionalInfo: appointment.additionalInfo,
+        cancelMessage: message
+      }
+    })
+    await prisma.appointment.delete({ where: { id } })
+    await prisma.receiver.update({
+      where: {
+        id: appointment.receiverId
+      },
+      data: {
+        userStatus: 'NORMAL'
+      }
+    })
 
     revalidatePath('/dashboard/admin', 'layout')
     revalidatePath('/dashboard/donor/appointments', 'page')

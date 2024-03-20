@@ -24,7 +24,7 @@ export default function AppointmentsDetails() {
   const handleAction = async (status: TAppointmentStatus) => {
     const res =
       status === 'REJECTED'
-        ? await rejectOrCancelAppointment(appId)
+        ? await rejectOrCancelAppointment(appId, 'REJECTED')
         : await updateAppointmentStatus(appId, status)
     if (res.ok) {
       back()

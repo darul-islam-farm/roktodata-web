@@ -34,40 +34,42 @@ model User {
 }
 
 model Receiver {
-  id             String        @id @default(auto()) @map("_id") @db.ObjectId
-  name           String // basics
-  email          String        @unique
-  password       String
-  identity       String        @unique
-  gender         Gender
-  age            Int
-  religion       String
-  phone          String        @unique
-  phone2         String        @unique @map("another_phone")
-  bloodType      String        @map("blood_type")
-  jilla          String // locations 
-  subJilla       String        @map("sub_jilla ")
-  thana          String
-  address        String
-  status         ProfileStatus @default(PENDING) // profiles
-  role           ProfileType   @default(RECEIVER)
-  userStatus     UserStatus    @default(NORMAL)
-  receiveHistory Donation[]
-  appointment    Appointment?
-  createdAt      DateTime      @default(now()) // timestamps
-  updatedAt      DateTime      @updatedAt
+  id                  String                @id @default(auto()) @map("_id") @db.ObjectId
+  name                String // basics
+  email               String                @unique
+  password            String
+  identity            String                @unique
+  gender              Gender
+  age                 Int
+  religion            String
+  phone               String                @unique
+  phone2              String                @unique @map("another_phone")
+  bloodType           String                @map("blood_type")
+  jilla               String // locations 
+  subJilla            String                @map("sub_jilla ")
+  thana               String
+  address             String
+  status              ProfileStatus         @default(PENDING) // profiles
+  role                ProfileType           @default(RECEIVER)
+  userStatus          UserStatus            @default(NORMAL)
+  receiveHistory      Donation[]
+  appointment         Appointment?
+  declinedAppointment DeclinedAppointment[]
+  createdAt           DateTime              @default(now()) // timestamps
+  updatedAt           DateTime              @updatedAt
 
   @@map("receiver")
 }
 
 model DonorProfile {
-  id              String        @id @default(auto()) @map("_id") @db.ObjectId
-  bloodType       String        @map("blood_type")
-  user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId          String        @unique @db.ObjectId
-  status          DonorStatus   @default(INACTIVE)
-  donationHistory Donation[]
-  appointments    Appointment[]
+  id                  String                @id @default(auto()) @map("_id") @db.ObjectId
+  bloodType           String                @map("blood_type")
+  user                User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId              String                @unique @db.ObjectId
+  status              DonorStatus           @default(INACTIVE)
+  donationHistory     Donation[]
+  appointments        Appointment[]
+  declinedAppointment DeclinedAppointment[]
 
   @@map("donor_profiles")
 }
@@ -97,9 +99,25 @@ model Appointment {
   hospitalInfo   String            @map("hospital_info")
   address        String
   additionalInfo String?           @map("additional_info")
-  cancelMessage  String?           @map("cancel_message")
 
   @@map("appointments")
+}
+
+model DeclinedAppointment {
+  id             String                    @id @default(auto()) @map("_id") @db.ObjectId
+  donor          DonorProfile              @relation(fields: [donorId], references: [id]) // identity
+  donorId        String                    @db.ObjectId
+  receiver       Receiver                  @relation(fields: [receiverId], references: [id])
+  receiverId     String                    @db.ObjectId
+  scheduledAt    DateTime // status
+  status         DeclinedAppointmentStatus
+  images         String[] // documents
+  hospitalInfo   String                    @map("hospital_info")
+  address        String
+  additionalInfo String?                   @map("additional_info")
+  cancelMessage  String?                   @map("cancel_message")
+
+  @@map("declined_appointments")
 }
 
 model Forum {
@@ -193,4 +211,9 @@ enum AppointmentStatus {
   ACCEPTED
   CANCELED
   COMPLETED
+}
+
+enum DeclinedAppointmentStatus {
+  REJECTED
+  CANCELED
 }
