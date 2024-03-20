@@ -12,7 +12,6 @@ const getComponent = (type: TSlug, data: TAppointment[]) => {
         <AppointmentsTable
           title='গৃহীত আবেদন'
           isAdmin
-          status='ACCEPTED'
           data={data.filter((item: TAppointment) => item.status === 'ACCEPTED')}
         />
       )
@@ -22,7 +21,6 @@ const getComponent = (type: TSlug, data: TAppointment[]) => {
         <AppointmentsTable
           title='অস্বীকৃত আবেদন'
           isAdmin
-          status='CANCELED'
           type='declined'
           data={data.filter((item: TAppointment) => item.status === 'CANCELED')}
         />
@@ -33,7 +31,6 @@ const getComponent = (type: TSlug, data: TAppointment[]) => {
         <AppointmentsTable
           title='পেন্ডিং আবেদন'
           isAdmin
-          status='PENDING'
           data={data.filter((item: TAppointment) => item.status === 'PENDING')}
         />
       )
@@ -43,7 +40,6 @@ const getComponent = (type: TSlug, data: TAppointment[]) => {
         <AppointmentsTable
           title='আনভেরিফাইড আবেদন'
           isAdmin
-          status='UNVERIFIED'
           data={data.filter(
             (item: TAppointment) => item.status === 'UNVERIFIED'
           )}
@@ -55,7 +51,6 @@ const getComponent = (type: TSlug, data: TAppointment[]) => {
         <AppointmentsTable
           title='রিজেক্টেড আবেদন'
           isAdmin
-          status='REJECTED'
           type='declined'
           data={data.filter((item: TAppointment) => item.status === 'REJECTED')}
         />
@@ -66,7 +61,6 @@ const getComponent = (type: TSlug, data: TAppointment[]) => {
         <AppointmentsTable
           title='আনভেরিফাইড আবেদন'
           isAdmin
-          status='UNVERIFIED'
           data={data.filter(
             (item: TAppointment) => item.status === 'UNVERIFIED'
           )}

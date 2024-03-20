@@ -8,7 +8,7 @@ export async function GET(request: Request) {
   const id = searchParams.get('appId') as string
   const type = searchParams.get('type') as 'declined' | 'normal'
   try {
-    const appointments =
+    const appointment =
       type === 'declined'
         ? await prisma.declinedAppointment.findUnique({
             where: { id },
@@ -78,7 +78,7 @@ export async function GET(request: Request) {
               }
             }
           })
-    return Response.json({ appointments }, { status: 200 })
+    return Response.json({ appointment }, { status: 200 })
   } catch (error) {
     return notFound(error)
   }
