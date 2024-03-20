@@ -62,8 +62,8 @@ export default function AppointmentsDetailsForDonor() {
       {/* Pending Actions */}
       <div
         className={cn(
-          'mt-12 flex flex-col md:flex-row-reverse gap-8',
-          data.appointment.status === 'PENDING' ? 'block' : 'hidden'
+          'mt-12 flex flex-col md:flex-row-reverse gap-4',
+          data.appointment.status === 'PENDING' ? 'flex' : 'hidden'
         )}
       >
         <Button
