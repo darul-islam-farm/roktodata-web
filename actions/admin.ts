@@ -144,8 +144,64 @@ export const updateAppointmentStatus = async (
   }
 }
 
+export const rejectOrCancelAppointment = async (
+  id: string,
+  message?: string
+) => {
+  try {
+    message
+      ? await prisma.appointment.update({
+          where: { id },
+          data: {
+            status: 'CANCELED',
+            cancelMessage: message,
+            receiver: {
+              update: {
+                data: {
+                  userStatus: 'NORMAL'
+                }
+              }
+            }
+          }
+        })
+      : await prisma.appointment.update({
+          where: { id },
+          data: {
+            status: 'REJECTED',
+            receiver: {
+              update: {
+                data: {
+                  userStatus: 'NORMAL'
+                }
+              }
+            }
+          }
+        })
+
+    revalidatePath('/dashboard/admin', 'layout')
+    revalidatePath('/dashboard/donor/appointments', 'page')
+    revalidatePath('/dashboard/receiver/appointments', 'page')
+    return success_res()
+  } catch (error) {
+    return error_res()
+  }
+}
+
 export const deleteAppointment = async (id: string) => {
   try {
+    await prisma.appointment.update({
+      where: { id },
+      data: {
+        receiver: {
+          update: {
+            data: {
+              userStatus: 'NORMAL'
+            }
+          }
+        }
+      }
+    })
+
     await prisma.appointment.delete({ where: { id } })
 
     revalidatePath('/dashboard/admin', 'layout')

@@ -1,7 +1,10 @@
 'use client'
 
 import { useRouter, useSearchParams } from 'next/navigation'
-import { updateAppointmentStatus } from '@/actions/admin'
+import {
+  rejectOrCancelAppointment,
+  updateAppointmentStatus
+} from '@/actions/admin'
 import { confirmAlertAsync } from '@/services/alerts/alerts'
 import requests from '@/services/network/http'
 
@@ -19,7 +22,10 @@ export default function AppointmentsDetails() {
     requests.get
   )
   const handleAction = async (status: TAppointmentStatus) => {
-    const res = await updateAppointmentStatus(appId, status)
+    const res =
+      status === 'REJECTED'
+        ? await rejectOrCancelAppointment(appId)
+        : await updateAppointmentStatus(appId, status)
     if (res.ok) {
       back()
       return { ok: true }
