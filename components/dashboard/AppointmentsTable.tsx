@@ -71,16 +71,18 @@ export default function AppointmentsTable({
                   >
                     <Eye className='size-7' />
                   </Link>
-                  <Trash2Icon
-                    onClick={() =>
-                      confirmAlertAsync({
-                        body: 'আবেদনটি ডেটাবেজ থেকে মুছে ফেলা হবে?',
-                        precom: () => deleteAppointment(id),
-                        successText: 'আবেদনটি মুছে ফেলা হয়েছে।'
-                      })
-                    }
-                    className='size-6 text-red-500 cursor-pointer hover:text-secondary'
-                  />
+                  {isAdmin && (
+                    <Trash2Icon
+                      onClick={() =>
+                        confirmAlertAsync({
+                          body: 'আবেদনটি ডেটাবেজ থেকে মুছে ফেলা হবে?',
+                          precom: () => deleteAppointment(id),
+                          successText: 'আবেদনটি মুছে ফেলা হয়েছে।'
+                        })
+                      }
+                      className='size-6 text-red-500 cursor-pointer hover:text-secondary'
+                    />
+                  )}
                 </TableCell>
               </TableRow>
             )
