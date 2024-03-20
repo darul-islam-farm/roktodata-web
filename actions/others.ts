@@ -140,6 +140,32 @@ export const getAppointments = async () => {
   }
 }
 
+export const getDeclinedAppointments = async () => {
+  try {
+    const appointments = await prisma.declinedAppointment.findMany({
+      include: {
+        donor: {
+          include: {
+            user: {
+              select: {
+                name: true
+              }
+            }
+          }
+        },
+        receiver: {
+          select: {
+            name: true
+          }
+        }
+      }
+    })
+    return success_res(appointments)
+  } catch {
+    return error_res()
+  }
+}
+
 export const getAppointmentForUser = async (id: string) => {
   try {
     const applications = await prisma.appointment.findUnique({

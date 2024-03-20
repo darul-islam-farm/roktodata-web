@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation'
-import { getAppointments } from '@/actions/others'
+import { getAppointments, getDeclinedAppointments } from '@/actions/others'
 
 import AppointmentsTable from '@/components/dashboard/AppointmentsTable'
 
@@ -12,7 +12,7 @@ const getComponent = (type: TSlug, data: TAppointment[]) => {
         <AppointmentsTable
           title='গৃহীত আবেদন'
           isAdmin
-          type='ACCEPTED'
+          status='ACCEPTED'
           data={data.filter((item: TAppointment) => item.status === 'ACCEPTED')}
         />
       )
@@ -22,7 +22,8 @@ const getComponent = (type: TSlug, data: TAppointment[]) => {
         <AppointmentsTable
           title='অস্বীকৃত আবেদন'
           isAdmin
-          type='CANCELED'
+          status='CANCELED'
+          type='declined'
           data={data.filter((item: TAppointment) => item.status === 'CANCELED')}
         />
       )
@@ -32,7 +33,7 @@ const getComponent = (type: TSlug, data: TAppointment[]) => {
         <AppointmentsTable
           title='পেন্ডিং আবেদন'
           isAdmin
-          type='PENDING'
+          status='PENDING'
           data={data.filter((item: TAppointment) => item.status === 'PENDING')}
         />
       )
@@ -42,7 +43,7 @@ const getComponent = (type: TSlug, data: TAppointment[]) => {
         <AppointmentsTable
           title='আনভেরিফাইড আবেদন'
           isAdmin
-          type='UNVERIFIED'
+          status='UNVERIFIED'
           data={data.filter(
             (item: TAppointment) => item.status === 'UNVERIFIED'
           )}
@@ -54,7 +55,8 @@ const getComponent = (type: TSlug, data: TAppointment[]) => {
         <AppointmentsTable
           title='রিজেক্টেড আবেদন'
           isAdmin
-          type='REJECTED'
+          status='REJECTED'
+          type='declined'
           data={data.filter((item: TAppointment) => item.status === 'REJECTED')}
         />
       )
@@ -64,7 +66,7 @@ const getComponent = (type: TSlug, data: TAppointment[]) => {
         <AppointmentsTable
           title='আনভেরিফাইড আবেদন'
           isAdmin
-          type='UNVERIFIED'
+          status='UNVERIFIED'
           data={data.filter(
             (item: TAppointment) => item.status === 'UNVERIFIED'
           )}
@@ -78,7 +80,10 @@ export default async function AllAppointments({
 }: {
   params: { slug: TSlug }
 }) {
-  const { data, error } = await getAppointments()
+  const { data, error } =
+    slug === 'rejected' || slug === 'canceled'
+      ? await getDeclinedAppointments()
+      : await getAppointments()
   if (error) return notFound()
   return getComponent(slug, data)
 }

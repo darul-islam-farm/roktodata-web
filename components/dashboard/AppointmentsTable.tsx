@@ -20,13 +20,15 @@ type TProps = {
   data: any
   title: string
   isAdmin?: boolean
-  type?: TAppointmentStatus
+  status?: TAppointmentStatus
+  type?: 'declined' | 'normal'
 }
 export default function AppointmentsTable({
   data,
   title,
   isAdmin,
-  type
+  status,
+  type = 'normal'
 }: TProps) {
   return (
     <div>
@@ -65,7 +67,7 @@ export default function AppointmentsTable({
                     className='font-medium text-emerald-500 hover:text-secondary flex items-center gap-1'
                     href={
                       isAdmin
-                        ? `/dashboard/admin/appointments/details?id=${id}&type=${type}`
+                        ? `/dashboard/admin/appointments/details?id=${id}&status=${status}&type=${type}`
                         : `/dashboard/donor/appointments/details?id=${id}`
                     }
                   >

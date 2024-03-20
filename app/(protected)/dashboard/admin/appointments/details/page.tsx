@@ -12,15 +12,20 @@ import useAsync from '@/lib/useAsync'
 import { Button } from '@/components/ui/button'
 import DetailsApplication from '@/components/dashboard/DetailsApplication'
 
+type TAppointmentType = 'declined' | 'normal'
+
 export default function AppointmentsDetails() {
   const { back } = useRouter()
   const searchParams = useSearchParams()
   const appId = searchParams.get('id') as string
-  const appType = searchParams.get('type') as TAppointmentStatus
+  const type = searchParams.get('type') as TAppointmentType
+  const appStatus = searchParams.get('type') as TAppointmentStatus
+
   const { data, isLoading, error } = useAsync(
-    `/api/admin/get-appointment?appId=${appId}`,
+    `/api/admin/get-appointment?appId=${appId}&type=${type}`,
     requests.get
   )
+
   const handleAction = async (status: TAppointmentStatus) => {
     const res =
       status === 'REJECTED'
@@ -32,18 +37,21 @@ export default function AppointmentsDetails() {
     }
     if (res.error) return { error: 'আবার চেষ্টা করুন' }
   }
-  if (isLoading) return <div>Loading...</div>
+
+  if (isLoading)
+    return <div className='text-center text-xl font-medium'>Loading...</div>
   if (error)
     return (
       <div className='text-red-500 font-medium text-3xl text-center'>
         ইরর হয়েছে, আবার চেষ্টা করুন।
       </div>
     )
+
   return (
     <div>
-      <DetailsApplication data={data.appointment} access='ADMIN' />
+      <DetailsApplication data={data.appointments} access='ADMIN' />
       <div className='mt-12'>
-        {appType === 'UNVERIFIED' && (
+        {appStatus === 'UNVERIFIED' && (
           <div className='flex flex-col md:flex-row-reverse gap-8'>
             <Button
               onClick={() =>
