@@ -88,10 +88,7 @@ export default function DonorDashboard() {
           <CardSkeleton />
         ) : (
           data && (
-            <DonationCards
-              forDonor
-              donations={data.user.donorProfile.donationHistory}
-            />
+            <DonationCards donations={data.user.donorProfile.donationHistory} />
           )
         )}
       </div>
