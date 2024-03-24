@@ -1,6 +1,10 @@
 import Image from 'next/image'
+import Link from 'next/link'
+import { ArrowRight } from 'lucide-react'
 
-import { Button } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
+
+import { buttonVariants } from '../ui/button'
 
 export default function DonationCards({
   donations
@@ -30,9 +34,12 @@ export default function DonationCards({
               <div className='mt-4 px-2'>
                 <p className='uppercase font-medium text-xs'>Donation #1</p>
                 <p className='font-light mt-2'>{donation.address}</p>
-                <Button variant='secondary' className='mt-4'>
-                  বিস্তারিত দেখুন
-                </Button>
+                <Link
+                  href={`/donation?id=${donation.id}`}
+                  className={cn('mt-4', buttonVariants())}
+                >
+                  বিস্তারিত দেখুন <ArrowRight className='size-5' />
+                </Link>
               </div>
             </div>
           </div>

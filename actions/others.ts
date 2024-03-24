@@ -316,22 +316,20 @@ export const getSingleDonation = async (id: string) => {
       include: {
         receiver: {
           select: {
-            name: true,
-            religion: true,
             bloodType: true,
             jilla: true,
-            subJilla: true
+            subJilla: true,
+            thana: true
           }
         },
         donor: {
           include: {
             user: {
               select: {
-                name: true,
-                religion: true,
                 bloodType: true,
                 jilla: true,
-                subJilla: true
+                subJilla: true,
+                thana: true
               }
             }
           }
