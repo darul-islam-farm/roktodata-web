@@ -67,13 +67,13 @@ export const checkAppointmentAvailablity = async (
     const donorRes = await prisma.donorProfile.findUnique({
       where: { id: donor }
     })
-    const userRes = await prisma.receiver.findUnique({
+    const receiverRes = await prisma.receiverProfile.findUnique({
       where: { id: receiver }
     })
     const hasReceiverAppointment = await prisma.appointment.findUnique({
       where: { receiverId: receiver }
     })
-    if (!donorRes || !userRes)
+    if (!donorRes || !receiverRes)
       return error_res(
         'কোনো ইউজার অথবা ডোনার ডাটা পাওয়া যায়নি। আবার চেষ্টা করুন।'
       )
@@ -98,7 +98,7 @@ export const createAppointment = async (data: any) => {
         ...rest
       }
     })
-    await prisma.receiver.update({
+    await prisma.receiverProfile.update({
       where: {
         id: receiver
       },
@@ -129,8 +129,12 @@ export const getAppointments = async () => {
           }
         },
         receiver: {
-          select: {
-            name: true
+          include: {
+            user: {
+              select: {
+                name: true
+              }
+            }
           }
         }
       }
@@ -155,8 +159,12 @@ export const getDeclinedAppointments = async () => {
           }
         },
         receiver: {
-          select: {
-            name: true
+          include: {
+            user: {
+              select: {
+                name: true
+              }
+            }
           }
         }
       }
@@ -188,13 +196,17 @@ export const getAppointmentForUser = async (id: string) => {
           }
         },
         receiver: {
-          select: {
-            id: true,
-            name: true,
-            jilla: true,
-            subJilla: true,
-            thana: true,
-            address: true
+          include: {
+            user: {
+              select: {
+                id: true,
+                name: true,
+                jilla: true,
+                subJilla: true,
+                thana: true,
+                address: true
+              }
+            }
           }
         }
       }
@@ -207,11 +219,23 @@ export const getAppointmentForUser = async (id: string) => {
 
 export const getUserStatus = async (id: string) => {
   try {
-    const user = await prisma.receiver.findUnique({ where: { id } })
+    /** @check */
+    const user = await prisma.user.findFirst({
+      where: { receiverProfile: { id } }
+    })
     if (!user) return error_res('কোনো ইউজার পাওয়া যায়নি, আবার চেষ্টা করুন।')
+
+    const profile = await prisma.receiverProfile.findUnique({
+      where: { id }
+    })
+    if (!profile)
+      return error_res(
+        'আপনার ইউজার তথ্যগুলো এখনো ভেরিফাই লিস্টে রয়েছে। ভেরিফিকেশনের অপেক্ষা করুন।'
+      )
+
     return success_res({
       profileStatus: user?.status,
-      requestStatus: user?.userStatus
+      requestStatus: profile?.userStatus
     })
   } catch {
     return error_res()
@@ -229,22 +253,24 @@ export const getDonations = async (type: TUserType) => {
       type === 'DONOR'
         ? await prisma.donation.findMany({
             where: {
-              donor: {
-                userId: id
-              }
+              donorId: id
             },
             include: {
               receiver: {
-                select: {
-                  name: true,
-                  religion: true,
-                  bloodType: true,
-                  jilla: true,
-                  subJilla: true,
-                  thana: true,
-                  address: true,
-                  phone: true,
-                  phone2: true
+                include: {
+                  user: {
+                    select: {
+                      name: true,
+                      religion: true,
+                      bloodType: true,
+                      jilla: true,
+                      subJilla: true,
+                      thana: true,
+                      address: true,
+                      phone: true,
+                      phone2: true
+                    }
+                  }
                 }
               },
               donor: {
@@ -270,16 +296,20 @@ export const getDonations = async (type: TUserType) => {
             where: { receiverId: id },
             include: {
               receiver: {
-                select: {
-                  name: true,
-                  religion: true,
-                  bloodType: true,
-                  jilla: true,
-                  subJilla: true,
-                  thana: true,
-                  address: true,
-                  phone: true,
-                  phone2: true
+                include: {
+                  user: {
+                    select: {
+                      name: true,
+                      religion: true,
+                      bloodType: true,
+                      jilla: true,
+                      subJilla: true,
+                      thana: true,
+                      address: true,
+                      phone: true,
+                      phone2: true
+                    }
+                  }
                 }
               },
               donor: {
@@ -315,11 +345,15 @@ export const getSingleDonation = async (id: string) => {
       },
       include: {
         receiver: {
-          select: {
-            bloodType: true,
-            jilla: true,
-            subJilla: true,
-            thana: true
+          include: {
+            user: {
+              select: {
+                bloodType: true,
+                jilla: true,
+                subJilla: true,
+                thana: true
+              }
+            }
           }
         },
         donor: {

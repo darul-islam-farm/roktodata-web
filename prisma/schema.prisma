@@ -8,81 +8,67 @@ datasource db {
 }
 
 model User {
-  id           String        @id @default(auto()) @map("_id") @db.ObjectId
-  name         String // basics
-  email        String        @unique
-  password     String
-  identity     String        @unique
-  gender       Gender
-  age          Int
-  religion     String
-  phone        String        @unique
-  phone2       String        @unique @map("another_phone")
-  bloodType    String        @map("blood_type")
-  jilla        String // locations 
-  subJilla     String        @map("sub_jilla ")
-  thana        String
-  address      String
-  status       ProfileStatus @default(PENDING) // profiles
-  role         ProfileType   @default(DONOR)
-  donorProfile DonorProfile?
-  posts        Forum[]
-  createdAt    DateTime      @default(now()) // timestamps
-  updatedAt    DateTime      @updatedAt
+  id              String           @id @default(auto()) @map("_id") @db.ObjectId
+  name            String // basics
+  email           String           @unique
+  password        String
+  identity        String           @unique
+  gender          Gender
+  age             Int
+  religion        String
+  phone           String           @unique
+  phone2          String           @unique @map("another_phone")
+  bloodType       String           @map("blood_type")
+  jilla           String // locations 
+  subJilla        String           @map("sub_jilla ")
+  thana           String
+  address         String
+  status          ProfileStatus    @default(PENDING) // profiles
+  role            Role
+  donorProfile    DonorProfile?
+  receiverProfile ReceiverProfile?
+  posts           Forum[]
+  createdAt       DateTime         @default(now()) // timestamps
+  updatedAt       DateTime         @updatedAt
 
   @@map("users")
 }
 
-model Receiver {
-  id                  String                @id @default(auto()) @map("_id") @db.ObjectId
-  name                String // basics
-  email               String                @unique
-  password            String
-  identity            String                @unique
-  gender              Gender
-  age                 Int
-  religion            String
-  phone               String                @unique
-  phone2              String                @unique @map("another_phone")
-  bloodType           String                @map("blood_type")
-  jilla               String // locations 
-  subJilla            String                @map("sub_jilla ")
-  thana               String
-  address             String
-  status              ProfileStatus         @default(PENDING) // profiles
-  role                ProfileType           @default(RECEIVER)
-  userStatus          UserStatus            @default(NORMAL)
-  receiveHistory      Donation[]
-  appointment         Appointment?
-  declinedAppointment DeclinedAppointment[]
-  createdAt           DateTime              @default(now()) // timestamps
-  updatedAt           DateTime              @updatedAt
+model ReceiverProfile {
+  id                   String                @id @default(auto()) @map("_id") @db.ObjectId
+  bloodType            String                @map("blood_type")
+  user                 User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId               String                @unique @db.ObjectId
+  userStatus           UserStatus            @default(NORMAL)
+  receiveHistory       Donation[]
+  appointment          Appointment?
+  declinedAppointments DeclinedAppointment[]
 
   @@map("receiver")
 }
 
 model DonorProfile {
-  id                  String                @id @default(auto()) @map("_id") @db.ObjectId
-  bloodType           String                @map("blood_type")
-  user                User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId              String                @unique @db.ObjectId
-  status              DonorStatus           @default(INACTIVE)
-  donationHistory     Donation[]
-  appointments        Appointment[]
-  declinedAppointment DeclinedAppointment[]
+  id                   String                @id @default(auto()) @map("_id") @db.ObjectId
+  bloodType            String                @map("blood_type")
+  user                 User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId               String                @unique @db.ObjectId
+  status               DonorStatus           @default(INACTIVE)
+  donationHistory      Donation[]
+  appointments         Appointment[]
+  declinedAppointments DeclinedAppointment[]
 
   @@map("donor_profiles")
 }
 
 model Donation {
-  id         String       @id @default(auto()) @map("_id") @db.ObjectId
-  donor      DonorProfile @relation(fields: [donorId], references: [id])
-  donorId    String       @db.ObjectId
-  receiver   Receiver     @relation(fields: [receiverId], references: [id])
-  receiverId String       @db.ObjectId
+  id         String          @id @default(auto()) @map("_id") @db.ObjectId
+  donor      DonorProfile    @relation(fields: [donorId], references: [id])
+  donorId    String          @db.ObjectId
+  receiver   ReceiverProfile @relation(fields: [receiverId], references: [id])
+  receiverId String          @db.ObjectId
   address    String
   image      String?
-  donatedAt  DateTime     @default(now())
+  donatedAt  DateTime        @default(now())
 
   @@map("donations")
 }
@@ -91,7 +77,7 @@ model Appointment {
   id             String            @id @default(auto()) @map("_id") @db.ObjectId
   donor          DonorProfile      @relation(fields: [donorId], references: [id]) // identity
   donorId        String            @db.ObjectId
-  receiver       Receiver          @relation(fields: [receiverId], references: [id])
+  receiver       ReceiverProfile   @relation(fields: [receiverId], references: [id])
   receiverId     String            @unique @db.ObjectId
   scheduledAt    DateTime // status
   status         AppointmentStatus @default(UNVERIFIED)
@@ -107,7 +93,7 @@ model DeclinedAppointment {
   id             String                    @id @default(auto()) @map("_id") @db.ObjectId
   donor          DonorProfile              @relation(fields: [donorId], references: [id]) // identity
   donorId        String                    @db.ObjectId
-  receiver       Receiver                  @relation(fields: [receiverId], references: [id])
+  receiver       ReceiverProfile           @relation(fields: [receiverId], references: [id])
   receiverId     String                    @db.ObjectId
   scheduledAt    DateTime // status
   status         DeclinedAppointmentStatus
@@ -121,15 +107,16 @@ model DeclinedAppointment {
 }
 
 model Forum {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  title     String   @unique
-  slug      String   @unique
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  title     String    @unique
+  slug      String    @unique
   body      String
   image     String
-  author    User     @relation(fields: [authorId], references: [id])
-  authorId  String   @db.ObjectId
-  createdAt DateTime @default(now()) // timestamps
-  updatedAt DateTime @updatedAt
+  comments  Comment[]
+  author    User      @relation(fields: [authorId], references: [id])
+  authorId  String    @db.ObjectId
+  createdAt DateTime  @default(now()) // timestamps
+  updatedAt DateTime  @updatedAt
 
   @@map("forum_posts")
 }
@@ -145,7 +132,7 @@ model Message {
   @@map("messages")
 }
 
-model Hospitals {
+model Hospita {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   name      String
   phone     String
@@ -169,11 +156,13 @@ model Admin {
   @@map("admins")
 }
 
-// model Comment {
-//   id String @id @default(auto()) @map("_id") @db.ObjectId
+model Comment {
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  forum   Forum  @relation(fields: [forumId], references: [id], onDelete: Cascade)
+  forumId String @db.ObjectId
 
-//   @@map("comments")
-// }
+  @@map("comments")
+}
 
 enum Gender {
   MALE
@@ -181,7 +170,7 @@ enum Gender {
   OTHER
 }
 
-enum ProfileType {
+enum Role {
   ADMIN
   MODERATOR
   DONOR

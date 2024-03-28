@@ -9,11 +9,11 @@ import { AuthError } from 'next-auth'
 import prisma from '@/lib/prisma'
 
 export const createUser = async (data: any) => {
-  const { bloodType, ...rest } = data
+  const { bloodType, userType: skip, ...rest } = data
   const parseData = alldata.safeParse(rest)
   if (!parseData.success) return error_res('Data validation failed')
 
-  const { age, ...others } = data
+  const { age, userType, ...others } = data
 
   try {
     const isDuplicate = await prisma.user.findMany({
@@ -31,48 +31,14 @@ export const createUser = async (data: any) => {
         'ইমেইল, আইডি কার্ড নম্বর অথবা ফোন নম্বর ইতোমধ্যে ব্যবহৃত হয়েছে।'
       )
 
-    await prisma.user.create({
+    const user = await prisma.user.create({
       data: {
         ...others,
+        role: userType === 'donor' ? 'DONOR' : 'RECEIVER',
         age: parseInt(age)
       }
     })
-    return success_res()
-  } catch {
-    return error_res()
-  }
-}
-
-export const createReceiver = async (data: any) => {
-  const { bloodType, ...rest } = data
-  const parseData = alldata.safeParse(rest)
-  if (!parseData.success) return error_res('Data validation failed')
-
-  const { age, ...others } = data
-
-  try {
-    const isDuplicate = await prisma.receiver.findMany({
-      where: {
-        OR: [
-          { email: data.email },
-          { identity: data.identity },
-          { phone: data.phone },
-          { phone2: data.phone2 }
-        ]
-      }
-    })
-    if (isDuplicate.length)
-      return error_res(
-        'ইমেইল, আইডি কার্ড নম্বর অথবা ফোন নম্বর ইতোমধ্যে ব্যবহৃত হয়েছে।'
-      )
-
-    const receiver = await prisma.receiver.create({
-      data: {
-        ...others,
-        age: parseInt(age)
-      }
-    })
-    return success_res(receiver.id)
+    return success_res(user.id)
   } catch {
     return error_res()
   }
@@ -97,15 +63,12 @@ export const updateUser = async (data: any) => {
 export const checkStatus = async (formData: TLogindata) => {
   const { email, password } = formData
   try {
-    const donor = await prisma.user.findUnique({
-      where: { email, password }
-    })
-    const receiver = await prisma.receiver.findUnique({
+    const user = await prisma.user.findUnique({
       where: { email, password }
     })
 
-    if (donor || receiver) {
-      if (donor?.status === 'ACCEPTED' || receiver?.status === 'ACCEPTED') {
+    if (user) {
+      if (user.status === 'ACCEPTED') {
         return success_res()
       } else {
         return error_res(
@@ -139,7 +102,7 @@ export const authenticate = async (formData: TLogindata) => {
 export const getUser = async (email: any, password: any) => {
   // get user data for authentication
   try {
-    const donor = await prisma.user.findUnique({
+    const user = await prisma.user.findUnique({
       where: { email, password },
       select: {
         id: true,
@@ -150,18 +113,7 @@ export const getUser = async (email: any, password: any) => {
         role: true
       }
     })
-    const receiver = await prisma.receiver.findUnique({
-      where: { email, password },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        bloodType: true,
-        status: true,
-        role: true
-      }
-    })
-    return donor || receiver
+    return user
   } catch {
     throw new Error('not found')
   }
@@ -169,13 +121,11 @@ export const getUser = async (email: any, password: any) => {
 
 export const getAppointmentsForDonor = async (id: string) => {
   try {
-    const user = await prisma.user.findUnique({
-      where: { id },
-      include: { donorProfile: true }
-    })
     const applications = await prisma.appointment.findMany({
       where: {
-        donorId: user?.donorProfile?.id
+        donor: {
+          userId: id
+        }
       },
       include: {
         donor: {
@@ -188,8 +138,12 @@ export const getAppointmentsForDonor = async (id: string) => {
           }
         },
         receiver: {
-          select: {
-            name: true
+          include: {
+            user: {
+              select: {
+                name: true
+              }
+            }
           }
         }
       }

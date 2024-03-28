@@ -66,11 +66,7 @@ export default function UserTable({ title, data, userType }: TProps) {
                             userType === 'DONOR' ? 'ডোনারকে' : 'রক্তগ্রহীতাকে'
                           } ডিলিট করতে চান?`,
                           body: 'ডিলিট করা হলে সকল তথ্য মুছে যাবে।',
-                          precom: () =>
-                            deleteUser(
-                              item.id,
-                              userType === 'DONOR' ? 'DONOR' : 'RECEIVER'
-                            )
+                          precom: () => deleteUser(item.id)
                         })
                     }
                   ]}

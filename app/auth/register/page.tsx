@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { createReceiver, createUser } from '@/actions/user'
+import { createUser } from '@/actions/user'
 import {
   TBasicdata,
   TCreddata,
@@ -51,18 +51,10 @@ export default function Register() {
   }
 
   const create_user = async () => {
-    let serverFunc = createReceiver
-    if (userType === 'donor') {
-      serverFunc = createUser
-    } else if (userType === 'receiver') {
-      serverFunc = createReceiver
-    } else {
-      alert('unknown user type')
-      return
-    }
     try {
-      const res = await serverFunc({
+      const res = await createUser({
         ...data,
+        userType,
         bloodType: group
       })
 

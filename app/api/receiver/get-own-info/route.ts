@@ -10,7 +10,7 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
   const id = searchParams.get('id') as string
   try {
-    const response = await prisma.receiver.findUnique({
+    const response = await prisma.receiverProfile.findUnique({
       where: { id },
       include: {
         receiveHistory: true,

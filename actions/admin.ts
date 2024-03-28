@@ -12,15 +12,19 @@ export const getDonorData = async (status: TStatus) => {
   try {
     const data = await prisma.user.findMany({
       where: {
+        role: 'DONOR',
         status
-      },
-      include: {
+      }
+      /** 
+      @temp
+       include: {
         donorProfile: {
           include: {
             appointments: true
           }
         }
       }
+      */
     })
     return success_res(data)
   } catch {
@@ -30,8 +34,9 @@ export const getDonorData = async (status: TStatus) => {
 
 export const getReceiverData = async (status: TStatus) => {
   try {
-    const data = await prisma.receiver.findMany({
+    const data = await prisma.user.findMany({
       where: {
+        role: 'RECEIVER',
         status
       }
     })
@@ -41,18 +46,27 @@ export const getReceiverData = async (status: TStatus) => {
   }
 }
 
-export const createDonorProfile = async (data: {
-  bloodType: string
+export const createOrDeclineDonorProfile = async ({
+  id,
+  bloodType,
+  status
+}: {
   id: string
+  bloodType: string
   status: TStatus
 }) => {
-  const { bloodType, id, status } = data
   try {
     if (status === 'ACCEPTED') {
       await prisma.donorProfile.create({
         data: {
           bloodType,
           userId: id
+        }
+      })
+      await prisma.user.update({
+        where: { id },
+        data: {
+          status
         }
       })
     }
@@ -73,13 +87,31 @@ export const createDonorProfile = async (data: {
   }
 }
 
-export const updateReceiverProfile = async (data: {
+export const createOrDeclineReceiverProfile = async ({
+  id,
+  bloodType,
+  status
+}: {
   id: string
+  bloodType: string
   status: TStatus
 }) => {
-  const { id, status } = data
   try {
-    await prisma.receiver.update({
+    if (status === 'ACCEPTED') {
+      await prisma.receiverProfile.create({
+        data: {
+          bloodType,
+          userId: id
+        }
+      })
+      await prisma.user.update({
+        where: { id },
+        data: {
+          status
+        }
+      })
+    }
+    await prisma.user.update({
       where: {
         id
       },
@@ -96,20 +128,13 @@ export const updateReceiverProfile = async (data: {
   }
 }
 
-export const deleteUser = async (id: string, userType: TUserType) => {
+export const deleteUser = async (id: string) => {
   try {
-    if (userType === 'DONOR') {
-      await prisma.user.delete({ where: { id } })
-      revalidatePath('/dashboard/admin', 'layout')
-      return success_res()
-    } else if (userType === 'RECEIVER') {
-      await prisma.receiver.delete({ where: { id } })
-      revalidatePath('/dashboard/admin', 'layout')
-      return success_res()
-    }
-
-    return error_res('Unknown type')
-  } catch {
+    await prisma.user.delete({ where: { id } })
+    revalidatePath('/dashboard/admin', 'layout')
+    return success_res()
+  } catch (err) {
+    console.log('err on delete', err)
     return error_res()
   }
 }
@@ -159,7 +184,7 @@ export const declineAppointment = async (
       }
     })
     await prisma.appointment.delete({ where: { id } })
-    await prisma.receiver.update({
+    await prisma.receiverProfile.update({
       where: {
         id: appointment.receiverId
       },
@@ -212,14 +237,14 @@ export const deleteAppointment = async (id: string) => {
   }
 }
 
-export const createAdmin = async () => {
+export const createAdmin = async (email: string, password: string) => {
   const session = await auth()
   if (session?.user.role !== 'ADMIN') return error_res('UnAuthenticated')
   try {
     await prisma.admin.create({
       data: {
-        email: 'demo@roktodata.com',
-        password: '147570'
+        email,
+        password
       }
     })
     return success_res()

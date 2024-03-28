@@ -11,7 +11,7 @@ export const updateActiveStatus = async (status: 'ACTIVE' | 'INACTIVE') => {
   if (!session) return error_res('UnAuthenticated')
   try {
     await prisma.donorProfile.update({
-      where: { userId: session.user.id },
+      where: { id: session.user.id },
       data: {
         status
       }
@@ -65,7 +65,7 @@ export const createDonation = async (appId: string, image?: string) => {
         image
       }
     })
-    await prisma.receiver.update({
+    await prisma.receiverProfile.update({
       where: { id: appointment.receiverId },
       data: {
         userStatus: 'NORMAL'

@@ -30,16 +30,20 @@ export async function GET(request: Request) {
                 }
               },
               receiver: {
-                select: {
-                  id: true,
-                  identity: true,
-                  name: true,
-                  jilla: true,
-                  subJilla: true,
-                  thana: true,
-                  address: true,
-                  phone: true,
-                  phone2: true
+                include: {
+                  user: {
+                    select: {
+                      id: true,
+                      identity: true,
+                      name: true,
+                      jilla: true,
+                      subJilla: true,
+                      thana: true,
+                      address: true,
+                      phone: true,
+                      phone2: true
+                    }
+                  }
                 }
               }
             }
@@ -64,16 +68,20 @@ export async function GET(request: Request) {
                 }
               },
               receiver: {
-                select: {
-                  id: true,
-                  identity: true,
-                  name: true,
-                  jilla: true,
-                  subJilla: true,
-                  thana: true,
-                  address: true,
-                  phone: true,
-                  phone2: true
+                include: {
+                  user: {
+                    select: {
+                      id: true,
+                      identity: true,
+                      name: true,
+                      jilla: true,
+                      subJilla: true,
+                      thana: true,
+                      address: true,
+                      phone: true,
+                      phone2: true
+                    }
+                  }
                 }
               }
             }

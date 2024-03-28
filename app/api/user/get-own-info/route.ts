@@ -17,16 +17,20 @@ export async function GET() {
             donationHistory: {
               include: {
                 receiver: {
-                  select: {
-                    name: true,
-                    religion: true,
-                    bloodType: true,
-                    jilla: true,
-                    subJilla: true,
-                    thana: true,
-                    address: true,
-                    phone: true,
-                    phone2: true
+                  include: {
+                    user: {
+                      select: {
+                        name: true,
+                        religion: true,
+                        bloodType: true,
+                        jilla: true,
+                        subJilla: true,
+                        thana: true,
+                        address: true,
+                        phone: true,
+                        phone2: true
+                      }
+                    }
                   }
                 }
               }
