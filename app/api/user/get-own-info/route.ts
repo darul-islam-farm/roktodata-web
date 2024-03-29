@@ -9,7 +9,7 @@ export async function GET() {
   if (!session) return unAuth()
   try {
     const response = await prisma.user.findUnique({
-      where: { id: session.user.id },
+      where: { id: session.user.userId },
       include: {
         donorProfile: {
           select: {
@@ -20,15 +20,10 @@ export async function GET() {
                   include: {
                     user: {
                       select: {
-                        name: true,
                         religion: true,
                         bloodType: true,
                         jilla: true,
-                        subJilla: true,
-                        thana: true,
-                        address: true,
-                        phone: true,
-                        phone2: true
+                        subJilla: true
                       }
                     }
                   }

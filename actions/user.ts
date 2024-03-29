@@ -50,7 +50,7 @@ export const updateUser = async (data: any) => {
   try {
     await prisma.user.update({
       where: {
-        id: session.user.id
+        id: session.user.userId
       },
       data
     })
@@ -110,10 +110,30 @@ export const getUser = async (email: any, password: any) => {
         email: true,
         bloodType: true,
         status: true,
-        role: true
+        role: true,
+        donorProfile: {
+          select: {
+            id: true
+          }
+        },
+        receiverProfile: {
+          select: {
+            id: true
+          }
+        }
       }
     })
     return user
+      ? {
+          id: (user.donorProfile?.id || user.receiverProfile?.id) as string,
+          name: user.name,
+          email: user.email,
+          bloodType: user.bloodType,
+          status: user.status,
+          role: user.role,
+          userId: user.id
+        }
+      : null
   } catch {
     throw new Error('not found')
   }
