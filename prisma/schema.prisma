@@ -156,6 +156,14 @@ model Admin {
   @@map("admins")
 }
 
+model Moderator {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  email    String @unique
+  password String
+
+  @@map("moderators")
+}
+
 model Comment {
   id      String @id @default(auto()) @map("_id") @db.ObjectId
   forum   Forum  @relation(fields: [forumId], references: [id], onDelete: Cascade)
