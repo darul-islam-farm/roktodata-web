@@ -132,7 +132,7 @@ model Message {
   @@map("messages")
 }
 
-model Hospita {
+model Hospital {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   name      String
   phone     String
