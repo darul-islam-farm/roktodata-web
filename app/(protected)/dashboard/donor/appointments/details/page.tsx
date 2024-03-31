@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button'
 import DetailsApplication from '@/components/dashboard/DetailsApplication'
 import CancelDialog from '@/components/Dialogs/CancelDialog'
 import CompleteDialog from '@/components/Dialogs/CompleteDialog'
+import Loading from '@/components/shared/ui/Loading'
 
 export default function AppointmentsDetailsForDonor() {
   const searchParams = useSearchParams()
@@ -37,7 +38,8 @@ export default function AppointmentsDetailsForDonor() {
     }
   }
 
-  if (isLoading) return <div>Loading...</div>
+  if (isLoading) return <Loading />
+
   if (error)
     return (
       <div className='text-red-500 font-medium text-3xl text-center'>

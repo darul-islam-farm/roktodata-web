@@ -106,7 +106,11 @@ export default function CompleteDialog({ open, setOpen, appId }: TPorps) {
           />
         </div>
         <AlertDialogFooter className='mt-4'>
-          <Button onClick={() => setOpen(false)} variant='primarysubtle'>
+          <Button
+            disabled={loading}
+            onClick={() => setOpen(false)}
+            variant='primarysubtle'
+          >
             Cancel
           </Button>
           <Button loading={loading} onClick={handleAction} variant='secondary'>

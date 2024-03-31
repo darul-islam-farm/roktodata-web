@@ -133,8 +133,7 @@ export const deleteUser = async (id: string) => {
     await prisma.user.delete({ where: { id } })
     revalidatePath('/dashboard/admin', 'layout')
     return success_res()
-  } catch (err) {
-    console.log('err on delete', err)
+  } catch {
     return error_res()
   }
 }

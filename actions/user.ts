@@ -144,7 +144,7 @@ export const getAppointmentsForDonor = async (id: string) => {
     const applications = await prisma.appointment.findMany({
       where: {
         donor: {
-          userId: id
+          id
         }
       },
       include: {

@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import { notFound } from 'next/navigation'
 import { getSingleDonation } from '@/actions/others'
 import dayjs from 'dayjs'
 
@@ -11,18 +12,20 @@ export default async function DonationDetails({
 }) {
   const { data } = await getSingleDonation(searchParams.id)
 
+  if (!data) return notFound()
+
   return (
     <div className='my-10'>
       <h1 className='mb-12 text-secondary text-center'>ডোনেশন বিস্তারিত</h1>
       <Container size='sm'>
         <div className='flex justify-center mb-8'>
           <div className='text-white shadow-lg shadow-black/40 size-32 md:size-40 rounded-full flex-center bg-primary font-bold text-5xl'>
-            {data.receiver.bloodType}
+            {data.receiver.user.bloodType}
           </div>
         </div>
-        <h2 className='mb-4'>ডোনারের তথ্য</h2>
         <div className='grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8'>
           <div className='col-auto'>
+            <h2>ডোনারের তথ্য</h2>
             <hr className='mb-2' />
             <div className='grid gap-2'>
               <p>
@@ -47,15 +50,21 @@ export default async function DonationDetails({
             <div className='grid gap-2'>
               <p>
                 জেলা :
-                <span className='text-dark pl-2'>{data.receiver.jilla}</span>
+                <span className='text-dark pl-2'>
+                  {data.receiver.user.jilla}
+                </span>
               </p>
               <p>
                 উপজেলা :
-                <span className='text-dark pl-2'>{data.receiver.subJilla}</span>
+                <span className='text-dark pl-2'>
+                  {data.receiver.user.subJilla}
+                </span>
               </p>
               <p>
                 থানা :
-                <span className='text-dark pl-2'>{data.receiver.thana}</span>
+                <span className='text-dark pl-2'>
+                  {data.receiver.user.thana}
+                </span>
               </p>
             </div>
           </div>

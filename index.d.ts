@@ -35,17 +35,29 @@ type TUser = {
 type TDonor = {
   id: string
   bloodType: string
-  status: TStatus
-  userId?: string
   user: TUser
-  donationHistory?: TDonation
+  userId: string
+  status: TStatus
+  donationHistory?: TDonation[]
   appointments?: TAppointment
+  declideclinedAppointments: any[] /** @TODO add type */
+}
+
+type TReceiver = {
+  id: string
+  bloodType: string
+  user: TUser
+  userId: string
+  userStatus: TUserRequestStatus
+  receiveHistory?: TDonation[]
+  appointment?: TAppointment
+  declideclinedAppointments: any[] /** @TODO add type */
 }
 
 type TDonation = {
   id: string
   donor: TDonor
-  receiver: TUser
+  receiver: TReceiver
   donatedAt: Date
   image: string
   address: string
@@ -54,7 +66,7 @@ type TDonation = {
 type TAppointment = {
   id: string
   donor: TDonor
-  receiver: TUser
+  receiver: TReceiver
   scheduledAt: Date
   status: TAppointmentStatus
   images: string[]
@@ -65,7 +77,7 @@ type TAppointment = {
 
 type TUserType = 'DONOR' | 'RECEIVER'
 type TStatus = 'PENDING' | 'ACCEPTED' | 'REJECTED'
-type TUserStatus = 'NORMAL' | 'REQUESTED'
+type TUserRequestStatus = 'NORMAL' | 'REQUESTED'
 type TAppointmentStatus =
   | 'UNVERIFIED'
   | 'REJECTED'

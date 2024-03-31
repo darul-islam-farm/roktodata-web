@@ -53,8 +53,7 @@ export const uploadFiles = async (formData: FormData) => {
   try {
     const res = await utapi.uploadFiles(files)
     return success_res(res.map((item) => item.data?.key))
-  } catch (error) {
-    console.log('error on uploading ', error)
+  } catch {
     throw new Error('something went wrong')
   }
 }
@@ -65,7 +64,7 @@ export const checkAppointmentAvailablity = async (
 ) => {
   try {
     const donorRes = await prisma.donorProfile.findUnique({
-      where: { id: donor }
+      where: { id: donor, status: 'ACTIVE' }
     })
     const receiverRes = await prisma.receiverProfile.findUnique({
       where: { id: receiver }
@@ -217,25 +216,21 @@ export const getAppointmentForUser = async (id: string) => {
   }
 }
 
-export const getUserStatus = async (id: string) => {
+export const getUserInfo = async (id: string) => {
   try {
-    /** @check */
-    const user = await prisma.user.findFirst({
-      where: { receiverProfile: { id } }
+    const user = await prisma.user.findUnique({
+      where: { id }
     })
     if (!user) return error_res('কোনো ইউজার পাওয়া যায়নি, আবার চেষ্টা করুন।')
 
     const profile = await prisma.receiverProfile.findUnique({
-      where: { id }
+      where: { userId: id }
     })
-    if (!profile)
-      return error_res(
-        'আপনার ইউজার তথ্যগুলো এখনো ভেরিফাই লিস্টে রয়েছে। ভেরিফিকেশনের অপেক্ষা করুন।'
-      )
 
     return success_res({
       profileStatus: user?.status,
-      requestStatus: profile?.userStatus
+      requestStatus: profile?.userStatus,
+      id: profile?.id
     })
   } catch {
     return error_res()

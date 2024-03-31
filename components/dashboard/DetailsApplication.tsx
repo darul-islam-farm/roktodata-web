@@ -73,19 +73,22 @@ export default function DetailsApplication({ data, access }: TProps) {
           <hr className='mb-2' />
           <div className='grid gap-2'>
             <p>
-              নাম :<span className='text-dark pl-2'>{data.receiver.name}</span>
+              নাম :
+              <span className='text-dark pl-2'>{data.receiver.user.name}</span>
             </p>
             <p>
               জেলা :
-              <span className='text-dark pl-2'>{data.receiver.jilla}</span>
+              <span className='text-dark pl-2'>{data.receiver.user.jilla}</span>
             </p>
             <p>
               উপজেলা :
-              <span className='text-dark pl-2'>{data.receiver.subJilla}</span>
+              <span className='text-dark pl-2'>
+                {data.receiver.user.subJilla}
+              </span>
             </p>
             <p>
               থানা :
-              <span className='text-dark pl-2'>{data.receiver.thana}</span>
+              <span className='text-dark pl-2'>{data.receiver.user.thana}</span>
             </p>
             {(admin || donor) && (
               <div className='flex gap-3'>
@@ -93,18 +96,18 @@ export default function DetailsApplication({ data, access }: TProps) {
                   ফোন নাম্বার :
                   <a
                     className='flex items-center gap-2 text-primary'
-                    href={`tel:+88${data.receiver.phone}`}
+                    href={`tel:+88${data.receiver.user.phone}`}
                   >
-                    <PhoneCall /> {data.receiver.phone}
+                    <PhoneCall /> {data.receiver.user.phone}
                   </a>
                 </p>
                 <p>
                   বিকল্প ফোন নাম্বার :
                   <a
                     className='flex items-center gap-2 text-primary'
-                    href={`tel:+88${data.receiver.phone2}`}
+                    href={`tel:+88${data.receiver.user.phone2}`}
                   >
-                    <PhoneCall /> {data.receiver.phone2}
+                    <PhoneCall /> {data.receiver.user.phone2}
                   </a>
                 </p>
               </div>
@@ -113,7 +116,7 @@ export default function DetailsApplication({ data, access }: TProps) {
               <p>
                 আইডেন্টিটি :
                 <span className='text-secondary pl-2 text-xl font-medium'>
-                  {data.receiver.identity}
+                  {data.receiver.user.identity}
                 </span>
               </p>
             )}

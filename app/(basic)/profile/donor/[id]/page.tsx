@@ -29,8 +29,11 @@ export default async function DonorProfile({
           <div className='absolute bottom-0 right-4 size-5 md:size-7 bg-green-500 rounded-full' />
         </div>
         <div className='text-center mt-3 tracking-wider'>
-          <p className='text-light'>{data.user.email}</p>
-          <p className='text-light/60 text-sm'>
+          <p className='uppercase mt-2 text-white font-medium'>
+            {data.user.name}
+          </p>
+          <p className='text-light text-sm'>{data.user.email}</p>
+          <p className='text-light/60 text-xs'>
             Donor from {dayjs(data.user.createdAt).format('D MMM, YYYY')}
           </p>
         </div>
@@ -73,7 +76,7 @@ export default async function DonorProfile({
             className={cn(buttonVariants(), 'w-full')}
             href={
               session?.user
-                ? `/application?donor=${params.id}&receiver=${session.user.id}`
+                ? `/application?donor=${params.id}&receiver=${session.user.userId}`
                 : `/auth/register?type=receiver&donor=${params.id}`
             }
           >

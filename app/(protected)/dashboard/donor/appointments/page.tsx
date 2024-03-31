@@ -9,6 +9,9 @@ export default async function AppointmentsForDonor() {
   const hasPending = data.find(
     (item: TAppointment) => item.status === 'PENDING'
   )
+  const hasAccepted = data.find(
+    (item: TAppointment) => item.status === 'ACCEPTED'
+  )
 
   return (
     <div>
@@ -17,11 +20,16 @@ export default async function AppointmentsForDonor() {
           title='আগত আবেদন'
           data={data.filter((item: TAppointment) => item.status === 'PENDING')}
         />
-      ) : null}
-      <AppointmentsTable
-        title='গৃহীত আবেদন'
-        data={data.filter((item: TAppointment) => item.status === 'ACCEPTED')}
-      />
+      ) : hasAccepted ? (
+        <AppointmentsTable
+          title='গৃহীত আবেদন'
+          data={data.filter((item: TAppointment) => item.status === 'ACCEPTED')}
+        />
+      ) : (
+        <h2 className='text-red-500 text-3xl text-center my-8'>
+          কোনো আবেদন নেই
+        </h2>
+      )}
     </div>
   )
 }

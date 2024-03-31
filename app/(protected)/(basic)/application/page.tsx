@@ -6,7 +6,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import {
   checkAppointmentAvailablity,
   createAppointment,
-  getUserStatus
+  getUserInfo
 } from '@/actions/others'
 import {
   appointmentSchema,
@@ -46,15 +46,19 @@ type TInput = {
   file: File | null
 }
 type TReceiverStatus = {
+  id: string
   profileStatus: TStatus | null
-  requestStatus: TUserStatus | null
+  requestStatus: TUserRequestStatus | null
+  errorStatus: boolean
 }
 
 export default function Application() {
   const searchparams = useSearchParams()
-  const [status, setStatus] = useState<TReceiverStatus>({
+  const [userInfo, setUserInfo] = useState<TReceiverStatus>({
+    id: '',
     profileStatus: null,
-    requestStatus: null
+    requestStatus: null,
+    errorStatus: false
   })
   const donor = searchparams.get('donor') as string
   const receiver = searchparams.get('receiver') as string
@@ -70,13 +74,18 @@ export default function Application() {
   >([])
 
   let formStatus =
-    status.profileStatus === 'PENDING' || status.requestStatus === 'REQUESTED'
+    userInfo.profileStatus === 'PENDING' ||
+    userInfo.requestStatus === 'REQUESTED' ||
+    userInfo.errorStatus
 
   useEffect(() => {
     const getData = async () => {
-      const { error, data } = await getUserStatus(receiver)
-      if (error) errorAlert({ title: 'ইরর হয়েছে', body: error })
-      if (data) setStatus(data)
+      const { error, data } = await getUserInfo(receiver)
+      if (error) {
+        setUserInfo((prev) => ({ ...prev, errorStatus: true }))
+        errorAlert({ title: 'ইরর হয়েছে', body: error })
+      }
+      if (data) setUserInfo(data)
     }
     getData()
   }, [receiver])
@@ -89,11 +98,11 @@ export default function Application() {
     resolver: zodResolver(appointmentSchema)
   })
 
-  const handleDelete = (id: number) =>
+  const handleDeleteImage = (id: number) =>
     setImageInputs((prevInputs) =>
       prevInputs.filter((input) => input.id !== id)
     )
-  const addImageInput = () => {
+  const setImageState = () => {
     setImageInputs([...imageInputs, { id: count, file: null }])
     setCount((prev) => prev + 1)
   }
@@ -115,7 +124,7 @@ export default function Application() {
       })
     }
   }
-  const handleImageUpload = () => {
+  const handleParseImage = () => {
     setIsOpen(false)
 
     const updatedImages = imageInputs.map((input) => {
@@ -172,7 +181,7 @@ export default function Application() {
     }
     setLoading(true)
     try {
-      const check = await checkAppointmentAvailablity(donor, receiver)
+      const check = await checkAppointmentAvailablity(donor, userInfo.id)
       if (check.error) {
         setLoading(false)
         return errorAlert({
@@ -184,10 +193,9 @@ export default function Application() {
       if (!images) return
       const fields = {
         ...inputData,
-        // images: ['82187904-bef2-4b67-bff5-33a3c3d08b18-rexrxh.png'],
         images,
         donor,
-        receiver,
+        receiver: userInfo.id,
         scheduledAt: new Date()
       }
       const res = await createAppointment(fields)
@@ -227,9 +235,9 @@ export default function Application() {
               <AlertCircle className='size-6' />
               <AlertTitle>গুরুত্বপূর্ণ তথ্য</AlertTitle>
               <AlertDescription>
-                {status.profileStatus === 'PENDING' &&
+                {userInfo.profileStatus === 'PENDING' &&
                   'আপনার পূর্বের ফর্ম তথ্যগুলো রিভিউ করা হচ্ছে। অ্যাপ্রুভ করা হলে জানিয়ে দেয়া হবে। তখন নিম্নোক্ত ফর্মটি পূরণ করে আবেদন সম্পূর্ণ করতে পারবেন।'}
-                {status.requestStatus === 'REQUESTED' &&
+                {userInfo.requestStatus === 'REQUESTED' &&
                   'আপনি ইতোমধ্যে একটি আবেদন করেছেন। সেটি রিভিউ করা হলে আবার আবেদন করতে পারবেন।'}
               </AlertDescription>
             </Alert>
@@ -312,7 +320,7 @@ export default function Application() {
               কাগজপত্রের স্পষ্ট ছবি আপলোড করুন। সর্বোচ্চ ৫টি ও প্রতিটি ছবি
               সর্বোচ্চ 4mb সাইজ।{' '}
             </AlertDialogDescription>
-            <form action={handleImageUpload}>
+            <form action={handleParseImage}>
               {imageInputs.map((item, idx) => (
                 <div
                   key={idx}
@@ -330,7 +338,7 @@ export default function Application() {
                   />
                   {imageInputs.length !== 1 && (
                     <X
-                      onClick={() => handleDelete(item.id)}
+                      onClick={() => handleDeleteImage(item.id)}
                       className=' bg-red-600 text-white rounded-full px-1 cursor-pointer hover:bg-secondary mb-4'
                       strokeWidth={3}
                     />
@@ -342,7 +350,7 @@ export default function Application() {
                 size='sm'
                 type='button'
                 className=' bg-success/10 text-success shadow'
-                onClick={addImageInput}
+                onClick={setImageState}
               >
                 <PlusCircle className='size-5' />
                 আরো ছবি যোগ করুন

@@ -4,7 +4,6 @@ import { useState } from 'react'
 import { updateActiveStatus } from '@/actions/donor'
 import { errorAlert } from '@/services/alerts/alerts'
 import requests from '@/services/network/http'
-import { useSession } from 'next-auth/react'
 
 import useAsync from '@/lib/useAsync'
 import { Switch } from '@/components/ui/switch'
@@ -14,7 +13,6 @@ import CardSkeleton from '@/components/shared/skeleton/Card.S'
 
 export default function DonorDashboard() {
   const [loading, setLoading] = useState(false)
-  const { data: session } = useSession()
   const { data, isLoading, mutate } = useAsync(
     '/api/user/get-own-info',
     requests.get
@@ -31,7 +29,6 @@ export default function DonorDashboard() {
       setLoading(false)
     }
   }
-  console.log('session', session)
   return (
     <div>
       <div className='grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-8'>
@@ -87,7 +84,7 @@ export default function DonorDashboard() {
         <p className='text-litetext font-light'>My donations history</p>
         {isLoading ? (
           <CardSkeleton />
-        ) : data.length ? (
+        ) : data.user.donorProfile.donationHistory.length ? (
           <DonationCards donations={data.user.donorProfile.donationHistory} />
         ) : (
           <h2 className='mt-8 text-red-500'>আপনার কোনো ডোনেশন নেই।</h2>

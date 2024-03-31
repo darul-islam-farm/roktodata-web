@@ -47,7 +47,7 @@ export default function Register() {
     if (!group) {
       return setWarn(true)
     }
-    setIsOpen(true)
+    userType === 'donor' ? setIsOpen(true) : create_user()
   }
 
   const create_user = async () => {

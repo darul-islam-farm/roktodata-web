@@ -22,6 +22,7 @@ type TProps = {
   isAdmin?: boolean
   type?: 'declined' | 'normal'
 }
+
 export default function AppointmentsTable({
   data,
   title,
@@ -56,7 +57,7 @@ export default function AppointmentsTable({
             ) => (
               <TableRow key={idx}>
                 <TableCell className='min-w-40'>{donor.user.name}</TableCell>
-                <TableCell className='min-w-40'>{receiver.name}</TableCell>
+                <TableCell className='min-w-40'>{receiver.user.name}</TableCell>
                 <TableCell>
                   {dayjs(scheduledAt).format('D MMM, YY  ~  h : mm A')}
                 </TableCell>
