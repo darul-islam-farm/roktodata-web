@@ -20,7 +20,7 @@ model User {
   phone2          String           @unique @map("another_phone")
   bloodType       String           @map("blood_type")
   jilla           String // locations 
-  subJilla        String           @map("sub_jilla ")
+  subJilla        String           @map("sub_jilla")
   thana           String
   address         String
   status          ProfileStatus    @default(PENDING) // profiles
@@ -138,7 +138,7 @@ model Hospital {
   phone     String
   email     String
   jilla     String
-  subJilla  String   @map("sub_jilla ")
+  subJilla  String   @map("sub_jilla")
   thana     String
   address   String
   doctors   String[]
@@ -157,9 +157,22 @@ model Admin {
 }
 
 model Moderator {
-  id       String @id @default(auto()) @map("_id") @db.ObjectId
-  email    String @unique
-  password String
+  id        String        @id @default(auto()) @map("_id") @db.ObjectId
+  status    ProfileStatus @default(PENDING)
+  name      String // basics
+  email     String        @unique
+  password  String
+  identity  String        @unique
+  gender    Gender
+  age       Int
+  phone     String        @unique
+  phone2    String        @unique @map("another_phone")
+  jilla     String // locations 
+  subJilla  String        @map("sub_jilla")
+  thana     String
+  address   String
+  createdAt DateTime      @default(now()) // timestamps
+  updatedAt DateTime      @updatedAt
 
   @@map("moderators")
 }

@@ -104,9 +104,9 @@ export default function Login() {
         <div className='mt-4'>
           <Link
             className='text-primary font-semibold flex-center'
-            href='/auth/admin'
+            href='/auth/access?type=moderator'
           >
-            অ্যাডমিন লগইন
+            মডারেটর লগইন
             <ArrowRight className='size-5' />
           </Link>
         </div>

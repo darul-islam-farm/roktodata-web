@@ -252,6 +252,32 @@ export const createAdmin = async (email: string, password: string) => {
   }
 }
 
+export const updateModStatus = async (
+  id: string,
+  status: 'ACCEPTED' | 'REJECTED'
+) => {
+  try {
+    await prisma.moderator.update({
+      where: { id },
+      data: { status }
+    })
+    return success_res()
+  } catch {
+    return error_res()
+  }
+}
+
+export const deleteMod = async (id: string) => {
+  try {
+    await prisma.moderator.delete({
+      where: { id }
+    })
+    return success_res()
+  } catch {
+    return error_res()
+  }
+}
+
 export const getAdmin = async (email: any, password: any) => {
   try {
     const admin = await prisma.admin.findUnique({
@@ -259,8 +285,8 @@ export const getAdmin = async (email: any, password: any) => {
     })
     return admin
       ? {
-          id: admin?.id,
-          email: admin?.email,
+          id: admin.id,
+          email: admin.email,
           role: 'ADMIN' as TRole,
           name: '',
           bloodType: '',

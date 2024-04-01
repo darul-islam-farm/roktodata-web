@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { getAdmin } from '@/actions/admin'
+import { getMod } from '@/actions/mod'
 import { getUser } from '@/actions/user'
 import { logindata } from '@/constants/schema/register'
 import NextAuth from 'next-auth'
@@ -40,6 +41,9 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
           if (username === 'admin') {
             const admin = await getAdmin(email, password)
             return admin ?? null
+          } else if (username === 'moderator') {
+            const user = await getMod(email, password)
+            return user ?? null
           } else if (username === 'user') {
             const user = await getUser(email, password)
             return user ?? null

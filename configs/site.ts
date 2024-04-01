@@ -6,6 +6,7 @@ import {
   ScrollText,
   Settings2,
   Settings2Icon,
+  ShieldPlus,
   Star,
   Syringe,
   UserCog2
@@ -107,6 +108,7 @@ export const siteInfo = {
       href: '/dashboard/admin/all-receivers',
       icon: Syringe
     },
+    { name: 'অ্যাক্সেস', href: '/dashboard/admin/access', icon: ShieldPlus },
     { name: 'সেটিংস', href: '/dashboard/admin/settings', icon: Settings2 }
   ]
 }
