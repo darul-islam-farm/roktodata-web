@@ -38,7 +38,7 @@ export default function Login() {
       }
       if (res.error) errorAlert({ body: res.error })
       setLoading(false)
-    } catch (error) {
+    } catch {
       errorAlert({ body: 'ভুল ইমেইল অথবা পাসওয়ার্ড' })
       setLoading(false)
     }

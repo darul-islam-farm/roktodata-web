@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { notFound, useRouter, useSearchParams } from 'next/navigation'
+import { checkModStatus } from '@/actions/mod'
 import { authenticate } from '@/actions/user'
 import { logindata, TLogindata } from '@/constants/schema/register'
 import { errorAlert } from '@/services/alerts/alerts'
@@ -29,20 +30,35 @@ export default function Login() {
   } = useForm<TLogindata>({
     resolver: zodResolver(logindata)
   })
+
+  const admin = type === 'admin'
   const onSubmit = async (value: TLogindata) => {
     setLoading(true)
     try {
-      await authenticate({ ...value, username: admin ? 'admin' : 'moderator' })
+      if (admin) {
+        await authenticate({
+          ...value,
+          username: admin ? 'admin' : 'moderator'
+        })
+      } else {
+        const checkStatus = await checkModStatus(value)
+        checkStatus.ok
+          ? await authenticate({
+              ...value,
+              username: admin ? 'admin' : 'moderator'
+            })
+          : errorAlert({ body: checkStatus.error as string, icon: 'info' })
+      }
       setLoading(false)
     } catch {
       errorAlert({ body: 'ভুল ইমেইল অথবা পাসওয়ার্ড' })
       setLoading(false)
     }
   }
+
   if (type !== 'moderator' && type !== 'admin') return notFound()
   if (session?.user.role === 'ADMIN') return replace('/dashboard/admin')
   if (session?.user.role === 'MODERATOR') return replace('/dashboard/moderator')
-  const admin = type === 'admin'
 
   return (
     <div className='bg-secondary grid gap-y-4 px-3 py-8 sm:p-12 sm:pb-8 rounded-xl'>

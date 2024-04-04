@@ -72,7 +72,7 @@ export const checkStatus = async (formData: TLogindata) => {
         return success_res()
       } else {
         return error_res(
-          'আপনার একাউন্টটি এখনো ভেরিফাই করা হয়নি। হলে জানিয়ে দেয়া হবে।'
+          'আপনার একাউন্টটি এখনো ভেরিফাই করা হয়নি। ভেরিফিকেশনের পর জানিয়ে দেয়া হবে।'
         )
       }
     } else {
