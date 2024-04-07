@@ -252,6 +252,17 @@ export const createAdmin = async (email: string, password: string) => {
   }
 }
 
+export const getModsList = async (
+  type: 'PENDING' | 'ACCEPTED' | 'REJECTED'
+) => {
+  try {
+    const mods = await prisma.moderator.findMany({ where: { status: type } })
+    return success_res(mods)
+  } catch {
+    return error_res()
+  }
+}
+
 export const updateModStatus = async (
   id: string,
   status: 'ACCEPTED' | 'REJECTED'
@@ -261,6 +272,9 @@ export const updateModStatus = async (
       where: { id },
       data: { status }
     })
+
+    revalidatePath('/dashboard/admin/mod-list', 'page')
+    revalidatePath('/dashboard/admin/mod-requests', 'page')
     return success_res()
   } catch {
     return error_res()
@@ -272,6 +286,8 @@ export const deleteMod = async (id: string) => {
     await prisma.moderator.delete({
       where: { id }
     })
+    revalidatePath('/dashboard/admin/mod-list', 'page')
+    revalidatePath('/dashboard/admin/mod-rejected', 'page')
     return success_res()
   } catch {
     return error_res()

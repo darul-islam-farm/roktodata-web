@@ -77,7 +77,7 @@ export default function Sidebar({ mobile, user, admin, donor }: TProps) {
                   {item.name}
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className='min-w-[300px]'>
-                  <DropdownMenuLabel>আবেদনসমূহ</DropdownMenuLabel>
+                  <DropdownMenuLabel>{item.name}</DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   {item.child.map((childLink, i) => (
                     <DropdownMenuItem

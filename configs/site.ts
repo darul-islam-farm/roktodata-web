@@ -108,7 +108,25 @@ export const siteInfo = {
       href: '/dashboard/admin/all-receivers',
       icon: Syringe
     },
-    { name: 'অ্যাক্সেস', href: '/dashboard/admin/access', icon: ShieldPlus },
+    {
+      name: 'অ্যাক্সেসসমূহ',
+      href: '/',
+      icon: ShieldPlus,
+      child: [
+        {
+          name: 'মডারেটর রিকুয়েস্ট',
+          href: '/dashboard/admin/access/mod-requests'
+        },
+        {
+          name: 'মডারেটর লিস্ট',
+          href: '/dashboard/admin/access/mod-list'
+        },
+        {
+          name: 'রিজেক্টেড মডারেটর লিস্ট',
+          href: '/dashboard/admin/access/mod-rejected'
+        }
+      ]
+    },
     { name: 'সেটিংস', href: '/dashboard/admin/settings', icon: Settings2 }
   ]
 }
