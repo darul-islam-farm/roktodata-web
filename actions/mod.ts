@@ -56,3 +56,12 @@ export const checkModStatus = async ({ email, password }: TLogindata) => {
     return error_res()
   }
 }
+
+export const createHospital = async (data: any) => {
+  try {
+    await prisma.hospital.create({ data })
+    return success_res()
+  } catch {
+    return error_res()
+  }
+}
