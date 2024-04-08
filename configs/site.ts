@@ -128,6 +128,14 @@ export const siteInfo = {
       ]
     },
     { name: 'সেটিংস', href: '/dashboard/admin/settings', icon: Settings2 }
+  ],
+  modDashboardItems: [
+    { name: 'প্রোফাইল', href: '/dashboard/moderator', icon: UserCog2 },
+    {
+      name: 'হাসপাতাল অ্যাড',
+      href: '/dashboard/moderator/add-hospital',
+      icon: ScrollText
+    }
   ]
 }
 

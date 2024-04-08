@@ -23,21 +23,26 @@ type TProps = {
   user: TUserSession
   admin?: boolean
   donor?: boolean
+  mod?: boolean
 }
 
-export default function Sidebar({ mobile, user, admin, donor }: TProps) {
+export default function Sidebar({ mobile, user, admin, mod, donor }: TProps) {
   const pathname = usePathname()
   const { push } = useRouter()
 
   const meta = useMemo(() => {
     if (donor) return siteInfo.donorDashboardItem
     else if (admin) return siteInfo.adminDashboardItem
+    else if (mod) return siteInfo.modDashboardItems
     else return siteInfo.userDashboardItem
-  }, [admin, donor])
+  }, [admin, donor, mod])
   return (
     <div
       style={{ scrollbarColor: 'white transparent' }}
-      className={cn('bg-primary h-full overflow-auto', admin && 'bg-secondary')}
+      className={cn(
+        'bg-primary h-full overflow-auto',
+        (admin || mod) && 'bg-secondary'
+      )}
     >
       {!mobile && (
         <div className='fixed'>
@@ -50,7 +55,7 @@ export default function Sidebar({ mobile, user, admin, donor }: TProps) {
         </div>
       )}
       <div className='py-4 lg:pt-16 lg:pb-0'>
-        {!admin && (
+        {!(admin || mod) && (
           <div className='pl-4'>
             <User2
               className='bg-white text-primary size-12 lg:size-16 rounded-full p-2'
@@ -70,7 +75,7 @@ export default function Sidebar({ mobile, user, admin, donor }: TProps) {
                   className={cn(
                     'flex w-full itmes-center font-medium hover:bg-light/20 text-light px-4 py-2.5 lg:text-lg mb-4 gap-2',
                     !mobile && 'rounded-lg',
-                    admin && 'text-sm lg:text-sm'
+                    (admin || mod) && 'text-sm lg:text-sm'
                   )}
                 >
                   <item.icon strokeWidth={2} />
@@ -99,7 +104,7 @@ export default function Sidebar({ mobile, user, admin, donor }: TProps) {
                   !mobile && 'rounded-lg',
                   pathname === item.href &&
                     'bg-light/20 border-l-2 border-white',
-                  admin && 'text-sm lg:text-sm'
+                  (admin || mod) && 'text-sm lg:text-sm'
                 )}
               >
                 <item.icon strokeWidth={2} />
@@ -118,7 +123,7 @@ export default function Sidebar({ mobile, user, admin, donor }: TProps) {
               }}
               className={cn(
                 'w-full flex itmes-center font-medium hover:bg-light/20 text-light px-4 py-2.5 lg:text-lg mb-4 gap-2 rounded-lg',
-                admin && 'text-sm lg:text-sm'
+                (admin || mod) && 'text-sm lg:text-sm'
               )}
             >
               <LogOut />

@@ -12,6 +12,7 @@ type TProps = {
   children: React.ReactNode
   donor?: boolean
   admin?: boolean
+  mod?: boolean
   session: Session | null
 }
 
@@ -19,7 +20,8 @@ export default function PanelLayout({
   children,
   session,
   donor,
-  admin
+  admin,
+  mod
 }: TProps) {
   return (
     <SessionProvider session={session}>
@@ -27,16 +29,21 @@ export default function PanelLayout({
         <div
           className={cn(
             'lg:grid lg:grid-cols-5 gap-x-4 rounded-2xl lg:p-4 bg-primary lg:h-[95vh] ',
-            admin && 'lg:grid-cols-7 bg-secondary'
+            (admin || mod) && 'lg:grid-cols-7 bg-secondary'
           )}
         >
           <div className='hidden lg:block lg:col-span-1 h-[90vh] overflow-y-auto secondary-scroll text-white'>
-            <Sidebar donor={donor} admin={admin} user={session?.user} />
+            <Sidebar
+              donor={donor}
+              admin={admin}
+              mod={mod}
+              user={session?.user}
+            />
           </div>
           <div
             className={cn(
               'lg:col-span-4 max-w-6xl p-4 bg-light rounded-lg lg:overflow-auto secondary-scroll',
-              admin && 'lg:col-span-6'
+              (admin || mod) && 'lg:col-span-6'
             )}
           >
             <div className='lg:hidden flex items-center justify-between h-8 mb-4 sticky z-[9] top-0 bg-light/70'>

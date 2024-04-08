@@ -13,10 +13,13 @@ export const authConfig = {
     authorized({ auth, request: { nextUrl } }) {
       const {
         isAdmin,
-        isOnAdminDashboard
+        isOnAdminDashboard,
+        isModerator,
+        isOnModDashboard
         // eslint-disable-next-line react-hooks/rules-of-hooks
       } = useAuthStatus(auth, nextUrl)
       if (isOnAdminDashboard) return isAdmin
+      if (isOnModDashboard) return isModerator
 
       return true
     }
