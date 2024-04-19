@@ -1,9 +1,14 @@
 import {
   HeartPulse,
+  HeartPulseIcon,
   LayoutDashboard,
   LucideIcon,
+  ScrollText,
+  Settings2,
   Settings2Icon,
+  ShieldPlus,
   Star,
+  Syringe,
   UserCog2
 } from 'lucide-react'
 
@@ -11,7 +16,11 @@ export type TSiteInfo = typeof siteInfo
 export type TNavItem = {
   name: string
   href: string
-  icon?: LucideIcon
+  icon: LucideIcon
+  child?: {
+    name: string
+    href: string
+  }[]
 }
 export const siteInfo = {
   name: 'রক্তদাতা',
@@ -30,11 +39,107 @@ export const siteInfo = {
     { name: 'যোগাযোগ', href: '/contact' }
   ],
   donorDashboardItem: [
-    { name: 'Dashboard', link: '/dashboard/donor', icon: LayoutDashboard },
-    { name: 'My Donations', link: '/dashboard/donor', icon: HeartPulse },
-    { name: 'My Reviews', link: '/dashboard/donor', icon: Star },
-    { name: 'Profile', link: '/dashboard/donor', icon: UserCog2 },
-    { name: 'Settings', link: '/dashboard/donor', icon: Settings2Icon }
+    { name: 'ড্যাশবোর্ড', href: '/dashboard/donor', icon: LayoutDashboard },
+    {
+      name: 'আবেদন',
+      href: '/dashboard/donor/appointments',
+      icon: ScrollText
+    },
+    {
+      name: 'আমার ডোনেশন',
+      href: '/dashboard/donor/donations',
+      icon: HeartPulse
+    },
+    { name: 'রিভিউ', href: '/dashboard/donor/reviews', icon: Star },
+    { name: 'প্রোফাইল', href: '/dashboard/donor/profile', icon: UserCog2 },
+    { name: 'সেটিংস', href: '/dashboard/donor/settings', icon: Settings2Icon }
   ],
-  userDashboardItem: [{ name: 'Dashboard', link: '/dashboard/receiver' }]
+  userDashboardItem: [
+    { name: 'প্রোফাইল', href: '/dashboard/receiver', icon: UserCog2 },
+    {
+      name: 'আবেদন',
+      href: '/dashboard/receiver/appointments',
+      icon: ScrollText
+    },
+    {
+      name: 'রক্তপ্রাপ্তি',
+      href: '/dashboard/receiver/receipts',
+      icon: ScrollText
+    }
+  ],
+  adminDashboardItem: [
+    { name: 'ডোনার রিকুয়েস্ট', href: '/dashboard/admin', icon: HeartPulseIcon },
+    {
+      name: 'রিসিভার রিকুয়েস্ট',
+      href: '/dashboard/admin/receiver-requests',
+      icon: Syringe
+    },
+    {
+      name: 'আবেদনসমূহ',
+      href: '/dashboard/admin/appointments',
+      icon: ScrollText,
+      child: [
+        {
+          name: 'আনভেরিফাইড আবেদন',
+          href: '/dashboard/admin/appointments/unverified'
+        },
+        {
+          name: 'পেন্ডিং আবেদন',
+          href: '/dashboard/admin/appointments/pending'
+        },
+        { name: 'গৃহীত আবেদন', href: '/dashboard/admin/appointments/accepted' },
+        {
+          name: 'অস্বীকৃত আবেদন',
+          href: '/dashboard/admin/appointments/canceled'
+        },
+        {
+          name: 'রিজেক্টেড আবেদন',
+          href: '/dashboard/admin/appointments/rejected'
+        }
+      ]
+    },
+    {
+      name: 'সকল ডোনার',
+      href: '/dashboard/admin/all-donors',
+      icon: HeartPulseIcon
+    },
+    {
+      name: 'সকল রিসিভার',
+      href: '/dashboard/admin/all-receivers',
+      icon: Syringe
+    },
+    {
+      name: 'অ্যাক্সেসসমূহ',
+      href: '/',
+      icon: ShieldPlus,
+      child: [
+        {
+          name: 'মডারেটর রিকুয়েস্ট',
+          href: '/dashboard/admin/access/mod-requests'
+        },
+        {
+          name: 'মডারেটর লিস্ট',
+          href: '/dashboard/admin/access/mod-list'
+        },
+        {
+          name: 'রিজেক্টেড মডারেটর লিস্ট',
+          href: '/dashboard/admin/access/mod-rejected'
+        }
+      ]
+    },
+    { name: 'সেটিংস', href: '/dashboard/admin/settings', icon: Settings2 }
+  ],
+  modDashboardItems: [
+    { name: 'প্রোফাইল', href: '/dashboard/moderator', icon: UserCog2 },
+    {
+      name: 'হাসপাতাল অ্যাড',
+      href: '/dashboard/moderator/add-hospital',
+      icon: ScrollText
+    }
+  ]
 }
+
+export const api =
+  process.env.NODE_ENV === 'development'
+    ? 'http://localhost:4000'
+    : 'https://roktodata.com'

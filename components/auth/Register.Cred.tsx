@@ -8,21 +8,24 @@ import {
   TLocationdata
 } from '@/constants/schema/register'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { ArrowLeft, ArrowRight, MailCheck, ShieldCheck } from 'lucide-react'
+import {
+  ArrowLeft,
+  ArrowRight,
+  MailCheck,
+  Phone,
+  ShieldCheck
+} from 'lucide-react'
 import { useForm } from 'react-hook-form'
 
 import { CInput } from '../customs/CInput'
 import { Button } from '../ui/button'
 
-export default function RegisterCred({
-  onSubmit,
-  setStep,
-  data
-}: {
+type TProps = {
   onSubmit: (values: TBasicdata | TLocationdata | TCreddata) => void
   setStep: Dispatch<SetStateAction<number>>
   data: any
-}) {
+}
+export default function RegisterCred({ onSubmit, setStep, data }: TProps) {
   const {
     register,
     handleSubmit,
@@ -31,7 +34,9 @@ export default function RegisterCred({
     resolver: zodResolver(creddata),
     defaultValues: {
       email: data?.email,
-      password: data?.password
+      password: data?.password,
+      phone: data?.phone,
+      phone2: data?.phone2
     }
   })
   return (
@@ -45,6 +50,26 @@ export default function RegisterCred({
           register={register}
           name='email'
           message={errors.email?.message}
+        />
+      </div>
+      <div>
+        <CInput
+          label='ফোন নম্বর'
+          placeholder='01XXXXXXXXX'
+          icon={{ icon: Phone }}
+          register={register}
+          name='phone'
+          message={errors.phone?.message}
+        />
+      </div>
+      <div>
+        <CInput
+          label='বিকল্প ফোন নম্বর'
+          placeholder='01XXXXXXXXX'
+          icon={{ icon: Phone }}
+          register={register}
+          name='phone2'
+          message={errors.phone2?.message}
         />
       </div>
       <div>

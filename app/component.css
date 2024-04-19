@@ -6,7 +6,6 @@
 }
 
 .auth__bg {
-  border-radius: 37px;
   background: rgba(255, 255, 255, 0.2);
   box-shadow:
     -26.267px 26.267px 26.267px 0px rgba(255, 255, 255, 0) inset,
@@ -21,9 +20,24 @@
 }
 .card-shadow {
   border-radius: 0.5rem;
-  background: #ffffff;
   box-shadow: 0px 18.553px 18.553px 0px rgba(204, 204, 204, 0.5);
+}
+.donor-card {
+  background: linear-gradient(113deg, #b91c1c 8.6%, #4338ca 110.64%);
 }
 .contact__bg {
   background: linear-gradient(180deg, #b91c1c 27.85%, #5200ff 121.18%);
+}
+
+.loader {
+  clip-path: inset(0 100% 0 0);
+  animation: l5 1.2s steps(11) infinite;
+}
+.loader:before {
+  content: 'Loading...';
+}
+@keyframes l5 {
+  to {
+    clip-path: inset(0 -1ch 0 0);
+  }
 }

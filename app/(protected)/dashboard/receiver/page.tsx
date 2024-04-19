@@ -1,13 +1,19 @@
-import { Metadata } from 'next'
+'use client'
 
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
+import requests from '@/services/network/http'
+import { useSession } from 'next-auth/react'
 
-export const metadata: Metadata = {
-  title: 'হোম',
-}
+import useAsync from '@/lib/useAsync'
 
 export default function Home() {
+  const { data: session } = useSession()
+
+  const { data } = useAsync(
+    `/api/receiver/get-own-info?id=${session?.user.id}`,
+    requests.get
+  )
+
+  console.log('data', data)
   return (
     <main>
       <div className='h-screen flex items-center justify-center'>

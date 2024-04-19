@@ -1,5 +1,12 @@
 {
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "prettier.configPath": ".prettierrc.js",
-  "prettier.requireConfig": true
+  "prettier.requireConfig": true,
+  "files.autoSave": "onWindowChange",
+  "[prisma]": {
+    "editor.defaultFormatter": "Prisma.prisma"
+  },
+  "[snippets]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  }
 }

@@ -3,8 +3,9 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { siteInfo, TNavItem } from '@/configs/site'
+import { siteInfo } from '@/configs/site'
 import { User2 } from 'lucide-react'
+import { useSession } from 'next-auth/react'
 
 import { cn } from '@/lib/utils'
 
@@ -12,6 +13,7 @@ import Container from '../Container'
 import SideNav from './SideNav'
 
 export default function Appbar({ isHome = false }) {
+  const { data: session } = useSession()
   const path = usePathname()
   return (
     <div className={cn(isHome ? 'bg-transparent' : 'bg-primary')}>
@@ -24,6 +26,7 @@ export default function Appbar({ isHome = false }) {
             <Image
               src='/logowhite.svg'
               alt='logo'
+              priority
               width={150}
               height={50}
               className='w-full'
@@ -32,23 +35,31 @@ export default function Appbar({ isHome = false }) {
         </div>
 
         <div className='hidden lg:block'>
-          {siteInfo.navItems.map(({ name, href }: TNavItem, idx: number) => (
-            <Link
-              className={cn(
-                'text-white font-medium mx-4 hover:underline underline-offset-8',
-                href.includes(path) && !isHome && 'underline',
-                isHome ? 'decoration-primary' : 'decoration-white',
-                isHome && href === '/' && 'underline'
-              )}
-              key={idx}
-              href={href}
-            >
-              {name}
-            </Link>
-          ))}
+          {siteInfo.navItems.map(
+            ({ name, href }: { name: string; href: string }, idx: number) => (
+              <Link
+                className={cn(
+                  'text-white font-medium mx-4 hover:underline underline-offset-8',
+                  href.includes(path) && !isHome && 'underline',
+                  isHome ? 'decoration-primary' : 'decoration-white',
+                  isHome && href === '/' && 'underline'
+                )}
+                key={idx}
+                href={href}
+              >
+                {name}
+              </Link>
+            )
+          )}
         </div>
         <div>
-          <Link href='/auth/register'>
+          <Link
+            href={
+              session
+                ? `/dashboard/${session.user.role.toLowerCase()}`
+                : '/auth/login'
+            }
+          >
             <User2
               className={cn('bg-white h-10 w-10 rounded-full p-1 text-primary')}
             />

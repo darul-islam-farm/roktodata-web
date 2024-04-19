@@ -1,25 +1,30 @@
 import { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
-import { contactInfo, whyDonate } from '@/constants/static'
+import { auth } from '@/configs/auth'
+import { whyDonate } from '@/constants/static'
 import { ArrowRight } from 'lucide-react'
+import { SessionProvider } from 'next-auth/react'
 
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { GInput, GTextarea } from '@/components/customs/GInput'
 import HomeSlider from '@/components/customs/HomeSlider'
 import ContactFrom from '@/components/home/ContactFrom'
+import TopBanner from '@/components/home/TopBanner'
 import Container from '@/components/shared/Container'
-import SectionHeader from '@/components/shared/SectionHeader'
+import SectionHeader from '@/components/shared/ui/SectionHeader'
 
 export const metadata: Metadata = {
   title: 'হোম'
 }
 
-export default function Home() {
+export default async function Home() {
+  const session = await auth()
   return (
     <main>
-      <HomeSlider />
+      <SessionProvider session={session}>
+        <TopBanner isHome />
+        <HomeSlider />
+      </SessionProvider>
 
       {/* Why donate blood section */}
       <Container>
@@ -58,7 +63,7 @@ export default function Home() {
                 </div>
                 <div className='mt-8 flex items-center gap-2'>
                   <Image
-                    src='/images/others/femaleage.png'
+                    src='/images/others/age.png'
                     alt='male'
                     width={50}
                     height={50}
@@ -69,10 +74,10 @@ export default function Home() {
                 </div>
                 <div className='mt-2 flex items-center gap-2'>
                   <p className='font-medium text-white text-xs sm:text-lg'>
-                    সর্বনিম্ন বয়স
+                    সর্বনিম্ন ওজন
                   </p>
                   <Image
-                    src='/images/others/femaleage.png'
+                    src='/images/others/femaleweight.png'
                     alt='male'
                     width={50}
                     height={50}
@@ -80,13 +85,13 @@ export default function Home() {
                 </div>
                 <div className='mt-2 flex items-center gap-2'>
                   <Image
-                    src='/images/others/femaleage.png'
+                    src='/images/others/femaledl.png'
                     alt='male'
                     width={50}
                     height={50}
                   />
                   <p className='font-medium text-white text-xs sm:text-lg'>
-                    সর্বনিম্ন বয়স
+                    হিমো./ডেসিলিটার
                   </p>
                 </div>
               </div>
@@ -104,7 +109,7 @@ export default function Home() {
                 <h1 className='text-3xl font-bold text-white mb-2'>পুরুষ</h1>
                 <div className='flex justify-center'>
                   <Image
-                    src='/images/others/female.png'
+                    src='/images/others/male.png'
                     alt='male'
                     width={50}
                     height={50}
@@ -112,7 +117,7 @@ export default function Home() {
                 </div>
                 <div className='mt-8 flex items-center gap-2'>
                   <Image
-                    src='/images/others/femaleage.png'
+                    src='/images/others/age.png'
                     alt='male'
                     width={50}
                     height={50}
@@ -123,10 +128,10 @@ export default function Home() {
                 </div>
                 <div className='mt-2 flex items-center gap-2'>
                   <p className='font-medium text-white text-xs sm:text-lg'>
-                    সর্বনিম্ন বয়স
+                    সর্বনিম্ন ওজন
                   </p>
                   <Image
-                    src='/images/others/femaleage.png'
+                    src='/images/others/maleweight.png'
                     alt='male'
                     width={50}
                     height={50}
@@ -134,13 +139,13 @@ export default function Home() {
                 </div>
                 <div className='mt-2 flex items-center gap-2'>
                   <Image
-                    src='/images/others/femaleage.png'
+                    src='/images/others/maledl.png'
                     alt='male'
                     width={50}
                     height={50}
                   />
                   <p className='font-medium text-white text-xs sm:text-lg'>
-                    সর্বনিম্ন বয়স
+                    হিমো./ডেসিলিটার
                   </p>
                 </div>
               </div>

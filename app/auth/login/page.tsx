@@ -1,17 +1,26 @@
 'use client'
 
+import { useState } from 'react'
 import Link from 'next/link'
-import { authenticate } from '@/actions/user'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { authenticate, checkStatus } from '@/actions/user'
 import { logindata, TLogindata } from '@/constants/schema/register'
+import { errorAlert } from '@/services/alerts/alerts'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { ShieldCheck, User2 } from 'lucide-react'
+import { ArrowRight, ShieldCheck, User2 } from 'lucide-react'
+import { useSession } from 'next-auth/react'
 import { useForm } from 'react-hook-form'
 
 import { Button } from '@/components/ui/button'
 import { CInput } from '@/components/customs/CInput'
-import errorAlert from '@/components/shared/alerts/errorAlert'
 
 export default function Login() {
+  const [loading, setLoading] = useState(false)
+  const params = useSearchParams()
+  const callbackUrl = params.get('callbackUrl')
+  const donor = params.get('donor')
+  const { data: session } = useSession()
+  const { push } = useRouter()
   const {
     register,
     handleSubmit,
@@ -20,22 +29,34 @@ export default function Login() {
     resolver: zodResolver(logindata)
   })
   const onSubmit = async (value: TLogindata) => {
+    setLoading(true)
     try {
-      await authenticate(value)
-    } catch (error) {
-      errorAlert({ title: error, timer: 2500 })
+      const res = await checkStatus(value)
+      if (res.ok) {
+        await authenticate({ ...value, username: 'user' })
+        return
+      }
+      if (res.error) errorAlert({ body: res.error })
+      setLoading(false)
+    } catch {
+      errorAlert({ body: 'ভুল ইমেইল অথবা পাসওয়ার্ড' })
+      setLoading(false)
     }
   }
+  if (session) {
+    if (callbackUrl) {
+      push(callbackUrl)
+      return
+    } else if (donor) {
+      push(`/application?donor=${donor}&receiver=${session.user.id}`)
+      return
+    }
+    push(`/dashboard/${session.user.role.toLowerCase()}`)
+  }
   return (
-    <div className='auth__bg grid gap-y-4 px-4 py-8 sm:p-12 rounded-xl'>
-      <div className='text-center mb-6'>
-        <h1 className='text-3xl font-bold text-primary mb-4'>লগইন করুন</h1>
-        <p className='text-sm text-light/70'>
-          একাউন্ট নেই?{' '}
-          <Link href='/register' className='text-primary hover:underline'>
-            তৈরি করুন
-          </Link>
-        </p>
+    <div className='auth__bg grid gap-y-4 px-3 py-8 sm:px-12 pb-4 rounded-2xl'>
+      <div className='text-center mb-4'>
+        <h1 className='text-3xl font-bold text-primary'>লগইন করুন</h1>
       </div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>
@@ -61,9 +82,33 @@ export default function Login() {
           />
         </div>
         <div>
-          <Button type='submit' className='w-full mt-4'>
+          <Button
+            loading={loading}
+            disabled={loading}
+            type='submit'
+            className='w-full mt-4'
+          >
             লগইন
           </Button>
+        </div>
+        <p className='text-sm mt-4 text-light font-medium flex-center gap-2 '>
+          আপনি কি একজন রক্তদাতা?{' '}
+          <Link
+            className='text-secondary font-semibold flex-center'
+            href='/auth/register?type=donor'
+          >
+            রেজিস্ট্রেশন করুন
+            <ArrowRight className='size-5' />
+          </Link>
+        </p>
+        <div className='mt-4'>
+          <Link
+            className='text-primary font-semibold flex-center'
+            href='/auth/access?type=moderator'
+          >
+            মডারেটর লগইন
+            <ArrowRight className='size-5' />
+          </Link>
         </div>
       </form>
     </div>

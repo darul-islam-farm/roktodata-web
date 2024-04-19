@@ -1,9 +1,17 @@
+import { auth } from '@/configs/auth'
+import { SessionProvider } from 'next-auth/react'
+
+import TopBanner from '@/components/home/TopBanner'
 import Appbar from '@/components/shared/ui/Appbar'
 
-export default function BasicLayout({ children }: IChildren) {
+export default async function OthersLayout({ children }: IChildren) {
+  const session = await auth()
   return (
     <div>
-      <Appbar />
+      <SessionProvider session={session}>
+        <TopBanner />
+        <Appbar />
+      </SessionProvider>
       <div>{children}</div>
     </div>
   )

@@ -6,27 +6,19 @@ import {
   TCreddata,
   TLocationdata
 } from '@/constants/schema/register'
+import { genders, religions } from '@/constants/static'
 import { zodResolver } from '@hookform/resolvers/zod'
-import {
-  ArrowRight,
-  CreditCard,
-  HeartPulse,
-  PersonStanding,
-  Phone,
-  User2
-} from 'lucide-react'
+import { ArrowRight, CreditCard, PersonStanding, User2 } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 
 import { CInput, CSelect } from '../customs/CInput'
 import { Button } from '../ui/button'
 
-export default function RegisterBasic({
-  onSubmit,
-  data
-}: {
+type TProps = {
   onSubmit: (values: TBasicdata | TLocationdata | TCreddata) => void
   data: any
-}) {
+}
+export default function RegisterBasic({ onSubmit, data }: TProps) {
   const {
     register,
     handleSubmit,
@@ -37,9 +29,8 @@ export default function RegisterBasic({
       name: data?.name,
       identity: data?.identity,
       gender: data?.gender,
-      phone: data?.phone,
-      phone2: data?.phone2,
-      userType: data?.userType
+      religion: data?.religion,
+      age: data?.age
     }
   })
   return (
@@ -70,45 +61,34 @@ export default function RegisterBasic({
             label='লিঙ্গ'
             message={errors.gender?.message}
             icon={{ icon: PersonStanding }}
-            data={[
-              { name: 'পুরুষ', value: 'MALE' },
-              { name: 'নারী', value: 'FEMALE' }
-            ]}
+            data={genders}
             name='gender'
             register={register}
           />
         </div>
         <div>
-          <CInput
-            label='ফোন নম্বর'
-            placeholder='01XXXXXXXXX'
-            icon={{ icon: Phone }}
+          <CSelect
+            label='ধর্ম'
+            message={errors.religion?.message}
+            icon={{ icon: User2 }}
+            data={religions}
+            name='religion'
             register={register}
-            name='phone'
-            message={errors.phone?.message}
           />
         </div>
         <div>
-          <CInput
-            label='বিকল্প ফোন নম্বর'
-            placeholder='01XXXXXXXXX'
-            icon={{ icon: Phone }}
+          <CSelect
+            label='বয়স'
+            message={errors.age?.message}
+            icon={{ icon: User2 }}
+            data={Array.from({ length: 24 }, (_, index) => index + 17).map(
+              (item) => ({ name: item.toString(), value: item })
+            )}
+            name='age'
             register={register}
-            name='phone2'
-            message={errors.phone2?.message}
           />
         </div>
-        <CSelect
-          label='রেজিস্ট্রেশনের ধরণ'
-          message={errors.userType?.message}
-          icon={{ icon: HeartPulse }}
-          data={[
-            { name: 'রক্তদাতা', value: 'DONOR' },
-            { name: 'রক্ত গ্রহীতা', value: 'RECEIVER' }
-          ]}
-          name='userType'
-          register={register}
-        />
+
         <div>
           <Button type='submit' className='w-full mt-4'>
             পরবর্তী

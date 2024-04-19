@@ -19,8 +19,7 @@ type TSelectProps = {
   message?: string
   register: any
   name: string
-  data?: any
-  hasGroup?: boolean
+  data?: { name: string; value: string | number }[]
 }
 
 export function CInput({
@@ -71,7 +70,6 @@ export function CSelect({
   data,
   register,
   name,
-  hasGroup,
   ...rest
 }: TSelectProps) {
   return (
@@ -94,13 +92,11 @@ export function CSelect({
           <option value='' disabled>
             {placeholder}
           </option>
-          {data.map(
-            ({ name, value }: { name: string; value: string }, idx: number) => (
-              <option value={value} key={idx}>
-                {name}
-              </option>
-            )
-          )}
+          {data?.map(({ name, value }, idx: number) => (
+            <option value={value} key={idx}>
+              {name}
+            </option>
+          ))}
         </select>
         <p className='text-danger text-xs md:text-sm font-medium mt-1'>
           {message}

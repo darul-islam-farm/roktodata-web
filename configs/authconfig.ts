@@ -1,6 +1,8 @@
+import useAuthStatus from '@/helper/useAuthStatus'
 import type { NextAuthConfig } from 'next-auth'
 
 export const authConfig = {
+  debug: process.env.NODE_ENV === 'development',
   session: {
     strategy: 'jwt'
   },
@@ -9,18 +11,18 @@ export const authConfig = {
   },
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
-      const isLoggedIn = !!auth?.user
-      const isOnDashboard = nextUrl.pathname.startsWith('/dashboard')
-      const isOnLogin = nextUrl.pathname.startsWith('/auth')
-      if (isOnLogin) {
-        if (isLoggedIn)
-          return Response.redirect(new URL('/dashboard/donor', nextUrl))
-      } else if (isOnDashboard) {
-        if (isLoggedIn) return true
-        return false // Redirect unauthenticated users to login page
-      }
+      const {
+        isAdmin,
+        isOnAdminDashboard,
+        isModerator,
+        isOnModDashboard
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+      } = useAuthStatus(auth, nextUrl)
+      if (isOnAdminDashboard) return isAdmin
+      if (isOnModDashboard) return isModerator
+
       return true
     }
   },
-  providers: [] // Add providers with an empty array for now
+  providers: []
 } satisfies NextAuthConfig

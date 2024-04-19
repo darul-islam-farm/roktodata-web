@@ -1,9 +1,13 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
+
+import SearchModal from '../Dialogs/SearchModal'
 import Appbar from '../shared/ui/Appbar'
 import { Button } from '../ui/button'
 
 export default function HomeSlide({ image }: { image: string }) {
+  const { push } = useRouter()
   return (
     <div
       className='w-full min-h-[50vh] md:min-h-[80vh] bg-no-repeat bg-cover bg-center '
@@ -22,16 +26,12 @@ export default function HomeSlide({ image }: { image: string }) {
               libero, fuga aut id voluptatibus necessitatibus labore officiis
               recusandae quo similique.
             </p>
-            <div className='my-10 md:mb-0 flex gap-4 flex-col md:flex-row w-full'>
+            <div className='my-10 md:mb-0 pb-10 flex gap-4 flex-col md:flex-row w-full'>
+              <SearchModal />
               <Button
-                className='button-shadow text-light'
-                onClick={() => alert('nin')}
-              >
-                রক্ত নিন
-              </Button>
-              <Button
-                onClick={() => alert('din')}
-                className='bg-white button-shadow text-primary hover:bg-primary hover:text-white'
+                size='lg'
+                onClick={() => push('/auth/register?type=donor')}
+                className='bg-white button-shadow text-primary'
               >
                 রক্ত দান করুন
               </Button>
