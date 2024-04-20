@@ -188,7 +188,7 @@ model Comment {
 enum Gender {
   MALE
   FEMALE
-  OTHER
+  OTHERS
 }
 
 enum Role {
