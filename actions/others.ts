@@ -218,19 +218,21 @@ export const getAppointmentForUser = async (id: string) => {
 
 export const getUserInfo = async (id: string) => {
   try {
-    const user = await prisma.user.findUnique({
-      where: { id }
+    const receiver = await prisma.receiverProfile.findUnique({
+      where: { id },
+      include: {
+        user: {
+          select: { status: true }
+        }
+      }
     })
-    if (!user) return error_res('কোনো ইউজার পাওয়া যায়নি, আবার চেষ্টা করুন।')
 
-    const profile = await prisma.receiverProfile.findUnique({
-      where: { userId: id }
-    })
+    if (!receiver) return error_res('কোনো ইউজার পাওয়া যায়নি, আবার চেষ্টা করুন।')
 
     return success_res({
-      profileStatus: user?.status,
-      requestStatus: profile?.userStatus,
-      id: profile?.id
+      profileStatus: receiver.user.status,
+      requestStatus: receiver.userStatus,
+      id: receiver.id
     })
   } catch {
     return error_res()
