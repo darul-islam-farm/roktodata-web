@@ -158,16 +158,37 @@ export const updateAppointmentStatus = async (
   status: TAppointmentStatus
 ) => {
   try {
-    await prisma.appointment.update({
+    const data = await prisma.appointment.update({
       where: { id },
       data: {
         status
+      },
+      include: {
+        donor: {
+          include: {
+            user: {
+              select: {
+                phone: true
+              }
+            }
+          }
+        }
       }
     })
 
     revalidatePath('/dashboard/admin', 'layout')
     revalidatePath('/dashboard/donor/appointments', 'page')
     revalidatePath('/dashboard/receiver/appointments', 'page')
+
+    if (status === 'PENDING') {
+      const successOnSend = await sendSingleSMS({
+        to: data.donor.user.phone,
+        message: 'আপনার জন্য একটি ডোনেশান রিকুয়েস্ট অপেক্ষা করছে। roktodata.com'
+      })
+      if (!successOnSend)
+        return error_res('Success on task but failed to send sms.')
+    }
+
     return success_res()
   } catch (error) {
     return error_res()
