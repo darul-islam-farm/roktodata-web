@@ -6,6 +6,8 @@ import { error_res, success_res } from '@/helper/static-response'
 
 import prisma from '@/lib/prisma'
 
+import { sendSingleSMS } from './sendSms'
+
 /** @TODO add auth and role*/
 
 export const getDonorData = async (status: TStatus) => {
@@ -56,6 +58,9 @@ export const createOrDeclineDonorProfile = async ({
   status: TStatus
 }) => {
   try {
+    const user = await prisma.user.findUnique({ where: { id } })
+    if (!user) return error_res('no user found')
+
     if (status === 'ACCEPTED') {
       await prisma.donorProfile.create({
         data: {
@@ -69,11 +74,15 @@ export const createOrDeclineDonorProfile = async ({
           status
         }
       })
+      const successOnSend = await sendSingleSMS({
+        to: user.phone,
+        message: 'আপনার ডোনার প্রোফাইলটি অ্যাপ্রুভ করা হয়েছে। roktodata.com'
+      })
+      if (!successOnSend)
+        return error_res('Success on task but failed to send sms.')
     }
     await prisma.user.update({
-      where: {
-        id
-      },
+      where: { id },
       data: {
         status
       }
@@ -97,6 +106,8 @@ export const createOrDeclineReceiverProfile = async ({
   status: TStatus
 }) => {
   try {
+    const user = await prisma.user.findUnique({ where: { id } })
+    if (!user) return error_res('no user found')
     if (status === 'ACCEPTED') {
       await prisma.receiverProfile.create({
         data: {
@@ -110,11 +121,15 @@ export const createOrDeclineReceiverProfile = async ({
           status
         }
       })
+      const successOnSend = await sendSingleSMS({
+        to: user.phone,
+        message:
+          'আপনার ইউজার প্রোফাইলটি অ্যাপ্রুভ করা হয়েছে। আপনি এখন আপনার আবেদনটি সম্পূর্ণ করতে পারেন। roktodata.com'
+      })
+      if (!successOnSend) return error_res('failed to send sms')
     }
     await prisma.user.update({
-      where: {
-        id
-      },
+      where: { id },
       data: {
         status
       }
@@ -165,9 +180,12 @@ export const declineAppointment = async (
   message?: string
 ) => {
   try {
-    const appointment = await prisma.appointment.findUnique({ where: { id } })
+    const appointment = await prisma.appointment.findUnique({
+      where: { id },
+      include: { receiver: { include: { user: { select: { phone: true } } } } }
+    })
 
-    if (!appointment) return error_res('no appointment found')
+    if (!appointment) return error_res('no appointment found.')
 
     await prisma.declinedAppointment.create({
       data: {
@@ -182,6 +200,12 @@ export const declineAppointment = async (
         cancelMessage: message
       }
     })
+    const successOnSend = await sendSingleSMS({
+      to: appointment.receiver.user.phone,
+      message:
+        'আপনার আবেদনটি বাতিল করে দেয়া হয়েছে। সঠিক তথ্য দিয়ে আবার চেষ্টা করুন। roktodata.com'
+    })
+
     await prisma.appointment.delete({ where: { id } })
     await prisma.receiverProfile.update({
       where: {
@@ -195,6 +219,8 @@ export const declineAppointment = async (
     revalidatePath('/dashboard/admin', 'layout')
     revalidatePath('/dashboard/donor/appointments', 'page')
     revalidatePath('/dashboard/receiver/appointments', 'page')
+
+    if (!successOnSend) return error_res('failed to send sms')
     return success_res()
   } catch (error) {
     return error_res()

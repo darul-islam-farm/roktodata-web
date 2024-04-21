@@ -100,7 +100,6 @@ export const authenticate = async (formData: TLogindata) => {
 }
 
 export const getUser = async (email: any, password: any) => {
-  // get user data for authentication
   try {
     const user = await prisma.user.findUnique({
       where: { email, password },
