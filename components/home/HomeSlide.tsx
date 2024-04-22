@@ -21,10 +21,11 @@ export default function HomeSlide({ image }: { image: string }) {
               স্বাগত <span className='text-red-600'>রক্তদাতা</span> ডট কম এ
             </h1>
             <p className='text-sm md:text-lg text-light mt-4 md:mt-10'>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus
-              ipsa sit eveniet excepturi nostrum quasi eos eaque quos, est
-              libero, fuga aut id voluptatibus necessitatibus labore officiis
-              recusandae quo similique.
+              রক্তদাতা হল
+              <strong className='px-1'>দারুল ইসলাম ফাউন্ডেশন</strong> এর একটি
+              অলাভজনক সামাজিক প্রজেক্ট। নতুন ডোনার তৈরি ও নানাবিধ সামাজিক
+              সচেতনতা সৃষ্টির মাধ্যমে রক্তদাতা সামাজিক উন্নয়ন ও বন্ধনকে আর একধাপ
+              এগিয়ে নিতে চায়।
             </p>
             <div className='my-10 md:mb-0 pb-10 flex gap-4 flex-col md:flex-row w-full'>
               <SearchModal />
