@@ -13,7 +13,7 @@ export default function HomeSlide({ image }: { image: string }) {
       className='w-full min-h-[50vh] md:min-h-[80vh] bg-no-repeat bg-cover bg-center '
       style={{ backgroundImage: `url(${image})` }}
     >
-      <div className='min-h-[50vh] md:min-h-[80vh] bg-black/30 px-4 sm:px-8 lg:px-0'>
+      <div className='min-h-[50vh] md:min-h-[80vh] bg-black/50 px-4 sm:px-8 lg:px-0'>
         <Appbar isHome />
         <div className=' max-w-3xl pt-10 pb-10 md:pb-0 md:pt-32 mx-auto text-center md:text-start'>
           <div>
