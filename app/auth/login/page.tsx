@@ -48,7 +48,7 @@ export default function Login() {
       push(callbackUrl)
       return
     } else if (donor) {
-      push(`/application?donor=${donor}&receiver=${session.user.id}`)
+      push(`/application?donor=${donor}&receiver=${session.user.userId}`)
       return
     }
     push(`/dashboard/${session.user.role.toLowerCase()}`)
