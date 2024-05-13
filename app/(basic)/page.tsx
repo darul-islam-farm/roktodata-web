@@ -1,14 +1,13 @@
 import { Metadata } from 'next'
 import Image from 'next/image'
-import Link from 'next/link'
 import { auth } from '@/configs/auth'
 import { whyDonate } from '@/constants/static'
-import { ArrowRight } from 'lucide-react'
 import { SessionProvider } from 'next-auth/react'
 
 import { Button } from '@/components/ui/button'
 import HomeSlider from '@/components/customs/HomeSlider'
 import ContactFrom from '@/components/home/ContactFrom'
+import Forums from '@/components/home/Forums'
 import TopBanner from '@/components/home/TopBanner'
 import Container from '@/components/shared/Container'
 import SectionHeader from '@/components/shared/ui/SectionHeader'
@@ -303,39 +302,7 @@ export default async function Home() {
       {/* Blog section */}
       <Container>
         <SectionHeader title='ব্লগ থেকে পড়ুন' />
-        <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-4 gap-y-8'>
-          {[1, 2, 3, 4].map((idx) => (
-            <div className='col-auto group' key={idx}>
-              <Image
-                src='/images/donations/donate1.jpg'
-                alt='donations'
-                width={300}
-                height={250}
-                className='w-full'
-              />
-              <div className='mt-4 px-2 pb-4 group-hover:shadow-xl duration-300 rounded-lg'>
-                <p className='uppercase font-medium text-xs flex gap-2 items-center'>
-                  <span>{idx + 20} dec, 2023</span>
-                  <span className='h-1 w-1 rounded-full bg-litetext' />
-                  <span>admin-roktodataweb</span>
-                </p>
-                <h2 className='text-dark'>ব্লগ টাইটেল - রক্তদাতা ব্লগ</h2>
-                <p className='font-light mt-2'>
-                  Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                  Atque facere quisquam voluptate sunt.
-                </p>
-                <div className='mt-4'>
-                  <Link
-                    href='/'
-                    className='flex items-center gap-1 font-medium text-xs'
-                  >
-                    বিস্তারিত পড়ুন <ArrowRight className='size-4' />
-                  </Link>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+        <Forums />
       </Container>
 
       {/* Contact Section */}
