@@ -6,7 +6,6 @@ import { ArrowRight } from 'lucide-react'
 
 export default async function Forums() {
   const { data } = await getForums()
-  console.log('forums', data)
   return (
     <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-4 gap-y-8'>
       {data.map((forum: TForum, idx: number) => (
@@ -34,8 +33,8 @@ export default async function Forums() {
             </p>
             <div className='mt-4'>
               <Link
-                href='/'
-                className='flex items-center gap-1 font-medium text-xs'
+                href={`/forum?id=${forum.id}`}
+                className='flex items-center gap-1 w-24 font-medium text-xs'
               >
                 বিস্তারিত পড়ুন <ArrowRight className='size-4' />
               </Link>

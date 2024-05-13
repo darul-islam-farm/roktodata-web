@@ -14,6 +14,15 @@ export const getForums = async () => {
   }
 }
 
+export const getSingleForum = async (id: string) => {
+  try {
+    const forum = await prisma.forum.findUnique({ where: { id } })
+    return success_res(forum)
+  } catch {
+    return error_res()
+  }
+}
+
 export const postForum = async (data: any, id: string) => {
   const session = await auth()
   if (!session) return error_res('UnAuthenticated')

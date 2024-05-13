@@ -35,7 +35,7 @@ export const siteInfo = {
     { name: 'হোম', href: '/' },
     { name: 'আমাদের সম্পর্কে', href: '/about-us' },
     { name: 'সাহায্য', href: '/help' },
-    { name: 'ফোরাম', href: '/forum' },
+    { name: 'ফোরাম', href: '/forums' },
     { name: 'যোগাযোগ', href: '/contact' }
   ],
   donorDashboardItem: [
