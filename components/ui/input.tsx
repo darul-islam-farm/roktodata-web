@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { ImagePlus } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
 
@@ -6,6 +7,7 @@ export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
   transparent?: boolean
   compact?: boolean
+  fileName?: string
 }
 
 const Input = ({
@@ -28,6 +30,30 @@ const Input = ({
     />
   )
 }
+const FileInput = ({ fileName, disabled, ...props }: InputProps) => {
+  return (
+    <>
+      <label
+        htmlFor='input-image'
+        className={cn(
+          'flex items-center justify-center gap-2 cursor-pointer text-litetext bg-white py-2 px-4 rounded shadow-md overflow-hidden',
+          disabled && 'bg-litetext/60'
+        )}
+      >
+        <ImagePlus />{' '}
+        <span className='font-medium'>{fileName ?? 'Insert image'}</span>
+      </label>
+      <input
+        type='file'
+        className='hidden'
+        disabled={disabled}
+        {...props}
+        id='input-image'
+      />
+    </>
+  )
+}
 Input.displayName = 'Input'
+FileInput.displayName = 'FileInput'
 
-export { Input }
+export { Input, FileInput }
