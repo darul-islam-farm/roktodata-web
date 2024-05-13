@@ -65,14 +65,16 @@ export default function ShareDonation() {
   }
   const handlePost = async (body: string, imageUrl?: string) => {
     const forumPost: Partial<TForum> = {
-      title: `${data.donation.receiver.user.name} রক্ত পেলেন ${data.donation.donor.user.name} থেকে`,
+      title: `${
+        isAnon ? 'Unnamed User' : data.donation.receiver.user.name
+      } রক্ত পেলেন ${data.donation.donor.user.name} থেকে`,
       body,
       image: imageUrl,
       anonymous: isAnon,
       authorId: session?.user.userId
     }
     try {
-      const res = await postForum(forumPost, data.donation.id)
+      const res = await postForum(forumPost, data.donation.id, true)
       if (res.ok) back()
     } catch {
       errorAlert({

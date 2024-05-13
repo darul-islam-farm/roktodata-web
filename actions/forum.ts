@@ -1,5 +1,6 @@
 'use server'
 
+import { revalidatePath } from 'next/cache'
 import { auth } from '@/configs/auth'
 import { error_res, success_res } from '@/helper/static-response'
 
@@ -23,7 +24,11 @@ export const getSingleForum = async (id: string) => {
   }
 }
 
-export const postForum = async (data: any, id: string) => {
+export const postForum = async (
+  data: any,
+  id: string,
+  donationPost?: boolean
+) => {
   const session = await auth()
   if (!session) return error_res('UnAuthenticated')
   try {
@@ -34,6 +39,7 @@ export const postForum = async (data: any, id: string) => {
         shared: true
       }
     })
+    donationPost && revalidatePath('/dashboard/receiver', 'layout')
     return success_res()
   } catch {
     return error_res()
