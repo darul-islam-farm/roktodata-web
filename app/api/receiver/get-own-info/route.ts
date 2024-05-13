@@ -8,7 +8,7 @@ export async function GET(request: Request) {
   const isAuth = await auth()
   if (!isAuth) return unAuth()
   const { searchParams } = new URL(request.url)
-  const id = searchParams.get('id') as string
+  const id = searchParams.get('id')!
   try {
     const response = await prisma.receiverProfile.findUnique({
       where: { id },

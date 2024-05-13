@@ -28,6 +28,7 @@ model User {
   donorProfile    DonorProfile?
   receiverProfile ReceiverProfile?
   posts           Forum[]
+  comments        Comment[]
   createdAt       DateTime         @default(now()) // timestamps
   updatedAt       DateTime         @updatedAt
 
@@ -68,6 +69,7 @@ model Donation {
   receiverId String          @db.ObjectId
   address    String
   image      String?
+  shared     Boolean         @default(false)
   donatedAt  DateTime        @default(now())
 
   @@map("donations")
@@ -104,21 +106,6 @@ model DeclinedAppointment {
   cancelMessage  String?                   @map("cancel_message")
 
   @@map("declined_appointments")
-}
-
-model Forum {
-  id        String    @id @default(auto()) @map("_id") @db.ObjectId
-  title     String    @unique
-  slug      String    @unique
-  body      String
-  image     String
-  comments  Comment[]
-  author    User      @relation(fields: [authorId], references: [id])
-  authorId  String    @db.ObjectId
-  createdAt DateTime  @default(now()) // timestamps
-  updatedAt DateTime  @updatedAt
-
-  @@map("forum_posts")
 }
 
 model Message {
@@ -177,10 +164,28 @@ model Moderator {
   @@map("moderators")
 }
 
+model Forum {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  title     String    @unique
+  // slug      String    @unique
+  body      String
+  image     String?
+  anonymous Boolean   @default(false)
+  comments  Comment[]
+  author    User      @relation(fields: [authorId], references: [id])
+  authorId  String    @db.ObjectId
+  createdAt DateTime  @default(now()) // timestamps
+  updatedAt DateTime  @updatedAt
+
+  @@map("forums")
+}
+
 model Comment {
   id      String @id @default(auto()) @map("_id") @db.ObjectId
   forum   Forum  @relation(fields: [forumId], references: [id], onDelete: Cascade)
   forumId String @db.ObjectId
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId  String @db.ObjectId
 
   @@map("comments")
 }

@@ -61,6 +61,7 @@ type TDonation = {
   donatedAt: Date
   image: string
   address: string
+  shared: boolean
 }
 
 type TAppointment = {
@@ -73,6 +74,19 @@ type TAppointment = {
   hospitalInfo: string
   address: string
   additionalInfo: string
+}
+
+type TForum = {
+  id: string
+  title: string
+  body: string
+  image: string
+  anonymous: boolean
+  comments: []
+  author: TUser
+  authorId: string
+  createdAt: Date
+  updatedAt: Date
 }
 
 type TUserType = 'DONOR' | 'RECEIVER'
