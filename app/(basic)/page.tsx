@@ -7,10 +7,15 @@ import { SessionProvider } from 'next-auth/react'
 import { Button } from '@/components/ui/button'
 import HomeSlider from '@/components/customs/HomeSlider'
 import ContactFrom from '@/components/home/ContactFrom'
+import DonationChart from '@/components/home/DonationChart'
 import Forums from '@/components/home/Forums'
 import TopBanner from '@/components/home/TopBanner'
 import Container from '@/components/shared/Container'
 import SectionHeader from '@/components/shared/ui/SectionHeader'
+
+import 'swiper/swiper-bundle.css'
+import 'swiper/css'
+import 'swiper/css/effect-fade'
 
 export const metadata: Metadata = {
   title: 'হোম'
@@ -154,23 +159,7 @@ export default async function Home() {
       </div>
 
       {/* Donation chart section */}
-      <Container>
-        <SectionHeader title='রক্তদানের চার্ট' />
-        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-3 gap-y-5 place-items-center'>
-          {Array.from({ length: 8 }, (item: number) => item).map(
-            (item: number, idx) => (
-              <div key={idx}>
-                <Image
-                  src={`/images/others/${idx + 1}.svg`}
-                  width={250}
-                  height={280}
-                  alt='blood donation chart'
-                />
-              </div>
-            )
-          )}
-        </div>
-      </Container>
+      <DonationChart />
 
       {/* Our Impact section */}
       <Container className='mt-10'>

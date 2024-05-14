@@ -5,10 +5,6 @@ import { donationimages } from '@/constants/static'
 import { Autoplay, EffectFade, Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
-import 'swiper/swiper-bundle.css'
-import 'swiper/css'
-import 'swiper/css/effect-fade'
-
 import HomeSlide from '../home/HomeSlide'
 
 export default function HomeSlider() {
