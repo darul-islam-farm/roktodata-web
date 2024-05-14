@@ -15,10 +15,10 @@ import { Button } from '@/components/ui/button'
 import { FileInput } from '@/components/ui/input'
 import { GTextarea } from '@/components/customs/GInput'
 
-const forumSchema = z.object({
+const forumBodySchema = z.object({
   body: z.string().min(5, 'আপনার কিছু অভিব্যক্তি প্রকাশ করুন')
 })
-type TForumdata = z.infer<typeof forumSchema>
+type TForumbodydata = z.infer<typeof forumBodySchema>
 
 export default function ShareDonation() {
   const { back } = useRouter()
@@ -37,11 +37,11 @@ export default function ShareDonation() {
     register,
     handleSubmit,
     formState: { errors }
-  } = useForm<TForumdata>({
-    resolver: zodResolver(forumSchema)
+  } = useForm<TForumbodydata>({
+    resolver: zodResolver(forumBodySchema)
   })
 
-  const onSubmit = async (value: TForumdata) => {
+  const onSubmit = async (value: TForumbodydata) => {
     setLoading(true)
     if (image instanceof File) {
       const imageData = new FormData()

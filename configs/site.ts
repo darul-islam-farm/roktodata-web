@@ -65,6 +65,11 @@ export const siteInfo = {
       name: 'রক্তপ্রাপ্তি',
       href: '/dashboard/receiver/receipts',
       icon: ScrollText
+    },
+    {
+      name: 'আমার পোস্ট',
+      href: '/dashboard/receiver/forums',
+      icon: ScrollText
     }
   ],
   adminDashboardItem: [
