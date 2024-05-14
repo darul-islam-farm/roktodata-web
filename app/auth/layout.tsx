@@ -7,7 +7,7 @@ export default async function AuthLayout({ children }: IChildren) {
   const session = await auth()
   return (
     <div
-      style={{ backgroundImage: 'url("/images/donations/donate1.jpg")' }}
+      style={{ backgroundImage: 'url("/images/others/authbg.jpg")' }}
       className='bg-no-repeat bg-cover bg-right min-h-screen pt-2'
     >
       <Navigate />

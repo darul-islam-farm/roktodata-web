@@ -54,7 +54,7 @@ export function CInput({
             {...rest}
           />
         </div>
-        <p className='text-danger text-xs md:text-sm font-medium mt-1'>
+        <p className='text-red-800 text-xs md:text-sm font-medium mt-1'>
           {message}
         </p>
       </div>
@@ -98,7 +98,7 @@ export function CSelect({
             </option>
           ))}
         </select>
-        <p className='text-danger text-xs md:text-sm font-medium mt-1'>
+        <p className='text-red-800 text-xs md:text-sm font-medium mt-1'>
           {message}
         </p>
       </div>
