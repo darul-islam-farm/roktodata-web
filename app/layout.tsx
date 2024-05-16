@@ -8,6 +8,7 @@ import Provider from '@/configs/Provider'
 import { siteInfo } from '@/configs/site'
 
 import { cn } from '@/lib/utils'
+import ScrollToTop from '@/components/shared/ui/ScrollToTop'
 
 const inter = Anek_Bangla({ subsets: ['bengali'] })
 
@@ -36,7 +37,10 @@ export default function RootLayout({ children }: IChildren) {
         )}
       >
         <Provider>
-          <main>{children}</main>
+          <main>
+            {children}
+            <ScrollToTop />
+          </main>
         </Provider>
       </body>
     </html>
