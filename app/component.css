@@ -4,7 +4,15 @@
 .swiper-pagination-bullet-active {
   background-color: white !important;
 }
-
+.swiper-button-prev:after,
+.swiper-button-next:after {
+  content: none !important;
+}
+.swiper-button-prev svg,
+.swiper-button-next svg {
+  height: auto !important;
+  width: auto !important;
+}
 .auth__bg {
   background: rgba(255, 255, 255, 0.365);
   box-shadow:

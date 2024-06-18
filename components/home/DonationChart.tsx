@@ -2,7 +2,8 @@
 
 import { useRef } from 'react'
 import Image from 'next/image'
-import { Autoplay, Pagination } from 'swiper/modules'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { Autoplay, Navigation, Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
 import Container from '../shared/Container'
@@ -36,13 +37,18 @@ export default function DonationChart() {
           </div>
         </div>
 
-        <div className='md:hidden'>
+        <div className='md:hidden relative'>
           <Swiper
-            modules={[Autoplay, Pagination]}
+            modules={[Autoplay, Pagination, Navigation]}
             ref={swiperElRef}
             slidesPerView={2}
             loop
+            navigation={{
+              nextEl: '.swiper-button-next',
+              prevEl: '.swiper-button-prev'
+            }}
             pagination={{
+              clickable: true,
               dynamicBullets: true
             }}
             autoplay={{
@@ -67,6 +73,12 @@ export default function DonationChart() {
               )
             )}
           </Swiper>
+          <div className='swiper-button-prev'>
+            <ChevronLeft className=' bg-secondary text-white rounded-full' />
+          </div>
+          <div className='swiper-button-next'>
+            <ChevronRight className=' bg-secondary text-white rounded-full' />
+          </div>
         </div>
       </Container>
     </div>
