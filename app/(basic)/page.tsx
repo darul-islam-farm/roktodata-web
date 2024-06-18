@@ -4,7 +4,6 @@ import { auth } from '@/configs/auth'
 import { whyDonate } from '@/constants/static'
 import { SessionProvider } from 'next-auth/react'
 
-import { Button } from '@/components/ui/button'
 import HomeSlider from '@/components/customs/HomeSlider'
 import ContactFrom from '@/components/home/ContactFrom'
 import DonationChart from '@/components/home/DonationChart'
@@ -162,7 +161,7 @@ export default async function Home() {
       <DonationChart />
 
       {/* Our Impact section */}
-      <Container className='mt-10'>
+      {/* <Container className='mt-10'>
         <SectionHeader title='আমাদের ইমপ্যাক্ট' />
         <div className='grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2 mb-8 md:mb-16'>
           <div className='col-auto'>
@@ -240,10 +239,10 @@ export default async function Home() {
             </div>
           </div>
         </div>
-      </Container>
+      </Container> */}
 
       {/* CTA section */}
-      <div className='my-20'>
+      {/* <div className='my-20'>
         <div className='bg-primary'>
           <Container
             size='sm'
@@ -286,7 +285,7 @@ export default async function Home() {
             </div>
           </Container>
         </div>
-      </div>
+      </div> */}
 
       {/* Blog section */}
       <Container>
