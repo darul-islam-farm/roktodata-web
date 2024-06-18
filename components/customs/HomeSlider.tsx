@@ -2,7 +2,7 @@
 
 import { useRef } from 'react'
 import { donationimages } from '@/constants/static'
-import { Autoplay, EffectFade, Pagination } from 'swiper/modules'
+import { EffectFade, Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
 import HomeSlide from '../home/HomeSlide'
@@ -12,7 +12,7 @@ export default function HomeSlider() {
 
   return (
     <Swiper
-      modules={[EffectFade, Autoplay, Pagination]}
+      modules={[EffectFade, Pagination]}
       effect={'fade'}
       ref={swiperElRef}
       slidesPerView={1}
