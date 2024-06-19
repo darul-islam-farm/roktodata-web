@@ -30,7 +30,7 @@ export default function HomeSlide({ image }: { image: string }) {
                     <strong className='px-1'>দারুল ইসলাম ফাউন্ডেশন</strong> এর
                     একটি অলাভজনক সামাজিক প্রজেক্ট। নতুন ডোনার তৈরি ও নানাবিধ
                     সামাজিক সচেতনতা সৃষ্টির মাধ্যমে রক্তদাতা সামাজিক উন্নয়ন ও
-                    বন্ধনকে আর একধাপ এগিয়ে নিতে চায়।
+                    বন্ধনকে আরো একধাপ এগিয়ে নিতে চায়।
                   </p>
                   <div className='mt-10 md:mb-0 pb-10 w-full'>
                     <Button

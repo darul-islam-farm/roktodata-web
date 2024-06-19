@@ -28,18 +28,25 @@ export default function AboutUs() {
       <Container size='md' className='mt-20 mb-10'>
         <h1>আমাদের মিশন</h1>
         <p className='mt-4 text-lg'>
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Architecto
-          nihil tenetur voluptatem alias praesentium porro sint doloremque
-          maiores similique. Ducimus nostrum ipsum eum perspiciatis illum ipsam
-          a. Voluptas hic error porro commodi, culpa sit nobis quae officiis
-          mollitia velit, repudiandae minima aut adipisci rem iure repellendus
-          quod neque reprehenderit? Fugit minus error saepe enim tenetur.
-          Fugiat, facere aliquid! Dicta ipsam sapiente eius, commodi laborum,
-          consequuntur non nesciunt temporibus quidem magnam labore. Est
-          architecto nam labore, sapiente aut provident, numquam minus alias
-          expedita nemo maxime ipsa ex, libero nihil consequuntur. Adipisci
-          voluptates at, cupiditate molestiae sapiente sequi totam consequatur
-          ullam repudiandae!
+          রক্তদাতা হল দারুল ইসলাম ফাউন্ডেশন এর একটি অন্যতম অলাভজনক সামাজিক
+          প্রোজেক্ট। নতুন ডোনার তৈরি ও নানাবিধ সামাজিক সচেতনতা সৃষ্টির মাধ্যমে
+          রক্তদাতা সামাজিক উন্নয়ন ও বন্ধনকে আরো একধাপ এগিয়ে নিতে চায়।
+        </p>
+        <p className='mt-4 text-lg'>
+          একাধিক ফিল্টার নির্বাচনের মাধ্যমে আপনার নিকটস্থ ডোনার খুঁজে বের করার
+          সহজ মাধ্যম হল রক্তদাতা। শুধু ডোনার পাওয়াই নয়, আবেদন করা থেকে শুরু করে
+          আবেদন ট্রাকিং ও যোগাযোগ স্থাপনসহ যাবতীয় সুবিধা আপনার হাতের মুঠোয় এনে
+          দিতে কাজ করছে রক্তদাতা।
+        </p>
+        <p className='mt-4 text-lg'>
+          এই প্রোজেক্টটি স্বত্বাধিকারী রাযিব আহমাদ ও সার্বিক পরিচালক{' '}
+          <Link
+            className='text-sky-300 px-1'
+            href='https://www.facebook.com/rabibinsalam'
+          >
+            মুহাম্মাদ রবিউস সানী
+          </Link>{' '}
+          দ্বারা ব্যক্তিগত অর্থায়ন ও প্রচেষ্টায় পরিচালিত।
         </p>
       </Container>
       <Container>
