@@ -18,6 +18,9 @@
   .flex-between {
     @apply flex items-center justify-between;
   }
+  .footer {
+    @apply font-medium text-sm sm:text-base;
+  }
 }
 
 @layer utilities {
