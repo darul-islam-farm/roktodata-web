@@ -4,8 +4,7 @@ export const searchdata = z.object({
   bloodType: z.string().min(1, 'রক্তের গ্রুপ নির্বাচন করুন'),
   jilla: z.string().min(2, 'জেলা নির্বাচন করুন'),
   religion: z.string().optional(),
-  ageFrom: z.string().optional(),
-  ageTo: z.string().optional()
+  age: z.string().optional()
 })
 
 export const hospitalData = z.object({

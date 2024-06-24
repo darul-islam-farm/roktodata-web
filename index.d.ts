@@ -89,6 +89,8 @@ type TForum = {
   updatedAt: Date
 }
 
+type TJilla = { jilla: string; subJilla: string[] }[]
+
 type TUserType = 'DONOR' | 'RECEIVER'
 type TStatus = 'PENDING' | 'ACCEPTED' | 'REJECTED'
 type TUserRequestStatus = 'NORMAL' | 'REQUESTED'
