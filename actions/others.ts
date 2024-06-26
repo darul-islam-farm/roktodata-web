@@ -12,7 +12,8 @@ import prisma from '@/lib/prisma'
 const utapi = new UTApi()
 
 export const getSearchedDonor = async (data: TSearchdata) => {
-  const { bloodType, jilla, religion, ageFrom, ageTo } = removeProperties(data)
+  const { bloodType, jilla, religion, age, subJilla } = removeProperties(data)
+  const ageRange = age?.split('-')
 
   try {
     const data = await prisma.donorProfile.findMany({
@@ -22,9 +23,10 @@ export const getSearchedDonor = async (data: TSearchdata) => {
         user: {
           jilla,
           religion,
+          subJilla,
           age: {
-            gte: Number(ageFrom ?? 18),
-            lte: Number(ageTo ?? 50)
+            gte: Number(ageRange?.[0] ?? 18),
+            lte: Number(ageRange?.[1] ?? 50)
           }
         }
       },

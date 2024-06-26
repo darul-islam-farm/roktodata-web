@@ -6,24 +6,26 @@ import jillas from '@/constants/jilla'
 import { bloodGroups, religions } from '@/constants/static'
 
 import { Button } from '@/components/ui/button'
+import { Checkbox } from '@/components/ui/checkbox'
 import MySelect from '@/components/ui/custom-select'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger
-} from '@/components/ui/select'
+import { Select, SelectContent, SelectTrigger } from '@/components/ui/select'
 
-type TRequired = 'bloodType' | 'jilla' | 'subJilla'
+type TRequired = 'bloodType' | 'jilla'
+type TData = {
+  bloodType: string
+  jilla: string
+  religion: string
+  age: string
+}
 export default function SearchCard() {
   const { push } = useRouter()
-  const [data, setData] = useState({
+  const [data, setData] = useState<TData>({
     bloodType: '',
     jilla: '',
-    subJilla: '',
     religion: 'all',
     age: 'all'
   })
+  const [subJilla, setSubJilla] = useState<string[]>([])
   const [error, setError] = useState({
     bloodType: false,
     jilla: false,
@@ -34,6 +36,18 @@ export default function SearchCard() {
   const handleData = (name: string, value: string) =>
     setData((prev) => ({ ...prev, [name]: value }))
 
+  console.log('sub jilla', subJilla)
+  const handleToggler = (value: string) => {
+    setSubJilla((currentSubJilla) => {
+      if (currentSubJilla.includes(value)) {
+        // If the value is already in the array, remove it
+        return currentSubJilla.filter((item) => item !== value)
+      } else {
+        // If the value is not in the array, add it
+        return [...currentSubJilla, value]
+      }
+    })
+  }
   const onSubmit = () => {
     Object.keys(error).forEach((key) => {
       if (!data[key as TRequired])
@@ -42,10 +56,11 @@ export default function SearchCard() {
     if (!data.bloodType)
       return setError((prev) => ({ ...prev, bloodType: true }))
     if (!data.jilla) return setError((prev) => ({ ...prev, jilla: true }))
-    if (!data.subJilla) return setError((prev) => ({ ...prev, subJilla: true }))
+    if (!subJilla.length)
+      return setError((prev) => ({ ...prev, subJilla: true }))
 
     push(
-      `/search?bloodType=${data.bloodType}&jilla=${data.jilla}&subJilla=${data.subJilla}&religion=${data.religion}&age=${data.age}`
+      `/search?bloodType=${data.bloodType}&jilla=${data.jilla}&subJilla=${subJilla}&religion=${data.religion}&age=${data.age}`
     )
   }
 
@@ -76,7 +91,7 @@ export default function SearchCard() {
           <div>
             <MySelect
               onChange={() => {
-                setData((prev) => ({ ...prev, subJilla: '' }))
+                setSubJilla([])
                 setError((prev) => ({ ...prev, jilla: false }))
               }}
               name='jilla'
@@ -96,22 +111,31 @@ export default function SearchCard() {
           </div>
           <div>
             <p className='font-medium mb-1 text-sm'>উপজেলা</p>
-            <Select
-              value={data.subJilla}
-              onValueChange={(item) => {
-                handleData('subJilla', item)
-                setError((prev) => ({ ...prev, subJilla: false }))
-              }}
-            >
-              <SelectTrigger>{data.subJilla || 'Select'}</SelectTrigger>
+            <Select>
+              <SelectTrigger>
+                {subJilla.length ? `${subJilla.length} টি` : 'Select'}
+              </SelectTrigger>
               <SelectContent>
                 {jillas.map((jilla) => {
                   const expectedJilla = jilla.jilla === data.jilla
                   return expectedJilla
                     ? jilla.subJilla.map((item, idx) => (
-                        <SelectItem key={idx} value={item}>
-                          {item}
-                        </SelectItem>
+                        <div
+                          className='flex items-center cursor-pointer hover:bg-slate-100 rounded pl-2'
+                          key={idx}
+                        >
+                          <Checkbox
+                            id={item}
+                            onCheckedChange={() => handleToggler(item)}
+                            // checked={data.subJilla.includes(item)}
+                          />
+                          <label
+                            htmlFor={item}
+                            className='text-sm font-medium cursor-pointer size-full p-2 hover:bg-slate-100 rounded pl-3'
+                          >
+                            {item}
+                          </label>
+                        </div>
                       ))
                     : []
                 })}

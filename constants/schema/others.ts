@@ -3,6 +3,7 @@ import * as z from 'zod'
 export const searchdata = z.object({
   bloodType: z.string().min(1, 'রক্তের গ্রুপ নির্বাচন করুন'),
   jilla: z.string().min(2, 'জেলা নির্বাচন করুন'),
+  subJilla: z.string().min(2, 'উপজেলা নির্বাচন করুন'),
   religion: z.string().optional(),
   age: z.string().optional()
 })

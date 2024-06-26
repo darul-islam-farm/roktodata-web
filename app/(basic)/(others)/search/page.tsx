@@ -5,7 +5,6 @@ import convertBloodType from '@/helper/convertBloodType'
 
 import Container from '@/components/shared/Container'
 import DonorCard from '@/components/shared/ui/DonorCard'
-import Filterbar from '@/components/shared/ui/Filterbar'
 
 export const metadata: Metadata = {
   title: 'সার্চ ফলাফল'
@@ -16,30 +15,19 @@ export default async function Search({
 }: {
   searchParams: { [key: string]: string | undefined }
 }) {
-  const { bloodType, jilla, ageFrom, ageTo, religion } = searchParams
-  if (!bloodType || !jilla) redirect('/')
+  const { bloodType, jilla, age, subJilla, religion } = searchParams
+  if (!bloodType || !jilla || !subJilla) redirect('/')
 
   const data = await getSearchedDonor({
     bloodType: convertBloodType(bloodType),
     jilla,
-    ageFrom,
-    ageTo,
+    subJilla,
+    age,
     religion
   })
 
   return (
-    <Container className='mt-10'>
-      <div className='mb-8'>
-        <Filterbar
-          data={{
-            bloodType: convertBloodType(bloodType),
-            jilla,
-            ageFrom,
-            ageTo,
-            religion
-          }}
-        />
-      </div>
+    <Container className='mt-10 min-h-[55vh] lg:min-h-[60vh]'>
       {data.length ? (
         <div>
           <h1 className='text-primary text-center'>সার্চ ফলাফল</h1>
@@ -53,7 +41,7 @@ export default async function Search({
           </div>
         </div>
       ) : (
-        <div>
+        <div className='pt-10'>
           <h1 className='text-primary text-2xl md:text-3xl mt-4 text-center'>
             {jilla} জেলায় কোনো {convertBloodType(bloodType)} রক্তের ডোনার খুঁজে
             পাওয়া যায়নি।
